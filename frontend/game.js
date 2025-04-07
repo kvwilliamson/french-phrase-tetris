@@ -22,15 +22,36 @@ const GRID_HEIGHT = 20; // Rows
 const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH; // 1200px
 const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT; // 400px
 let GRID_START_X; // Will be calculated dynamically
-let GRID_START_Y = 240; // Moved down 200px (40 + 200)
+let GRID_START_Y = 340; // Grid position
 
 // Preview frame constants
 let PREVIEW_X; // Will be calculated dynamically
-const PREVIEW_Y = 300; // Moved down to align with grid (100 + 200)
+const PREVIEW_Y = 80; // Moved under "Prochaine Mots" (60 + 20)
 const PREVIEW_WORDS = 4; // Show 4 upcoming words
 
 // Font size
 const FONT_SIZE = 15;
+
+// Parts of speech and colors
+const WORDS = ["Noun", "Verb", "Article", "Adjective", "Other", ""]; // "" represents Blank
+const COLORS = [
+    0xffb6c1, // Noun: Light Pink
+    0xe6e6fa, // Verb: Lavender
+    0x98fb98, // Article: Mint Green
+    0xadd8e6, // Adjective: Baby Blue
+    0x808080, // Other: Gray
+    0x808080  // Blank: Gray
+];
+
+// Probabilities for random selection
+const PROBABILITIES = [
+    { word: "Noun", prob: 0.28 },
+    { word: "Verb", prob: 0.19 },
+    { word: "Article", prob: 0.09 },
+    { word: "Adjective", prob: 0.09 },
+    { word: "Other", prob: 0.25 },
+    { word: "", prob: 0.10 } // Blank
+];
 
 // Game variables
 let currentBlock;
@@ -40,29 +61,47 @@ let lastMoveTime = 0;
 const MOVE_DELAY = 100;
 let grid;
 let sceneRef;
-let wordIndex = 0;
-const WORDS = ["test1", "test2", "test3", "test4"];
 let score = 0;
-const COLORS = [
-    0xffb6c1, // Light Pink
-    0xe6e6fa, // Lavender
-    0x98fb98, // Mint Green
-    0xadd8e6  // Baby Blue
-];
+
 let previewBlocks = [];
 let previewTexts = [];
-let upcomingWords = [];
+let upcomingWords = []; // Array of 4-word groups
+let currentGroup = []; // Current group of 4 words being cycled
+let currentWordIndex = 0; // Index within the current group
 let titleText;
 let scoreTextObj;
-let previewLabel; // For "Prochaine Mots"
+let previewLabel;
 
 function preload() {
     console.log('Game starting');
     grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(null));
-    // Initialize upcoming words
+    // Initialize upcoming words (generate first group)
+    upcomingWords = generateWordGroup();
+}
+
+function generateWordGroup() {
+    const group = [];
     for (let i = 0; i < PREVIEW_WORDS; i++) {
-        upcomingWords.push(WORDS[i % WORDS.length]);
+        group.push(generateRandomWord());
     }
+    return group;
+}
+
+function generateRandomWord() {
+    const rand = Math.random();
+    let cumulativeProb = 0;
+    for (const item of PROBABILITIES) {
+        cumulativeProb += item.prob;
+        if (rand <= cumulativeProb) {
+            return item.word;
+        }
+    }
+    return PROBABILITIES[PROBABILITIES.length - 1].word; // Fallback
+}
+
+function getColorForWord(word) {
+    const index = WORDS.indexOf(word);
+    return COLORS[index];
 }
 
 function create() {
@@ -70,7 +109,7 @@ function create() {
 
     // Dynamically calculate positions based on canvas size
     GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = GRID_START_X + GRID_WIDTH_PX + 20;
+    PREVIEW_X = 50; // Align with "Prochaine Mots" label
 
     // Title bar
     titleText = this.add.text(this.cameras.main.width / 2, 20, "Tetris de Phrases Françaises", {
@@ -80,9 +119,15 @@ function create() {
 
     // Scoreboard (centered under title)
     scoreTextObj = this.add.text(this.cameras.main.width / 2, 60, "Score: 0", {
-        fontSize: '20px',
+        fontSize: '28px',
         color: '#ffffff'
     }).setOrigin(0.5);
+
+    // Preview label (upper left)
+    previewLabel = this.add.text(50, 60, "Prochaine Mots", {
+        fontSize: '20px',
+        color: '#ffffff'
+    }).setOrigin(0, 0.5);
 
     // Grid lines
     const graphics = this.add.graphics();
@@ -96,12 +141,6 @@ function create() {
         graphics.lineTo(GRID_START_X + GRID_WIDTH * BLOCK_WIDTH, GRID_START_Y + y * BLOCK_HEIGHT);
     }
     graphics.strokePath();
-
-    // Preview label
-    previewLabel = this.add.text(PREVIEW_X + BLOCK_WIDTH / 2, PREVIEW_Y - 20, "Prochaine Mots", {
-        fontSize: '20px',
-        color: '#ffffff'
-    }).setOrigin(0.5);
 
     // Preview frame
     const previewGraphics = this.add.graphics();
@@ -120,9 +159,10 @@ function create() {
     for (let i = 0; i < PREVIEW_WORDS; i++) {
         const x = PREVIEW_X + BLOCK_WIDTH / 2;
         const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
-        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const word = upcomingWords[i];
+        const color = getColorForWord(word);
         const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-        const text = this.add.text(x, y, upcomingWords[i], {
+        const text = this.add.text(x, y, word, {
             fontSize: `${FONT_SIZE}px`,
             color: '#000000'
         }).setOrigin(0.5);
@@ -143,12 +183,12 @@ function resize(gameSize) {
 
     // Update grid position
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = GRID_START_X + GRID_WIDTH_PX + 20;
+    PREVIEW_X = 50; // Fixed position under "Prochaine Mots"
 
     // Update title, score, and preview label positions
     titleText.setPosition(width / 2, 20);
     scoreTextObj.setPosition(width / 2, 60);
-    previewLabel.setPosition(PREVIEW_X + BLOCK_WIDTH / 2, PREVIEW_Y - 20);
+    previewLabel.setPosition(50, 60);
 
     // Redraw grid
     const graphics = sceneRef.add.graphics();
@@ -255,8 +295,9 @@ function findLandingY(x) {
 function updatePreview() {
     // Update preview blocks with upcoming words
     for (let i = 0; i < PREVIEW_WORDS; i++) {
-        previewTexts[i].setText(upcomingWords[i]);
-        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const word = upcomingWords[i];
+        previewTexts[i].setText(word);
+        const color = getColorForWord(word);
         previewBlocks[i].setFillStyle(color);
     }
 }
@@ -278,18 +319,19 @@ function spawnBlock() {
         return;
     }
 
-    // Use the first upcoming word
-    const word = upcomingWords.shift();
-    const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    // Use the first group of upcoming words
+    currentGroup = upcomingWords;
+    currentWordIndex = 0;
+    const word = currentGroup[currentWordIndex];
+    const color = getColorForWord(word);
     currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
     currentText = sceneRef.add.text(startX, startY, word, {
         fontSize: `${FONT_SIZE}px`,
         color: '#000000'
     }).setOrigin(0.5);
 
-    // Add a new word to the end of upcomingWords
-    upcomingWords.push(WORDS[wordIndex]);
-    wordIndex = (wordIndex + 1) % WORDS.length;
+    // Generate a new group for the next words
+    upcomingWords = generateWordGroup();
 
     // Update preview
     updatePreview();
@@ -375,11 +417,13 @@ function update(time) {
     }
 
     if (Phaser.Input.Keyboard.JustDown(spaceKey)) {
-        // Find the current word's index in WORDS
-        let currentWordIndex = WORDS.indexOf(currentText.text);
-        currentWordIndex = (currentWordIndex + 1) % WORDS.length;
-        currentText.setText(WORDS[currentWordIndex]);
-        console.log(`Changed word to ${WORDS[currentWordIndex]}`);
+        // Cycle through the current group of words
+        currentWordIndex = (currentWordIndex + 1) % currentGroup.length;
+        const newWord = currentGroup[currentWordIndex];
+        currentText.setText(newWord);
+        const newColor = getColorForWord(newWord);
+        currentBlock.setFillStyle(newColor);
+        console.log(`Changed word to ${newWord}`);
     }
 }
 
