@@ -26,14 +26,22 @@ let GRID_START_Y = 340; // Grid position
 
 // Preview frame constants
 let PREVIEW_X; // Will be calculated dynamically
-const PREVIEW_Y = 80; // Moved under "Prochaine Mots" (60 + 20)
+const PREVIEW_Y = 80; // Under "Prochaine Mots"
 const PREVIEW_WORDS = 4; // Show 4 upcoming words
 
 // Font size
 const FONT_SIZE = 15;
 
+// Word lists for each part of speech
+const NOUNS = ["maison", "chien", "chat", "arbre", "livre", "école", "voiture", "fleur", "soleil", "rivière"];
+const VERBS = ["manger", "courir", "parler", "écrire", "lire", "danser", "chanter", "jouer", "dormir", "aimer"];
+const ARTICLES = ["le", "la", "l’", "un", "une", "les", "des", "du", "de la", "de l’"];
+const ADJECTIVES = ["grand", "petit", "beau", "joli", "rapide", "lent", "heureux", "triste", "chaud", "froid"];
+const OTHERS = ["et", "ou", "mais", "pour", "avec", "sans", "très", "bien", "mal", "sur"];
+const BLANK = [""];
+
 // Parts of speech and colors
-const WORDS = ["Noun", "Verb", "Article", "Adjective", "Other", ""]; // "" represents Blank
+const PARTS_OF_SPEECH = ["Noun", "Verb", "Article", "Adjective", "Other", "Blank"];
 const COLORS = [
     0xffb6c1, // Noun: Light Pink
     0xe6e6fa, // Verb: Lavender
@@ -45,12 +53,12 @@ const COLORS = [
 
 // Probabilities for random selection
 const PROBABILITIES = [
-    { word: "Noun", prob: 0.28 },
-    { word: "Verb", prob: 0.19 },
-    { word: "Article", prob: 0.09 },
-    { word: "Adjective", prob: 0.09 },
-    { word: "Other", prob: 0.25 },
-    { word: "", prob: 0.10 } // Blank
+    { part: "Noun", prob: 0.28 },
+    { part: "Verb", prob: 0.19 },
+    { part: "Article", prob: 0.09 },
+    { part: "Adjective", prob: 0.09 },
+    { part: "Other", prob: 0.25 },
+    { part: "Blank", prob: 0.10 }
 ];
 
 // Game variables
@@ -65,8 +73,8 @@ let score = 0;
 
 let previewBlocks = [];
 let previewTexts = [];
-let upcomingWords = []; // Array of 4-word groups
-let currentGroup = []; // Current group of 4 words being cycled
+let upcomingGroup = []; // Array of { part, word } for the next group
+let currentGroup = []; // Current group of { part, word } being cycled
 let currentWordIndex = 0; // Index within the current group
 let titleText;
 let scoreTextObj;
@@ -76,31 +84,60 @@ function preload() {
     console.log('Game starting');
     grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(null));
     // Initialize upcoming words (generate first group)
-    upcomingWords = generateWordGroup();
+    upcomingGroup = generateWordGroup();
 }
 
 function generateWordGroup() {
     const group = [];
     for (let i = 0; i < PREVIEW_WORDS; i++) {
-        group.push(generateRandomWord());
+        const part = generateRandomPart();
+        const word = generateWordForPart(part);
+        group.push({ part, word });
     }
     return group;
 }
 
-function generateRandomWord() {
+function generateRandomPart() {
     const rand = Math.random();
     let cumulativeProb = 0;
     for (const item of PROBABILITIES) {
         cumulativeProb += item.prob;
         if (rand <= cumulativeProb) {
-            return item.word;
+            return item.part;
         }
     }
-    return PROBABILITIES[PROBABILITIES.length - 1].word; // Fallback
+    return PROBABILITIES[PROBABILITIES.length - 1].part; // Fallback
 }
 
-function getColorForWord(word) {
-    const index = WORDS.indexOf(word);
+function generateWordForPart(part) {
+    let wordList;
+    switch (part) {
+        case "Noun":
+            wordList = NOUNS;
+            break;
+        case "Verb":
+            wordList = VERBS;
+            break;
+        case "Article":
+            wordList = ARTICLES;
+            break;
+        case "Adjective":
+            wordList = ADJECTIVES;
+            break;
+        case "Other":
+            wordList = OTHERS;
+            break;
+        case "Blank":
+            wordList = BLANK;
+            break;
+        default:
+            wordList = BLANK;
+    }
+    return wordList[Math.floor(Math.random() * wordList.length)];
+}
+
+function getColorForPart(part) {
+    const index = PARTS_OF_SPEECH.indexOf(part);
     return COLORS[index];
 }
 
@@ -159,8 +196,8 @@ function create() {
     for (let i = 0; i < PREVIEW_WORDS; i++) {
         const x = PREVIEW_X + BLOCK_WIDTH / 2;
         const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
-        const word = upcomingWords[i];
-        const color = getColorForWord(word);
+        const { part, word } = upcomingGroup[i];
+        const color = getColorForPart(part);
         const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
         const text = this.add.text(x, y, word, {
             fontSize: `${FONT_SIZE}px`,
@@ -295,9 +332,9 @@ function findLandingY(x) {
 function updatePreview() {
     // Update preview blocks with upcoming words
     for (let i = 0; i < PREVIEW_WORDS; i++) {
-        const word = upcomingWords[i];
+        const { part, word } = upcomingGroup[i];
         previewTexts[i].setText(word);
-        const color = getColorForWord(word);
+        const color = getColorForPart(part);
         previewBlocks[i].setFillStyle(color);
     }
 }
@@ -320,10 +357,10 @@ function spawnBlock() {
     }
 
     // Use the first group of upcoming words
-    currentGroup = upcomingWords;
+    currentGroup = upcomingGroup;
     currentWordIndex = 0;
-    const word = currentGroup[currentWordIndex];
-    const color = getColorForWord(word);
+    const { part, word } = currentGroup[currentWordIndex];
+    const color = getColorForPart(part);
     currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
     currentText = sceneRef.add.text(startX, startY, word, {
         fontSize: `${FONT_SIZE}px`,
@@ -331,13 +368,13 @@ function spawnBlock() {
     }).setOrigin(0.5);
 
     // Generate a new group for the next words
-    upcomingWords = generateWordGroup();
+    upcomingGroup = generateWordGroup();
 
     // Update preview
     updatePreview();
 
     isDropping = true;
-    console.log(`Spawned block with ${word} at (${startX}, ${startY})`);
+    console.log(`Spawned block with ${word} (${part}) at (${startX}, ${startY})`);
 
     const landingGridY = findLandingY(startX);
     const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT/2;
@@ -419,11 +456,11 @@ function update(time) {
     if (Phaser.Input.Keyboard.JustDown(spaceKey)) {
         // Cycle through the current group of words
         currentWordIndex = (currentWordIndex + 1) % currentGroup.length;
-        const newWord = currentGroup[currentWordIndex];
-        currentText.setText(newWord);
-        const newColor = getColorForWord(newWord);
+        const { part, word } = currentGroup[currentWordIndex];
+        currentText.setText(word);
+        const newColor = getColorForPart(part);
         currentBlock.setFillStyle(newColor);
-        console.log(`Changed word to ${newWord}`);
+        console.log(`Changed word to ${word} (${part})`);
     }
 }
 
