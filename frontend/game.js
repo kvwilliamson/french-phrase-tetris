@@ -15,19 +15,22 @@ const config = {
 };
 
 // Grid constants
-const BLOCK_WIDTH = 110; // Increased by 10% from 100px
-const BLOCK_HEIGHT = 20; // Maintains ~5:1 ratio (110/20 = 5.5:1)
+const BLOCK_WIDTH = 150;
+const BLOCK_HEIGHT = 20;
 const GRID_WIDTH = 8; // 8 columns
 const GRID_HEIGHT = 20; // Rows
-const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH; // 880px
+const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH; // 1200px
 const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT; // 400px
 let GRID_START_X; // Will be calculated dynamically
-let GRID_START_Y = 40; // Space for title/score
+let GRID_START_Y = 240; // Moved down 200px (40 + 200)
 
 // Preview frame constants
 let PREVIEW_X; // Will be calculated dynamically
-const PREVIEW_Y = 100; // Align with grid top
+const PREVIEW_Y = 300; // Moved down to align with grid (100 + 200)
 const PREVIEW_WORDS = 4; // Show 4 upcoming words
+
+// Font size
+const FONT_SIZE = 15;
 
 // Game variables
 let currentBlock;
@@ -40,7 +43,6 @@ let sceneRef;
 let wordIndex = 0;
 const WORDS = ["test1", "test2", "test3", "test4"];
 let score = 0;
-let scoreText;
 const COLORS = [
     0xffb6c1, // Light Pink
     0xe6e6fa, // Lavender
@@ -52,6 +54,7 @@ let previewTexts = [];
 let upcomingWords = [];
 let titleText;
 let scoreTextObj;
+let previewLabel; // For "Prochaine Mots"
 
 function preload() {
     console.log('Game starting');
@@ -67,19 +70,19 @@ function create() {
 
     // Dynamically calculate positions based on canvas size
     GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = GRID_START_X + GRID_WIDTH_PX + 20; // 20px padding outside the grid
+    PREVIEW_X = GRID_START_X + GRID_WIDTH_PX + 20;
 
     // Title bar
-    titleText = this.add.text(this.cameras.main.width / 2, 20, "French Phrase Tetris", {
+    titleText = this.add.text(this.cameras.main.width / 2, 20, "Tetris de Phrases Françaises", {
         fontSize: '32px',
         color: '#ffffff'
     }).setOrigin(0.5);
 
-    // Scoreboard
-    scoreTextObj = this.add.text(this.cameras.main.width - 50, 20, "Score: 0", {
+    // Scoreboard (centered under title)
+    scoreTextObj = this.add.text(this.cameras.main.width / 2, 60, "Score: 0", {
         fontSize: '20px',
         color: '#ffffff'
-    }).setOrigin(1, 0);
+    }).setOrigin(0.5);
 
     // Grid lines
     const graphics = this.add.graphics();
@@ -93,6 +96,12 @@ function create() {
         graphics.lineTo(GRID_START_X + GRID_WIDTH * BLOCK_WIDTH, GRID_START_Y + y * BLOCK_HEIGHT);
     }
     graphics.strokePath();
+
+    // Preview label
+    previewLabel = this.add.text(PREVIEW_X + BLOCK_WIDTH / 2, PREVIEW_Y - 20, "Prochaine Mots", {
+        fontSize: '20px',
+        color: '#ffffff'
+    }).setOrigin(0.5);
 
     // Preview frame
     const previewGraphics = this.add.graphics();
@@ -114,7 +123,7 @@ function create() {
         const color = COLORS[Math.floor(Math.random() * COLORS.length)];
         const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
         const text = this.add.text(x, y, upcomingWords[i], {
-            fontSize: '12px',
+            fontSize: `${FONT_SIZE}px`,
             color: '#000000'
         }).setOrigin(0.5);
         previewBlocks.push(block);
@@ -136,9 +145,10 @@ function resize(gameSize) {
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
     PREVIEW_X = GRID_START_X + GRID_WIDTH_PX + 20;
 
-    // Update title and score positions
+    // Update title, score, and preview label positions
     titleText.setPosition(width / 2, 20);
-    scoreTextObj.setPosition(width - 50, 20);
+    scoreTextObj.setPosition(width / 2, 60);
+    previewLabel.setPosition(PREVIEW_X + BLOCK_WIDTH / 2, PREVIEW_Y - 20);
 
     // Redraw grid
     const graphics = sceneRef.add.graphics();
@@ -273,7 +283,7 @@ function spawnBlock() {
     const color = COLORS[Math.floor(Math.random() * COLORS.length)];
     currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
     currentText = sceneRef.add.text(startX, startY, word, {
-        fontSize: '12px',
+        fontSize: `${FONT_SIZE}px`,
         color: '#000000'
     }).setOrigin(0.5);
 
