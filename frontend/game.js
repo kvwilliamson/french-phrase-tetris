@@ -33,31 +33,90 @@ const PREVIEW_WORDS = 4; // Show 4 upcoming words
 const FONT_SIZE = 15;
 
 // Word lists for each part of speech
-const NOUNS = ["maison", "chien", "chat", "arbre", "livre", "école", "voiture", "fleur", "soleil", "rivière"];
-const VERBS = ["manger", "courir", "parler", "écrire", "lire", "danser", "chanter", "jouer", "dormir", "aimer"];
-const ARTICLES = ["le", "la", "l’", "un", "une", "les", "des", "du", "de la", "de l’"];
-const ADJECTIVES = ["grand", "petit", "beau", "joli", "rapide", "lent", "heureux", "triste", "chaud", "froid"];
-const OTHERS = ["et", "ou", "mais", "pour", "avec", "sans", "très", "bien", "mal", "sur"];
-const BLANK = [""];
+// 50 unique nouns
+const NOUNS = [
+    "maison", "chien", "chat", "arbre", "livre", "école", "voiture", "fleur", "soleil", "rivière",
+    "montagne", "village", "jardin", "bureau", "table", "chaise", "ordinateur", "téléphone", "fenêtre", "porte",
+    "route", "pont", "étoile", "lune", "océan", "plage", "prairie", "forêt", "chemin", "ciel",
+    "temps", "amour", "rêve", "musique", "film", "histoire", "éventail", "bijou", "montre", "caméra",
+    "vélo", "avion", "train", "bibliothèque", "magasin", "restaurant", "cinéma", "théâtre", "musée", "parc"
+  ];
+  
+  // 50 unique verbs
+  const VERBS = [
+    "manger", "courir", "parler", "écrire", "lire", "danser", "chanter", "jouer", "dormir", "aimer",
+    "voir", "écouter", "regarder", "travailler", "marcher", "sauter", "nager", "voler", "dessiner", "construire",
+    "créer", "imaginer", "penser", "rêver", "étudier", "apprendre", "enseigner", "faire", "prendre", "venir",
+    "sortir", "entrer", "monter", "descendre", "arriver", "partir", "sourire", "pleurer", "rire", "habiter",
+    "frapper", "oublier", "chercher", "trouver", "raconter", "expliquer", "changer", "aider", "commencer", "terminer"
+  ];
+  
+  // 50 unique adjectives
+  const ADJECTIVES = [
+    "grand", "petit", "beau", "joli", "rapide", "lent", "heureux", "triste", "chaud", "froid",
+    "nouveau", "vieux", "ancien", "moderne", "fort", "faible", "lumineux", "sombre", "clair", "obscur",
+    "coloré", "terne", "élégant", "simple", "compliqué", "doux", "rugueux", "grandiose", "fragile", "solide",
+    "vif", "calme", "agressif", "timide", "courageux", "paresseux", "intelligent", "stupide", "utile", "inutile",
+    "riche", "pauvre", "chanceux", "malchanceux", "brillant", "éclatant", "mystérieux", "ouvert", "fermé", "amusant"
+  ];
+  
+  // Maxed out Articles list (articles and common determiners)
+  const ARTICLES = [
+    "le", "la", "l’", "un", "une", "les", "des", "du", "de la", "de l’",
+    "ce", "cet", "cette", "ces", "mon", "ma", "mes", "ton", "ta", "tes",
+    "son", "sa", "ses", "notre", "nos", "votre", "vos", "leur", "leurs"
+  ];
+  
+  // Expanded Pronouns list
+  const PRONOUNS = [
+    "je", "tu", "il", "elle", "nous", "vous", "ils", "elles", "on", "moi"
+  ];
+  
+  // Expanded Adverbs list
+  const ADVERBS = [
+    "vite", "bien", "mal", "très", "peu", "trop", "souvent", "rarement", "toujours", "jamais",
+    "autant", "hier", "aujourd’hui", "demain", "doucement", "rapidement", "fort", "lentement", "clairement", "simplement"
+  ];
+  
+  // Maxed out Prepositions list
+  const PREPOSITIONS = [
+    "à", "de", "en", "pour", "avec", "sans", "sur", "sous", "dans", "chez",
+    "vers", "par", "contre", "malgré", "selon", "d’après", "versus", "auprès", "autour", "via"
+  ];
+  
+  // Maxed out Others list (conjunctions, interjections, and other function words)
+  const OTHERS = [
+    "et", "ou", "mais", "car", "donc", "si", "quand", "comme", "que", "ni",
+    "ensuite", "puis", "aussi", "toutefois", "cependant", "néanmoins", "enfin", "auparavant", "alors", "parce que",
+    "afin", "d’ailleurs", "pourtant", "ainsi", "notamment", "en effet", "par conséquent", "effectivement", "ainsi que"
+  ];
+  
+  const BLANK = [""];
 
 // Parts of speech and colors
-const PARTS_OF_SPEECH = ["Noun", "Verb", "Article", "Adjective", "Other", "Blank"];
+const PARTS_OF_SPEECH = ["Article", "Noun", "Verb", "Adjective", "Pronoun", "Adverb", "Preposition", "Other", "Blank"];
 const COLORS = [
+    0x98fb98, // Article: Mint Green
     0xffb6c1, // Noun: Light Pink
     0xe6e6fa, // Verb: Lavender
-    0x98fb98, // Article: Mint Green
     0xadd8e6, // Adjective: Baby Blue
+    0xffa500, // Pronoun: Orange
+    0x800080, // Adverb: Purple
+    0x008080, // Preposition: Teal
     0x808080, // Other: Gray
     0x808080  // Blank: Gray
 ];
 
 // Probabilities for random selection
 const PROBABILITIES = [
-    { part: "Noun", prob: 0.28 },
-    { part: "Verb", prob: 0.19 },
-    { part: "Article", prob: 0.09 },
-    { part: "Adjective", prob: 0.09 },
-    { part: "Other", prob: 0.25 },
+    { part: "Article", prob: 0.15 },
+    { part: "Noun", prob: 0.20 },
+    { part: "Verb", prob: 0.15 },
+    { part: "Adjective", prob: 0.10 },
+    { part: "Pronoun", prob: 0.10 },
+    { part: "Adverb", prob: 0.05 },
+    { part: "Preposition", prob: 0.12 },
+    { part: "Other", prob: 0.03 },
     { part: "Blank", prob: 0.10 }
 ];
 
@@ -112,17 +171,26 @@ function generateRandomPart() {
 function generateWordForPart(part) {
     let wordList;
     switch (part) {
+        case "Article":
+            wordList = ARTICLES;
+            break;
         case "Noun":
             wordList = NOUNS;
             break;
         case "Verb":
             wordList = VERBS;
             break;
-        case "Article":
-            wordList = ARTICLES;
-            break;
         case "Adjective":
             wordList = ADJECTIVES;
+            break;
+        case "Pronoun":
+            wordList = PRONOUNS;
+            break;
+        case "Adverb":
+            wordList = ADVERBS;
+            break;
+        case "Preposition":
+            wordList = PREPOSITIONS;
             break;
         case "Other":
             wordList = OTHERS;
