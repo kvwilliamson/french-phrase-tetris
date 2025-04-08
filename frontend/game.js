@@ -95,7 +95,7 @@ const COLORS = [
     0xffa500, // Pronoun: Orange
     0x800080, // Adverb: Purple
     0x008080, // Preposition: Teal
-    0xFFFAA0, // Other: pastel yellow
+    0x808080, // Other: Gray
     0x808080  // Blank: Gray
 ];
 
@@ -201,43 +201,29 @@ function getColorForPart(part) {
     return COLORS[index];
 }
 
-// Simulated LLM validation (replace with actual API call in production)
-function validatePhrase(words) {
+async function validatePhrase(words) {
     const phrase = words.join(" ");
-    // Check if phrase has already been marked invalid
     if (checkedPhrases.has(phrase)) {
         return false;
     }
 
-    // Simple rule-based validation for French phrases
-    const parts = words.map(word => {
-        if (word === "") return "Blank";
-        if (NOUNS.includes(word)) return "Noun";
-        if (VERBS.includes(word)) return "Verb";
-        if (ADJECTIVES.includes(word)) return "Adjective";
-        if (ARTICLES.includes(word)) return "Article";
-        if (PRONOUNS.includes(word)) return "Pronoun";
-        if (ADVERBS.includes(word)) return "Adverb";
-        if (PREPOSITIONS.includes(word)) return "Preposition";
-        if (OTHERS.includes(word)) return "Other";
-        return "Unknown";
-    });
-
-    // Basic grammar rules for validation
-    if (parts.length >= 2) {
-        // Rule 1: Article + Noun
-        if (parts[0] === "Article" && parts[1] === "Noun") return true;
-        // Rule 2: Article + Noun + Adjective
-        if (parts.length >= 3 && parts[0] === "Article" && parts[1] === "Noun" && parts[2] === "Adjective") return true;
-        // Rule 3: Article + Noun + Verb
-        if (parts.length >= 3 && parts[0] === "Article" && parts[1] === "Noun" && parts[2] === "Verb") return true;
-        // Rule 4: Pronoun + Verb
-        if (parts[0] === "Pronoun" && parts[1] === "Verb") return true;
+    try {
+        const response = await fetch('http://localhost:3001/validate-phrase', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phrase })
+        });
+        const data = await response.json();
+        if (!data.isValid) {
+            checkedPhrases.add(phrase);
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error('Error validating phrase:', error);
+        checkedPhrases.add(phrase);
+        return false;
     }
-
-    // If no rules match, mark as invalid and add to checkedPhrases
-    checkedPhrases.add(phrase);
-    return false;
 }
 
 function speak(text) {
@@ -286,7 +272,7 @@ function clearColumnBlocks(col, startRow, count) {
     }
 }
 
-function checkForScoring() {
+async function checkForScoring() {
     // Check for filled rows
     for (let y = 0; y < GRID_HEIGHT; y++) {
         let filledCount = 0;
@@ -298,7 +284,7 @@ function checkForScoring() {
             }
         }
         if (filledCount === GRID_WIDTH) { // Row is filled
-            const isValid = validatePhrase(words);
+            const isValid = await validatePhrase(words);
             if (isValid) {
                 score += 100;
                 scoreTextObj.setText(`Score: ${score}`);
@@ -323,7 +309,7 @@ function checkForScoring() {
                 words.length = 0;
             }
             if (consecutiveCount === 4) {
-                const isValid = validatePhrase(words.slice(-4));
+                const isValid = await validatePhrase(words.slice(-4));
                 if (isValid) {
                     score += 50;
                     scoreTextObj.setText(`Score: ${score}`);
@@ -495,7 +481,7 @@ function isPositionOccupied(gridX, gridY) {
     return gridY >= 0 && gridY < GRID_HEIGHT && grid[gridY][gridX] !== null;
 }
 
-function lockBlock() {
+async function lockBlock() {
     const gridX = getGridPosition(currentBlock.x);
     const gridY = getGridY(currentBlock.y);
     
@@ -507,7 +493,7 @@ function lockBlock() {
     currentText = null;
 
     // Check for scoring conditions
-    checkForScoring();
+    await checkForScoring();
     
     spawnBlock();
 }
@@ -577,7 +563,7 @@ function spawnBlock() {
     sceneRef.tweens.add({
         targets: [currentBlock, currentText],
         y: landingY,
-        duration: 20000, // Doubled from 10000 to 20000 (half speed)
+        duration: 20000,
         ease: 'Linear',
         onComplete: () => {
             console.log('Tween completed, locking block');
