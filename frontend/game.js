@@ -33,65 +33,57 @@ const PREVIEW_WORDS = 4; // Show 4 upcoming words
 const FONT_SIZE = 15;
 
 // Word lists for each part of speech
-// 50 unique nouns
 const NOUNS = [
     "maison", "chien", "chat", "arbre", "livre", "école", "voiture", "fleur", "soleil", "rivière",
     "montagne", "village", "jardin", "bureau", "table", "chaise", "ordinateur", "téléphone", "fenêtre", "porte",
     "route", "pont", "étoile", "lune", "océan", "plage", "prairie", "forêt", "chemin", "ciel",
     "temps", "amour", "rêve", "musique", "film", "histoire", "éventail", "bijou", "montre", "caméra",
     "vélo", "avion", "train", "bibliothèque", "magasin", "restaurant", "cinéma", "théâtre", "musée", "parc"
-  ];
-  
-  // 50 unique verbs
-  const VERBS = [
+];
+
+const VERBS = [
     "manger", "courir", "parler", "écrire", "lire", "danser", "chanter", "jouer", "dormir", "aimer",
     "voir", "écouter", "regarder", "travailler", "marcher", "sauter", "nager", "voler", "dessiner", "construire",
     "créer", "imaginer", "penser", "rêver", "étudier", "apprendre", "enseigner", "faire", "prendre", "venir",
     "sortir", "entrer", "monter", "descendre", "arriver", "partir", "sourire", "pleurer", "rire", "habiter",
     "frapper", "oublier", "chercher", "trouver", "raconter", "expliquer", "changer", "aider", "commencer", "terminer"
-  ];
-  
-  // 50 unique adjectives
-  const ADJECTIVES = [
+];
+
+const ADJECTIVES = [
     "grand", "petit", "beau", "joli", "rapide", "lent", "heureux", "triste", "chaud", "froid",
     "nouveau", "vieux", "ancien", "moderne", "fort", "faible", "lumineux", "sombre", "clair", "obscur",
     "coloré", "terne", "élégant", "simple", "compliqué", "doux", "rugueux", "grandiose", "fragile", "solide",
     "vif", "calme", "agressif", "timide", "courageux", "paresseux", "intelligent", "stupide", "utile", "inutile",
     "riche", "pauvre", "chanceux", "malchanceux", "brillant", "éclatant", "mystérieux", "ouvert", "fermé", "amusant"
-  ];
-  
-  // Maxed out Articles list (articles and common determiners)
-  const ARTICLES = [
+];
+
+const ARTICLES = [
     "le", "la", "l’", "un", "une", "les", "des", "du", "de la", "de l’",
     "ce", "cet", "cette", "ces", "mon", "ma", "mes", "ton", "ta", "tes",
     "son", "sa", "ses", "notre", "nos", "votre", "vos", "leur", "leurs"
-  ];
-  
-  // Expanded Pronouns list
-  const PRONOUNS = [
+];
+
+const PRONOUNS = [
     "je", "tu", "il", "elle", "nous", "vous", "ils", "elles", "on", "moi"
-  ];
-  
-  // Expanded Adverbs list
-  const ADVERBS = [
+];
+
+const ADVERBS = [
     "vite", "bien", "mal", "très", "peu", "trop", "souvent", "rarement", "toujours", "jamais",
     "autant", "hier", "aujourd’hui", "demain", "doucement", "rapidement", "fort", "lentement", "clairement", "simplement"
-  ];
-  
-  // Maxed out Prepositions list
-  const PREPOSITIONS = [
+];
+
+const PREPOSITIONS = [
     "à", "de", "en", "pour", "avec", "sans", "sur", "sous", "dans", "chez",
     "vers", "par", "contre", "malgré", "selon", "d’après", "versus", "auprès", "autour", "via"
-  ];
-  
-  // Maxed out Others list (conjunctions, interjections, and other function words)
-  const OTHERS = [
+];
+
+const OTHERS = [
     "et", "ou", "mais", "car", "donc", "si", "quand", "comme", "que", "ni",
     "ensuite", "puis", "aussi", "toutefois", "cependant", "néanmoins", "enfin", "auparavant", "alors", "parce que",
     "afin", "d’ailleurs", "pourtant", "ainsi", "notamment", "en effet", "par conséquent", "effectivement", "ainsi que"
-  ];
-  
-  const BLANK = [""];
+];
+
+const BLANK = [""];
 
 // Parts of speech and colors
 const PARTS_OF_SPEECH = ["Article", "Noun", "Verb", "Adjective", "Pronoun", "Adverb", "Preposition", "Other", "Blank"];
@@ -103,7 +95,7 @@ const COLORS = [
     0xffa500, // Pronoun: Orange
     0x800080, // Adverb: Purple
     0x008080, // Preposition: Teal
-    0x808080, // Other: Gray
+    0xFFFAA0, // Other: pastel yellow
     0x808080  // Blank: Gray
 ];
 
@@ -129,7 +121,6 @@ const MOVE_DELAY = 100;
 let grid;
 let sceneRef;
 let score = 0;
-
 let previewBlocks = [];
 let previewTexts = [];
 let upcomingGroup = []; // Array of { part, word } for the next group
@@ -138,6 +129,7 @@ let currentWordIndex = 0; // Index within the current group
 let titleText;
 let scoreTextObj;
 let previewLabel;
+const checkedPhrases = new Set(); // Track invalid phrases to avoid rechecking
 
 function preload() {
     console.log('Game starting');
@@ -207,6 +199,141 @@ function generateWordForPart(part) {
 function getColorForPart(part) {
     const index = PARTS_OF_SPEECH.indexOf(part);
     return COLORS[index];
+}
+
+// Simulated LLM validation (replace with actual API call in production)
+function validatePhrase(words) {
+    const phrase = words.join(" ");
+    // Check if phrase has already been marked invalid
+    if (checkedPhrases.has(phrase)) {
+        return false;
+    }
+
+    // Simple rule-based validation for French phrases
+    const parts = words.map(word => {
+        if (word === "") return "Blank";
+        if (NOUNS.includes(word)) return "Noun";
+        if (VERBS.includes(word)) return "Verb";
+        if (ADJECTIVES.includes(word)) return "Adjective";
+        if (ARTICLES.includes(word)) return "Article";
+        if (PRONOUNS.includes(word)) return "Pronoun";
+        if (ADVERBS.includes(word)) return "Adverb";
+        if (PREPOSITIONS.includes(word)) return "Preposition";
+        if (OTHERS.includes(word)) return "Other";
+        return "Unknown";
+    });
+
+    // Basic grammar rules for validation
+    if (parts.length >= 2) {
+        // Rule 1: Article + Noun
+        if (parts[0] === "Article" && parts[1] === "Noun") return true;
+        // Rule 2: Article + Noun + Adjective
+        if (parts.length >= 3 && parts[0] === "Article" && parts[1] === "Noun" && parts[2] === "Adjective") return true;
+        // Rule 3: Article + Noun + Verb
+        if (parts.length >= 3 && parts[0] === "Article" && parts[1] === "Noun" && parts[2] === "Verb") return true;
+        // Rule 4: Pronoun + Verb
+        if (parts[0] === "Pronoun" && parts[1] === "Verb") return true;
+    }
+
+    // If no rules match, mark as invalid and add to checkedPhrases
+    checkedPhrases.add(phrase);
+    return false;
+}
+
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'fr-FR'; // French language
+    speechSynthesis.speak(utterance);
+}
+
+function clearRow(row) {
+    // Clear the row
+    for (let x = 0; x < GRID_WIDTH; x++) {
+        if (grid[row][x]) {
+            grid[row][x].block.destroy();
+            grid[row][x].text.destroy();
+            grid[row][x] = null;
+        }
+    }
+
+    // Drop blocks above
+    for (let y = row - 1; y >= 0; y--) {
+        for (let x = 0; x < GRID_WIDTH; x++) {
+            if (grid[y][x]) {
+                const block = grid[y][x].block;
+                const text = grid[y][x].text;
+                grid[y + 1][x] = grid[y][x];
+                grid[y][x] = null;
+                sceneRef.tweens.add({
+                    targets: [block, text],
+                    y: GRID_START_Y + (y + 1) * BLOCK_HEIGHT + BLOCK_HEIGHT / 2,
+                    duration: 300,
+                    ease: 'Linear'
+                });
+            }
+        }
+    }
+}
+
+function clearColumnBlocks(col, startRow, count) {
+    // Clear the specified blocks in the column
+    for (let y = startRow; y < startRow + count; y++) {
+        if (grid[y][col]) {
+            grid[y][col].block.destroy();
+            grid[y][col].text.destroy();
+            grid[y][col] = null;
+        }
+    }
+}
+
+function checkForScoring() {
+    // Check for filled rows
+    for (let y = 0; y < GRID_HEIGHT; y++) {
+        let filledCount = 0;
+        const words = [];
+        for (let x = 0; x < GRID_WIDTH; x++) {
+            if (grid[y][x]) {
+                filledCount++;
+                words.push(grid[y][x].text.text);
+            }
+        }
+        if (filledCount === GRID_WIDTH) { // Row is filled
+            const isValid = validatePhrase(words);
+            if (isValid) {
+                score += 100;
+                scoreTextObj.setText(`Score: ${score}`);
+                speak("Bravo");
+                clearRow(y);
+            }
+        }
+    }
+
+    // Check for four consecutive blocks in a column
+    for (let x = 0; x < GRID_WIDTH; x++) {
+        let consecutiveCount = 0;
+        let startRow = -1;
+        const words = [];
+        for (let y = 0; y < GRID_HEIGHT; y++) {
+            if (grid[y][x]) {
+                if (consecutiveCount === 0) startRow = y;
+                consecutiveCount++;
+                words.push(grid[y][x].text.text);
+            } else {
+                consecutiveCount = 0;
+                words.length = 0;
+            }
+            if (consecutiveCount === 4) {
+                const isValid = validatePhrase(words.slice(-4));
+                if (isValid) {
+                    score += 50;
+                    scoreTextObj.setText(`Score: ${score}`);
+                    speak("Excellent");
+                    clearColumnBlocks(x, startRow, 4);
+                }
+                break;
+            }
+        }
+    }
 }
 
 function create() {
@@ -375,12 +502,12 @@ function lockBlock() {
     grid[gridY][gridX] = { block: currentBlock, text: currentText };
     console.log(`Locked block at (${gridX}, ${gridY})`);
     
-    score += 10;
-    scoreTextObj.setText(`Score: ${score}`);
-    
     isDropping = false;
     currentBlock = null;
     currentText = null;
+
+    // Check for scoring conditions
+    checkForScoring();
     
     spawnBlock();
 }
@@ -450,7 +577,7 @@ function spawnBlock() {
     sceneRef.tweens.add({
         targets: [currentBlock, currentText],
         y: landingY,
-        duration: 10000,
+        duration: 20000, // Doubled from 10000 to 20000 (half speed)
         ease: 'Linear',
         onComplete: () => {
             console.log('Tween completed, locking block');
