@@ -242,6 +242,8 @@ class GameScene extends Phaser.Scene {
         this.load.json('phrases', 'phrases.json');
         // Load the theme music
         this.load.audio('themeMusic', 'ThemeMusic.mp3');
+        // Load the new background image
+        this.load.image('background', 'background.png');
     }
 
     create() {
@@ -253,15 +255,23 @@ class GameScene extends Phaser.Scene {
         GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
         PREVIEW_X = 50;
     
-        // Title
-        titleText = this.add.text(this.cameras.main.width / 2, 20, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
+        // Add the new background image
+        const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+        // Scale the background to fit the canvas
+        background.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
+    
+        // Title (at y = 40)
+        titleText = this.add.text(this.cameras.main.width / 2, 40, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
+        titleText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
         console.log('Initial title position:', titleText.x, titleText.y);
     
-        // Score
-        scoreTextObj = this.add.text(this.cameras.main.width / 2, 60, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
+        // Score (at y = 80)
+        scoreTextObj = this.add.text(this.cameras.main.width / 2, 80, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
+        scoreTextObj.setShadow(2, 2, '#000000', 2); // Add shadow for readability
     
         // Prochain Mots label
         previewLabel = this.add.text(50, 60, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
+        previewLabel.setShadow(2, 2, '#000000', 2); // Add shadow for readability
     
         // Create single graphics objects for grid and preview
         gridGraphics = this.add.graphics();
@@ -277,7 +287,8 @@ class GameScene extends Phaser.Scene {
         allPhrases = this.cache.json.get('phrases');
         if (!allPhrases) {
             console.error('Failed to load phrases.json');
-            this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Error: Could not load phrases', { fontSize: '32px', color: '#ff0000' }).setOrigin(0.5);
+            const errorText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Error: Could not load phrases', { fontSize: '32px', color: '#ff0000' }).setOrigin(0.5);
+            errorText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
             return;
         }
     
@@ -331,6 +342,7 @@ class GameScene extends Phaser.Scene {
     
         // Start message
         startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, "Appuyez sur Entrée pour commencer le jeu", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
+        startMessageText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
         console.log('Setting up Enter key listener');
         this.input.keyboard.on('keydown-ENTER', function () {
             console.log('Enter key pressed');
@@ -353,7 +365,8 @@ class GameScene extends Phaser.Scene {
 
     drawGrid() {
         gridGraphics.clear();
-        gridGraphics.lineStyle(1, 0xaaaaaa);
+        // Keep the white, thicker lines as desired
+        gridGraphics.lineStyle(2, 0xffffff); // White lines, thickness 2
         for (let x = 0; x <= GRID_WIDTH; x++) {
             gridGraphics.moveTo(GRID_START_X + x * BLOCK_WIDTH, GRID_START_Y);
             gridGraphics.lineTo(GRID_START_X + x * BLOCK_WIDTH, GRID_START_Y + GRID_HEIGHT * BLOCK_HEIGHT);
@@ -367,7 +380,8 @@ class GameScene extends Phaser.Scene {
 
     drawPreviewFrame() {
         previewGraphics.clear();
-        previewGraphics.lineStyle(1, 0xaaaaaa);
+        // Keep the white, thicker lines as desired
+        previewGraphics.lineStyle(2, 0xffffff); // White lines, thickness 2
         for (let i = 0; i <= PREVIEW_WORDS; i++) {
             previewGraphics.moveTo(PREVIEW_X, PREVIEW_Y + i * BLOCK_HEIGHT);
             previewGraphics.lineTo(PREVIEW_X + BLOCK_WIDTH, PREVIEW_Y + i * BLOCK_HEIGHT);
@@ -454,9 +468,9 @@ function resize(gameSize) {
     PREVIEW_X = 50;
 
     // Update positions
-    titleText.setPosition(width / 2, 20);
+    titleText.setPosition(width / 2, 40); // Title at y = 40
     console.log('Title position after resize:', titleText.x, titleText.y);
-    scoreTextObj.setPosition(width / 2, 60);
+    scoreTextObj.setPosition(width / 2, 80); // Score at y = 80
     previewLabel.setPosition(50, 60);
 
     // Redraw grid using the single graphics object
@@ -490,6 +504,12 @@ function resize(gameSize) {
                 grid[y][x].text.setPosition(newX, newY);
             }
         }
+    }
+
+    // Resize the background image
+    const background = sceneRef.children.list.find(child => child.texture && child.texture.key === 'background');
+    if (background) {
+        background.setDisplaySize(width, gameSize.height);
     }
 }
 
@@ -525,7 +545,8 @@ function lockBlock() {
     } catch (error) {
         console.error('Error in lockBlock:', error);
         // Optionally display an error message to the player
-        sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+        const errorText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+        errorText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
     }
 }
 
@@ -559,7 +580,8 @@ function spawnBlock() {
                 currentWordGroups.push(nextWordGroups.shift());
             } else {
                 console.error('No more word groups available in nextWordGroups');
-                sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'No More Words', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+                const noWordsText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'No More Words', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+                noWordsText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
                 return;
             }
             const phraseIndex = Phaser.Math.Between(0, allPhrases.length - 1);
@@ -579,7 +601,8 @@ function spawnBlock() {
         const spawnGridY = getGridY(startY);
         if (isPositionOccupied(spawnGridX, spawnGridY)) {
             sceneRef.tweens.killAll();
-            sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+            const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+            gameOverText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
             return;
         }
         currentGroup = currentWordGroups[dropIndex];
@@ -613,7 +636,8 @@ function spawnBlock() {
         });
     } catch (error) {
         console.error('Error in spawnBlock:', error);
-        sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+        const errorText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+        errorText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
     }
 }
 
@@ -622,7 +646,7 @@ const config = {
     type: Phaser.AUTO,
     width: window.innerWidth,
     height: window.innerHeight,
-    backgroundColor: '#2d2d2d',
+    backgroundColor: '#2d2d2d', // This will be overridden by the background image
     physics: {
         default: 'arcade',
         arcade: {
