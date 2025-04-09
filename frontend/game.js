@@ -23,7 +23,7 @@ let GRID_START_Y = 340;
 
 // Preview frame constants
 let PREVIEW_X;
-const PREVIEW_Y = 80;
+const PREVIEW_Y = 120;
 const PREVIEW_WORDS = 4;
 
 // Game variables
@@ -136,16 +136,13 @@ function generateInitialWordGroups() {
 }
 
 function getColorForPos(pos) {
-    // Normalize the POS value: trim whitespace, remove non-visible characters, and standardize case
     const normalizedPos = pos
-        .trim() // Remove leading/trailing whitespace
-        .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width spaces and other non-visible characters
+        .trim()
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
         .charAt(0).toUpperCase() + pos.trim().slice(1).toLowerCase();
     
-    // Debug: List the keys of posColors to confirm they exist
     console.log(`getColorForPos: original=${pos}, normalized=${normalizedPos}, posColors keys=${Object.keys(posColors).join(', ')}`);
     
-    // Test with a hardcoded value to confirm posColors works
     if (normalizedPos === 'Articles') {
         console.log('Hardcoded test: posColors["Articles"]=', posColors['Articles']);
     }
@@ -242,7 +239,7 @@ class GameScene extends Phaser.Scene {
         this.load.json('phrases', 'phrases.json');
         // Load the theme music
         this.load.audio('themeMusic', 'ThemeMusic.mp3');
-        // Load the new background image
+        // Load the background image
         this.load.image('background', 'background.png');
     }
 
@@ -253,25 +250,24 @@ class GameScene extends Phaser.Scene {
         this.game.canvas.getContext('2d', { willReadFrequently: true });
     
         GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
-        PREVIEW_X = 50;
+        PREVIEW_X = 200;
     
-        // Add the new background image
+        // Add the background image
         const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
-        // Scale the background to fit the canvas
         background.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
     
-        // Title (at y = 40)
-        titleText = this.add.text(this.cameras.main.width / 2, 40, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
-        titleText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+        // Title
+        titleText = this.add.text(this.cameras.main.width / 2, 80, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
+        titleText.setShadow(2, 2, '#000000', 2);
         console.log('Initial title position:', titleText.x, titleText.y);
     
-        // Score (at y = 80)
-        scoreTextObj = this.add.text(this.cameras.main.width / 2, 80, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
-        scoreTextObj.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+        // Score
+        scoreTextObj = this.add.text(this.cameras.main.width / 2, 120, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
+        scoreTextObj.setShadow(2, 2, '#000000', 2);
     
         // Prochain Mots label
-        previewLabel = this.add.text(50, 60, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
-        previewLabel.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+        previewLabel = this.add.text(200, 100, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
+        previewLabel.setShadow(2, 2, '#000000', 2);
     
         // Create single graphics objects for grid and preview
         gridGraphics = this.add.graphics();
@@ -288,7 +284,7 @@ class GameScene extends Phaser.Scene {
         if (!allPhrases) {
             console.error('Failed to load phrases.json');
             const errorText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Error: Could not load phrases', { fontSize: '32px', color: '#ff0000' }).setOrigin(0.5);
-            errorText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+            errorText.setShadow(2, 2, '#000000', 2);
             return;
         }
     
@@ -301,7 +297,7 @@ class GameScene extends Phaser.Scene {
             const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
             const { pos, word } = currentWordGroups[0][i];
             const color = getColorForPos(pos);
-            console.log(`Preview block ${i}: word=${word}, pos=${pos}, color=${color.toString(16)}`); // Debug log
+            console.log(`Preview block ${i}: word=${word}, pos=${pos}, color=${color.toString(16)}`);
             const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
             const text = this.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
             previewBlocks.push(block);
@@ -317,12 +313,14 @@ class GameScene extends Phaser.Scene {
 
         // Fallback: Resume audio on user interaction if blocked by browser
         this.input.once('pointerdown', () => {
+            console.log('User interaction: pointerdown');
             if (!themeMusic.isPlaying) {
                 console.log('Resuming theme music after user interaction');
                 themeMusic.play();
             }
         });
         this.input.keyboard.once('keydown', () => {
+            console.log('User interaction: keydown');
             if (!themeMusic.isPlaying) {
                 console.log('Resuming theme music after user interaction');
                 themeMusic.play();
@@ -342,9 +340,10 @@ class GameScene extends Phaser.Scene {
     
         // Start message
         startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, "Appuyez sur Entrée pour commencer le jeu", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
-        startMessageText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+        startMessageText.setShadow(2, 2, '#000000', 2);
         console.log('Setting up Enter key listener');
-        this.input.keyboard.on('keydown-ENTER', function () {
+        this.input.keyboard.on('keydown-ENTER', function (event) {
+            event.preventDefault();
             console.log('Enter key pressed');
             if (!gameStarted) {
                 gameStarted = true;
@@ -353,6 +352,13 @@ class GameScene extends Phaser.Scene {
             }
         });
     
+        // Prevent arrow keys from scrolling the page
+        this.input.keyboard.on('keydown', (event) => {
+            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+                event.preventDefault();
+            }
+        });
+
         // Set up physics bounds
         this.physics.world.setBounds(GRID_START_X, GRID_START_Y, GRID_WIDTH_PX, GRID_HEIGHT_PX);
     
@@ -361,12 +367,15 @@ class GameScene extends Phaser.Scene {
             if (resizeTimeout) clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => resize(gameSize), 100);
         }, this);
+
+        // Focus the canvas to ensure key events are captured
+        this.game.canvas.setAttribute('tabindex', '0');
+        this.game.canvas.focus();
     }
 
     drawGrid() {
         gridGraphics.clear();
-        // Keep the white, thicker lines as desired
-        gridGraphics.lineStyle(2, 0xffffff); // White lines, thickness 2
+        gridGraphics.lineStyle(2, 0xffffff);
         for (let x = 0; x <= GRID_WIDTH; x++) {
             gridGraphics.moveTo(GRID_START_X + x * BLOCK_WIDTH, GRID_START_Y);
             gridGraphics.lineTo(GRID_START_X + x * BLOCK_WIDTH, GRID_START_Y + GRID_HEIGHT * BLOCK_HEIGHT);
@@ -380,8 +389,7 @@ class GameScene extends Phaser.Scene {
 
     drawPreviewFrame() {
         previewGraphics.clear();
-        // Keep the white, thicker lines as desired
-        previewGraphics.lineStyle(2, 0xffffff); // White lines, thickness 2
+        previewGraphics.lineStyle(2, 0xffffff);
         for (let i = 0; i <= PREVIEW_WORDS; i++) {
             previewGraphics.moveTo(PREVIEW_X, PREVIEW_Y + i * BLOCK_HEIGHT);
             previewGraphics.lineTo(PREVIEW_X + BLOCK_WIDTH, PREVIEW_Y + i * BLOCK_HEIGHT);
@@ -455,7 +463,7 @@ class GameScene extends Phaser.Scene {
             const { pos, word } = currentGroup[currentWordIndex];
             currentText.setText(word === '{Blank}' ? '' : word);
             const newColor = getColorForPos(pos);
-            console.log(`Cycling block: word=${word}, pos=${pos}, color=${newColor.toString(16)}`); // Debug log
+            console.log(`Cycling block: word=${word}, pos=${pos}, color=${newColor.toString(16)}`);
             currentBlock.setFillStyle(newColor);
         }
     }
@@ -465,13 +473,13 @@ function resize(gameSize) {
     console.log('Resize event triggered:', gameSize);
     const width = gameSize.width;
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = 50;
+    PREVIEW_X = 200;
 
     // Update positions
-    titleText.setPosition(width / 2, 40); // Title at y = 40
+    titleText.setPosition(width / 2, 80);
     console.log('Title position after resize:', titleText.x, titleText.y);
-    scoreTextObj.setPosition(width / 2, 80); // Score at y = 80
-    previewLabel.setPosition(50, 60);
+    scoreTextObj.setPosition(width / 2, 120);
+    previewLabel.setPosition(200, 100);
 
     // Redraw grid using the single graphics object
     sceneRef.drawGrid();
@@ -511,6 +519,11 @@ function resize(gameSize) {
     if (background) {
         background.setDisplaySize(width, gameSize.height);
     }
+
+    // Update start message position if it exists
+    if (startMessageText) {
+        startMessageText.setPosition(width / 2, gameSize.height / 2);
+    }
 }
 
 function getGridPosition(x) {
@@ -539,14 +552,14 @@ function lockBlock() {
         currentBlock = null;
         currentText = null;
         isDropping = false;
+
         checkForScoring(gridY);
         dropIndex++;
         spawnBlock();
     } catch (error) {
         console.error('Error in lockBlock:', error);
-        // Optionally display an error message to the player
         const errorText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-        errorText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+        errorText.setShadow(2, 2, '#000000', 2);
     }
 }
 
@@ -581,7 +594,7 @@ function spawnBlock() {
             } else {
                 console.error('No more word groups available in nextWordGroups');
                 const noWordsText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'No More Words', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-                noWordsText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+                noWordsText.setShadow(2, 2, '#000000', 2);
                 return;
             }
             const phraseIndex = Phaser.Math.Between(0, allPhrases.length - 1);
@@ -602,7 +615,7 @@ function spawnBlock() {
         if (isPositionOccupied(spawnGridX, spawnGridY)) {
             sceneRef.tweens.killAll();
             const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-            gameOverText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+            gameOverText.setShadow(2, 2, '#000000', 2);
             return;
         }
         currentGroup = currentWordGroups[dropIndex];
@@ -637,7 +650,7 @@ function spawnBlock() {
     } catch (error) {
         console.error('Error in spawnBlock:', error);
         const errorText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-        errorText.setShadow(2, 2, '#000000', 2); // Add shadow for readability
+        errorText.setShadow(2, 2, '#000000', 2);
     }
 }
 
@@ -646,7 +659,7 @@ const config = {
     type: Phaser.AUTO,
     width: window.innerWidth,
     height: window.innerHeight,
-    backgroundColor: '#2d2d2d', // This will be overridden by the background image
+    backgroundColor: '#2d2d2d',
     physics: {
         default: 'arcade',
         arcade: {
@@ -657,7 +670,7 @@ const config = {
     scene: [GameScene],
     scale: {
         mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.NO_CENTER // Changed from CENTER_BOTH to NO_CENTER
+        autoCenter: Phaser.Scale.NO_CENTER
     },
     parent: 'game'
 };
