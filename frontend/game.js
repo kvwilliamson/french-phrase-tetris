@@ -1,14 +1,15 @@
 // Define the color scheme for each POS category (updated colors)
+// Define the color scheme for each POS category (using French POS keys with your original pastel colors)
 const posColors = {
-    'Article': 0xFFF9B0,     // Pastel Yellow (e.g., "le", "la")
-    'Noun': 0xA3BFFA,        // Pastel Blue (e.g., "chien")
-    'Pronoun': 0xBFDFFF,     // Lighter Pastel Blue (e.g., "je", "tu")
-    'Verb': 0xA8D5BA,        // Pastel Green (e.g., "marche")
-    'Adverb': 0xC2E8C6,      // Lighter Pastel Green (e.g., "bien")
-    'Adjective': 0xFFE4B5,   // Pastel Peach (e.g., "joli")
-    'Preposition': 0xFFCC99, // Pastel Orange (e.g., "avec")
-    'Other': 0xE6E6FA,       // Lavender (e.g., "et", "ou")
-    'Blank': 0xD3D3D3        // Light Gray (e.g., "{Blank}")
+    'Articles': 0xFFF9B0,     // Pastel Yellow (e.g., "le", "la")
+    'Noms': 0xA3BFFA,         // Pastel Blue (e.g., "chien")
+    'Pronoms': 0xBFDFFF,      // Lighter Pastel Blue (e.g., "je", "tu")
+    'Verbes': 0xA8D5BA,       // Pastel Green (e.g., "marche")
+    'Adverbes': 0xC2E8C6,     // Lighter Pastel Green (e.g., "bien")
+    'Adjectifs': 0xFFE4B5,    // Pastel Peach (e.g., "joli")
+    'Prépositions': 0xFFCC99, // Pastel Orange (e.g., "avec")
+    'Other': 0xE6E6FA,        // Lavender (e.g., "et", "ou")
+    'Blank': 0xD3D3D3         // Light Gray (e.g., "{Blank}")
 };
 
 // Grid constants
@@ -115,23 +116,25 @@ function generateInitialWordGroups() {
 }
 
 function getColorForPos(pos) {
-    return posColors[pos] || posColors['Other'];
-}
-
-async function validatePhrase(words) {
-    const phrase = words.join(" ");
-    try {
-        const response = await fetch('http://localhost:3001/validate-phrase', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phrase })
-        });
-        const data = await response.json();
-        return data.isValid;
-    } catch (error) {
-        console.error('Error validating phrase:', error);
-        return false;
+    // Normalize the POS value: trim whitespace, remove non-visible characters, and standardize case
+    const normalizedPos = pos
+        .trim() // Remove leading/trailing whitespace
+        .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width spaces and other non-visible characters
+        .charAt(0).toUpperCase() + pos.trim().slice(1).toLowerCase();
+    
+    // Debug: List the keys of posColors to confirm they exist
+    console.log(`getColorForPos: original=${pos}, normalized=${normalizedPos}, posColors keys=${Object.keys(posColors).join(', ')}`);
+    
+    // Test with a hardcoded value to confirm posColors works
+    if (normalizedPos === 'Articles') {
+        console.log('Hardcoded test: posColors["Articles"]=', posColors['Articles']);
     }
+    
+    const color = posColors[normalizedPos] || posColors['Other'];
+    if (!posColors[normalizedPos]) {
+        console.log(`Warning: No color found for ${normalizedPos}, falling back to Other`);
+    }
+    return color;
 }
 
 function speak(text) {
@@ -245,23 +248,23 @@ class GameScene extends Phaser.Scene {
         // Title
         titleText = this.add.text(this.cameras.main.width / 2, 20, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
         console.log('Initial title position:', titleText.x, titleText.y);
-
+    
         // Score
         scoreTextObj = this.add.text(this.cameras.main.width / 2, 60, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
-
+    
         // Prochain Mots label
         previewLabel = this.add.text(50, 60, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
-
+    
         // Create single graphics objects for grid and preview
         gridGraphics = this.add.graphics();
         previewGraphics = this.add.graphics();
-
+    
         // Draw the grid
         this.drawGrid();
-
+    
         // Draw the preview frame
         this.drawPreviewFrame();
-
+    
         // Load phrases
         allPhrases = this.cache.json.get('phrases');
         if (!allPhrases) {
@@ -269,22 +272,23 @@ class GameScene extends Phaser.Scene {
             this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Error: Could not load phrases', { fontSize: '32px', color: '#ff0000' }).setOrigin(0.5);
             return;
         }
-
+    
         // Initialize word groups
         generateInitialWordGroups();
-
+    
         // Create preview blocks
         for (let i = 0; i < PREVIEW_WORDS; i++) {
             const x = PREVIEW_X + BLOCK_WIDTH / 2;
             const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
             const { pos, word } = currentWordGroups[0][i];
             const color = getColorForPos(pos);
+            console.log(`Preview block ${i}: word=${word}, pos=${pos}, color=${color.toString(16)}`); // Debug log
             const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
             const text = this.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
             previewBlocks.push(block);
             previewTexts.push(text);
         }
-
+    
         // Start message
         startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, "Appuyez sur Entrée pour commencer le jeu", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         console.log('Setting up Enter key listener');
@@ -296,10 +300,10 @@ class GameScene extends Phaser.Scene {
                 spawnBlock();
             }
         });
-
+    
         // Set up physics bounds
         this.physics.world.setBounds(GRID_START_X, GRID_START_Y, GRID_WIDTH_PX, GRID_HEIGHT_PX);
-
+    
         // Handle resize with debounce
         this.scale.on('resize', (gameSize) => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
@@ -397,6 +401,7 @@ class GameScene extends Phaser.Scene {
             const { pos, word } = currentGroup[currentWordIndex];
             currentText.setText(word === '{Blank}' ? '' : word);
             const newColor = getColorForPos(pos);
+            console.log(`Cycling block: word=${word}, pos=${pos}, color=${newColor.toString(16)}`); // Debug log
             currentBlock.setFillStyle(newColor);
         }
     }
@@ -496,6 +501,7 @@ function updatePreview(group) {
     for (let i = 0; i < PREVIEW_WORDS; i++) {
         const { pos, word } = group[i];
         const color = getColorForPos(pos);
+        console.log(`Updating preview block ${i}: word=${word}, pos=${pos}, color=${color.toString(16)}`);
         previewBlocks[i].setFillStyle(color);
         previewTexts[i].setText(word === '{Blank}' ? '' : word);
     }
@@ -517,6 +523,7 @@ function spawnBlock() {
     currentWordIndex = 0;
     const { pos, word } = currentGroup[currentWordIndex];
     const color = getColorForPos(pos);
+    console.log(`Spawning block: word=${word}, pos=${pos}, color=${color.toString(16)}`); // Debug log
     currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
     currentText = sceneRef.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
     if (dropIndex < 7) {
