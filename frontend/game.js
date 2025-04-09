@@ -17,89 +17,37 @@ const config = {
 // Grid constants
 const BLOCK_WIDTH = 150;
 const BLOCK_HEIGHT = 20;
-const GRID_WIDTH = 8; // 8 columns
-const GRID_HEIGHT = 20; // Rows
-const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH; // 1200px
-const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT; // 400px
-let GRID_START_X; // Will be calculated dynamically
-let GRID_START_Y = 340; // Grid position
+const GRID_WIDTH = 8;
+const GRID_HEIGHT = 20;
+const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH;
+const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
+let GRID_START_X;
+let GRID_START_Y = 340;
 
 // Preview frame constants
-let PREVIEW_X; // Will be calculated dynamically
-const PREVIEW_Y = 80; // Under "Prochaine Mots"
-const PREVIEW_WORDS = 4; // Show 4 upcoming words
+let PREVIEW_X;
+const PREVIEW_Y = 80;
+const PREVIEW_WORDS = 4;
 
 // Font size
 const FONT_SIZE = 15;
 
 // Word lists for each part of speech
-const NOUNS = [
-    "maison", "chien", "chat", "arbre", "livre", "école", "voiture", "fleur", "soleil", "rivière",
-    "montagne", "village", "jardin", "bureau", "table", "chaise", "ordinateur", "téléphone", "fenêtre", "porte",
-    "route", "pont", "étoile", "lune", "océan", "plage", "prairie", "forêt", "chemin", "ciel",
-    "temps", "amour", "rêve", "musique", "film", "histoire", "éventail", "bijou", "montre", "caméra",
-    "vélo", "avion", "train", "bibliothèque", "magasin", "restaurant", "cinéma", "théâtre", "musée", "parc"
-];
-
-const VERBS = [
-    "manger", "courir", "parler", "écrire", "lire", "danser", "chanter", "jouer", "dormir", "aimer",
-    "voir", "écouter", "regarder", "travailler", "marcher", "sauter", "nager", "voler", "dessiner", "construire",
-    "créer", "imaginer", "penser", "rêver", "étudier", "apprendre", "enseigner", "faire", "prendre", "venir",
-    "sortir", "entrer", "monter", "descendre", "arriver", "partir", "sourire", "pleurer", "rire", "habiter",
-    "frapper", "oublier", "chercher", "trouver", "raconter", "expliquer", "changer", "aider", "commencer", "terminer"
-];
-
-const ADJECTIVES = [
-    "grand", "petit", "beau", "joli", "rapide", "lent", "heureux", "triste", "chaud", "froid",
-    "nouveau", "vieux", "ancien", "moderne", "fort", "faible", "lumineux", "sombre", "clair", "obscur",
-    "coloré", "terne", "élégant", "simple", "compliqué", "doux", "rugueux", "grandiose", "fragile", "solide",
-    "vif", "calme", "agressif", "timide", "courageux", "paresseux", "intelligent", "stupide", "utile", "inutile",
-    "riche", "pauvre", "chanceux", "malchanceux", "brillant", "éclatant", "mystérieux", "ouvert", "fermé", "amusant"
-];
-
-const ARTICLES = [
-    "le", "la", "l’", "un", "une", "les", "des", "du", "de la", "de l’",
-    "ce", "cet", "cette", "ces", "mon", "ma", "mes", "ton", "ta", "tes",
-    "son", "sa", "ses", "notre", "nos", "votre", "vos", "leur", "leurs"
-];
-
-const PRONOUNS = [
-    "je", "tu", "il", "elle", "nous", "vous", "ils", "elles", "on", "moi"
-];
-
-const ADVERBS = [
-    "vite", "bien", "mal", "très", "peu", "trop", "souvent", "rarement", "toujours", "jamais",
-    "autant", "hier", "aujourd’hui", "demain", "doucement", "rapidement", "fort", "lentement", "clairement", "simplement"
-];
-
-const PREPOSITIONS = [
-    "à", "de", "en", "pour", "avec", "sans", "sur", "sous", "dans", "chez",
-    "vers", "par", "contre", "malgré", "selon", "d’après", "versus", "auprès", "autour", "via"
-];
-
-const OTHERS = [
-    "et", "ou", "mais", "car", "donc", "si", "quand", "comme", "que", "ni",
-    "ensuite", "puis", "aussi", "toutefois", "cependant", "néanmoins", "enfin", "auparavant", "alors", "parce que",
-    "afin", "d’ailleurs", "pourtant", "ainsi", "notamment", "en effet", "par conséquent", "effectivement", "ainsi que"
-];
-
+const NOUNS = ["maison", "chien", "chat", "arbre", "livre", "école", "voiture", "fleur", "soleil", "rivière", /* ... */];
+const VERBS = ["manger", "courir", "parler", "écrire", "lire", "danser", "chanter", "jouer", "dormir", "aimer", /* ... */];
+const ADJECTIVES = ["grand", "petit", "beau", "joli", "rapide", "lent", "heureux", "triste", "chaud", "froid", /* ... */];
+const ARTICLES = ["le", "la", "l’", "un", "une", "les", "des", "du", "de la", "de l’", /* ... */];
+const PRONOUNS = ["je", "tu", "il", "elle", "nous", "vous", "ils", "elles", "on", "moi"];
+const ADVERBS = ["vite", "bien", "mal", "très", "peu", "trop", "souvent", "rarement", "toujours", "jamais", /* ... */];
+const PREPOSITIONS = ["à", "de", "en", "pour", "avec", "sans", "sur", "sous", "dans", "chez", /* ... */];
+const OTHERS = ["et", "ou", "mais", "car", "donc", "si", "quand", "comme", "que", "ni", /* ... */];
 const BLANK = [""];
 
 // Parts of speech and colors
 const PARTS_OF_SPEECH = ["Article", "Noun", "Verb", "Adjective", "Pronoun", "Adverb", "Preposition", "Other", "Blank"];
-const COLORS = [
-    0x98fb98, // Article: Mint Green
-    0xffb6c1, // Noun: Light Pink
-    0xe6e6fa, // Verb: Lavender
-    0xadd8e6, // Adjective: Baby Blue
-    0xffa500, // Pronoun: Orange
-    0x800080, // Adverb: Purple
-    0x008080, // Preposition: Teal
-    0x808080, // Other: Gray
-    0x808080  // Blank: Gray
-];
+const COLORS = [0x98fb98, 0xffb6c1, 0xe6e6fa, 0xadd8e6, 0xffa500, 0x800080, 0x008080, 0x808080, 0x808080];
 
-// Probabilities for random selection
+// Probabilities (not used for generation now, but kept for reference)
 const PROBABILITIES = [
     { part: "Article", prob: 0.15 },
     { part: "Noun", prob: 0.20 },
@@ -123,77 +71,92 @@ let sceneRef;
 let score = 0;
 let previewBlocks = [];
 let previewTexts = [];
-let upcomingGroup = []; // Array of { part, word } for the next group
-let currentGroup = []; // Current group of { part, word } being cycled
-let currentWordIndex = 0; // Index within the current group
+let upcomingGroup = [];
+let currentGroup = [];
+let currentWordIndex = 0;
 let titleText;
 let scoreTextObj;
 let previewLabel;
-const checkedPhrases = new Set(); // Track invalid phrases to avoid rechecking
+const checkedPhrases = new Set();
+let allPhrases = [];
+let currentWordGroups = [];
+let nextWordGroups = [];
+let dropIndex = 0;
+let gameStarted = false;
+let startMessageText;
 
-function preload() {
-    console.log('Game starting');
-    grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(null));
-    // Initialize upcoming words (generate first group)
-    upcomingGroup = generateWordGroup();
-}
-
-function generateWordGroup() {
-    const group = [];
-    for (let i = 0; i < PREVIEW_WORDS; i++) {
-        const part = generateRandomPart();
-        const word = generateWordForPart(part);
-        group.push({ part, word });
+// Helper functions
+function shuffle(array) {
+    const shuffled = array.slice(); // Create a copy to avoid modifying the original
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
     }
-    return group;
+    return shuffled;
 }
 
-function generateRandomPart() {
-    const rand = Math.random();
-    let cumulativeProb = 0;
-    for (const item of PROBABILITIES) {
-        cumulativeProb += item.prob;
-        if (rand <= cumulativeProb) {
-            return item.part;
+function selectAndShufflePhrases() {
+    const selected = [];
+    const indices = [];
+    
+    // Randomly select 4 unique indices from allPhrases
+    while (indices.length < 4) {
+        const index = Math.floor(Math.random() * allPhrases.length);
+        if (!indices.includes(index)) {
+            indices.push(index);
         }
     }
-    return PROBABILITIES[PROBABILITIES.length - 1].part; // Fallback
+    
+    // Process each selected phrase
+    for (let i = 0; i < 4; i++) {
+        const phrase = allPhrases[indices[i]];
+        
+        // Verify that phrase is an array
+        if (!Array.isArray(phrase)) {
+            console.error('Phrase is not an array at index', indices[i], ':', phrase);
+            continue; // Skip invalid phrases
+        }
+        
+        // Shuffle the array directly and add to selected
+        selected.push(shuffle(phrase));
+    }
+    
+    return selected;
 }
 
-function generateWordForPart(part) {
-    let wordList;
-    switch (part) {
-        case "Article":
-            wordList = ARTICLES;
-            break;
-        case "Noun":
-            wordList = NOUNS;
-            break;
-        case "Verb":
-            wordList = VERBS;
-            break;
-        case "Adjective":
-            wordList = ADJECTIVES;
-            break;
-        case "Pronoun":
-            wordList = PRONOUNS;
-            break;
-        case "Adverb":
-            wordList = ADVERBS;
-            break;
-        case "Preposition":
-            wordList = PREPOSITIONS;
-            break;
-        case "Other":
-            wordList = OTHERS;
-            break;
-        case "Blank":
-            wordList = BLANK;
-            break;
-        default:
-            wordList = BLANK;
+function getPartForWord(word) {
+    if (word === "{Blank}") return "Blank";
+    if (NOUNS.includes(word)) return "Noun";
+    if (VERBS.includes(word)) return "Verb";
+    if (ARTICLES.includes(word)) return "Article";
+    if (ADJECTIVES.includes(word)) return "Adjective";
+    if (PRONOUNS.includes(word)) return "Pronoun";
+    if (ADVERBS.includes(word)) return "Adverb";
+    if (PREPOSITIONS.includes(word)) return "Preposition";
+    if (OTHERS.includes(word)) return "Other";
+    return "Other";
+}
+
+function createWordGroups(shuffledPhrases) {
+    const wordGroups = [];
+    for (let i = 0; i < 8; i++) {
+        const group = [];
+        for (let j = 0; j < 4; j++) {
+            const word = shuffledPhrases[j][i];
+            const part = getPartForWord(word);
+            group.push({ part, word });
+        }
+        wordGroups.push(group);
     }
-    return wordList[Math.floor(Math.random() * wordList.length)];
+    return wordGroups;
+}
+
+function generateInitialWordGroups() {
+    const shuffledPhrases = selectAndShufflePhrases();
+    currentWordGroups = createWordGroups(shuffledPhrases);
+    const nextShuffledPhrases = selectAndShufflePhrases();
+    nextWordGroups = createWordGroups(nextShuffledPhrases);
+    dropIndex = 0;
 }
 
 function getColorForPart(part) {
@@ -203,10 +166,7 @@ function getColorForPart(part) {
 
 async function validatePhrase(words) {
     const phrase = words.join(" ");
-    if (checkedPhrases.has(phrase)) {
-        return false;
-    }
-
+    if (checkedPhrases.has(phrase)) return false;
     try {
         const response = await fetch('http://localhost:3001/validate-phrase', {
             method: 'POST',
@@ -228,12 +188,11 @@ async function validatePhrase(words) {
 
 function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fr-FR'; // French language
+    utterance.lang = 'fr-FR';
     speechSynthesis.speak(utterance);
 }
 
 function clearRow(row) {
-    // Clear the row
     for (let x = 0; x < GRID_WIDTH; x++) {
         if (grid[row][x]) {
             grid[row][x].block.destroy();
@@ -241,8 +200,6 @@ function clearRow(row) {
             grid[row][x] = null;
         }
     }
-
-    // Drop blocks above
     for (let y = row - 1; y >= 0; y--) {
         for (let x = 0; x < GRID_WIDTH; x++) {
             if (grid[y][x]) {
@@ -262,7 +219,6 @@ function clearRow(row) {
 }
 
 function clearColumnBlocks(col, startRow, count) {
-    // Clear the specified blocks in the column
     for (let y = startRow; y < startRow + count; y++) {
         if (grid[y][col]) {
             grid[y][col].block.destroy();
@@ -273,7 +229,6 @@ function clearColumnBlocks(col, startRow, count) {
 }
 
 async function checkForScoring() {
-    // Check for filled rows
     for (let y = 0; y < GRID_HEIGHT; y++) {
         let filledCount = 0;
         const words = [];
@@ -283,7 +238,7 @@ async function checkForScoring() {
                 words.push(grid[y][x].text.text);
             }
         }
-        if (filledCount === GRID_WIDTH) { // Row is filled
+        if (filledCount === GRID_WIDTH) {
             const isValid = await validatePhrase(words);
             if (isValid) {
                 score += 100;
@@ -293,8 +248,6 @@ async function checkForScoring() {
             }
         }
     }
-
-    // Check for four consecutive blocks in a column
     for (let x = 0; x < GRID_WIDTH; x++) {
         let consecutiveCount = 0;
         let startRow = -1;
@@ -322,32 +275,20 @@ async function checkForScoring() {
     }
 }
 
+function preload() {
+    console.log('Game starting');
+    grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(null));
+    this.load.json('phrases', 'phrases.json');
+}
+
 function create() {
     sceneRef = this;
-
-    // Dynamically calculate positions based on canvas size
     GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = 50; // Align with "Prochaine Mots" label
+    PREVIEW_X = 50;
+    titleText = this.add.text(this.cameras.main.width / 2, 20, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
+    scoreTextObj = this.add.text(this.cameras.main.width / 2, 60, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
+    previewLabel = this.add.text(50, 60, "Prochaine Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
 
-    // Title bar
-    titleText = this.add.text(this.cameras.main.width / 2, 20, "Tetris de Phrases Françaises", {
-        fontSize: '32px',
-        color: '#ffffff'
-    }).setOrigin(0.5);
-
-    // Scoreboard (centered under title)
-    scoreTextObj = this.add.text(this.cameras.main.width / 2, 60, "Score: 0", {
-        fontSize: '28px',
-        color: '#ffffff'
-    }).setOrigin(0.5);
-
-    // Preview label (upper left)
-    previewLabel = this.add.text(50, 60, "Prochaine Mots", {
-        fontSize: '20px',
-        color: '#ffffff'
-    }).setOrigin(0, 0.5);
-
-    // Grid lines
     const graphics = this.add.graphics();
     graphics.lineStyle(1, 0xaaaaaa);
     for (let x = 0; x <= GRID_WIDTH; x++) {
@@ -360,7 +301,6 @@ function create() {
     }
     graphics.strokePath();
 
-    // Preview frame
     const previewGraphics = this.add.graphics();
     previewGraphics.lineStyle(1, 0xaaaaaa);
     for (let i = 0; i <= PREVIEW_WORDS; i++) {
@@ -373,42 +313,42 @@ function create() {
     previewGraphics.lineTo(PREVIEW_X + BLOCK_WIDTH, PREVIEW_Y + PREVIEW_WORDS * BLOCK_HEIGHT);
     previewGraphics.strokePath();
 
-    // Initialize preview blocks
+    allPhrases = this.cache.json.get('phrases');
+    console.log('Loaded phrases:', allPhrases);
+    generateInitialWordGroups();
+    console.log('Current word groups:', currentWordGroups);
+
     for (let i = 0; i < PREVIEW_WORDS; i++) {
         const x = PREVIEW_X + BLOCK_WIDTH / 2;
         const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
-        const { part, word } = upcomingGroup[i];
+        const { part, word } = currentWordGroups[0][i];
         const color = getColorForPart(part);
         const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-        const text = this.add.text(x, y, word, {
-            fontSize: `${FONT_SIZE}px`,
-            color: '#000000'
-        }).setOrigin(0.5);
+        const text = this.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: `${FONT_SIZE}px`, color: '#000000' }).setOrigin(0.5);
         previewBlocks.push(block);
         previewTexts.push(text);
     }
 
-    // Spawn first block
-    spawnBlock();
+    startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, "Appuyez sur Entrée pour commencer le jeu", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
+    this.input.keyboard.on('keydown-ENTER', function () {
+        if (!gameStarted) {
+            gameStarted = true;
+            startMessageText.destroy();
+            spawnBlock();
+        }
+    });
 
-    // Handle window resize
     this.scale.on('resize', resize, this);
 }
 
 function resize(gameSize) {
     const width = gameSize.width;
-    const height = gameSize.height;
-
-    // Update grid position
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = 50; // Fixed position under "Prochaine Mots"
-
-    // Update title, score, and preview label positions
+    PREVIEW_X = 50;
     titleText.setPosition(width / 2, 20);
     scoreTextObj.setPosition(width / 2, 60);
     previewLabel.setPosition(50, 60);
 
-    // Redraw grid
     const graphics = sceneRef.add.graphics();
     graphics.clear();
     graphics.lineStyle(1, 0xaaaaaa);
@@ -422,7 +362,6 @@ function resize(gameSize) {
     }
     graphics.strokePath();
 
-    // Redraw preview frame
     const previewGraphics = sceneRef.add.graphics();
     previewGraphics.clear();
     previewGraphics.lineStyle(1, 0xaaaaaa);
@@ -436,7 +375,6 @@ function resize(gameSize) {
     previewGraphics.lineTo(PREVIEW_X + BLOCK_WIDTH, PREVIEW_Y + PREVIEW_WORDS * BLOCK_HEIGHT);
     previewGraphics.strokePath();
 
-    // Update preview blocks positions
     for (let i = 0; i < PREVIEW_WORDS; i++) {
         const x = PREVIEW_X + BLOCK_WIDTH / 2;
         const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
@@ -444,14 +382,12 @@ function resize(gameSize) {
         previewTexts[i].setPosition(x, y);
     }
 
-    // Update current block position if it exists
     if (currentBlock && currentText) {
         const gridX = getGridPosition(currentBlock.x);
         currentBlock.x = GRID_START_X + gridX * BLOCK_WIDTH + BLOCK_WIDTH / 2;
         currentText.x = currentBlock.x;
     }
 
-    // Update locked blocks positions
     for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
             if (grid[y][x]) {
@@ -484,39 +420,37 @@ function isPositionOccupied(gridX, gridY) {
 async function lockBlock() {
     const gridX = getGridPosition(currentBlock.x);
     const gridY = getGridY(currentBlock.y);
-    
     grid[gridY][gridX] = { block: currentBlock, text: currentText };
     console.log(`Locked block at (${gridX}, ${gridY})`);
-    
     isDropping = false;
     currentBlock = null;
     currentText = null;
-
-    // Check for scoring conditions
     await checkForScoring();
-    
-    spawnBlock();
+    dropIndex++;
+    if (dropIndex === 8) {
+        currentWordGroups = nextWordGroups;
+        nextWordGroups = createWordGroups(selectAndShufflePhrases());
+        dropIndex = 0;
+    }
+    if (gameStarted) spawnBlock();
 }
 
 function findLandingY(x) {
     const gridX = getGridPosition(x);
     let gridY = 0;
     while (gridY < GRID_HEIGHT) {
-        if (isPositionOccupied(gridX, gridY)) {
-            return gridY - 1;
-        }
+        if (isPositionOccupied(gridX, gridY)) return gridY - 1;
         gridY++;
     }
     return GRID_HEIGHT - 1;
 }
 
-function updatePreview() {
-    // Update preview blocks with upcoming words
+function updatePreview(group) {
     for (let i = 0; i < PREVIEW_WORDS; i++) {
-        const { part, word } = upcomingGroup[i];
-        previewTexts[i].setText(word);
+        const { part, word } = group[i];
         const color = getColorForPart(part);
         previewBlocks[i].setFillStyle(color);
+        previewTexts[i].setText(word === '{Blank}' ? '' : word);
     }
 }
 
@@ -525,41 +459,29 @@ function spawnBlock() {
         console.error('Scene reference not set!');
         return;
     }
-
-    const startX = GRID_START_X + Math.floor(GRID_WIDTH/2) * BLOCK_WIDTH + BLOCK_WIDTH/2;
-    const startY = GRID_START_Y + BLOCK_HEIGHT/2;
+    const startX = GRID_START_X + Math.floor(GRID_WIDTH / 2) * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+    const startY = GRID_START_Y + BLOCK_HEIGHT / 2;
     const spawnGridX = getGridPosition(startX);
     const spawnGridY = getGridY(startY);
-    
     if (isPositionOccupied(spawnGridX, spawnGridY)) {
         console.log("Game Over!");
         sceneRef.tweens.killAll();
         return;
     }
-
-    // Use the first group of upcoming words
-    currentGroup = upcomingGroup;
+    currentGroup = currentWordGroups[dropIndex];
     currentWordIndex = 0;
     const { part, word } = currentGroup[currentWordIndex];
     const color = getColorForPart(part);
     currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-    currentText = sceneRef.add.text(startX, startY, word, {
-        fontSize: `${FONT_SIZE}px`,
-        color: '#000000'
-    }).setOrigin(0.5);
-
-    // Generate a new group for the next words
-    upcomingGroup = generateWordGroup();
-
-    // Update preview
-    updatePreview();
-
+    currentText = sceneRef.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: `${FONT_SIZE}px`, color: '#000000' }).setOrigin(0.5);
+    if (dropIndex < 7) {
+        updatePreview(currentWordGroups[dropIndex + 1]);
+    } else {
+        updatePreview(nextWordGroups[0]);
+    }
     isDropping = true;
-    console.log(`Spawned block with ${word} (${part}) at (${startX}, ${startY})`);
-
     const landingGridY = findLandingY(startX);
-    const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT/2;
-
+    const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
     sceneRef.tweens.add({
         targets: [currentBlock, currentText],
         y: landingY,
@@ -574,19 +496,16 @@ function spawnBlock() {
 
 function update(time) {
     if (!currentBlock || !isDropping) return;
-
     const cursors = this.input.keyboard.createCursorKeys();
     const spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
     if (time - lastMoveTime < MOVE_DELAY) return;
-
     if (cursors.left.isDown) {
         const newX = currentBlock.x - BLOCK_WIDTH;
         if (isValidMove(newX)) {
             currentBlock.x = newX;
             currentText.x = newX;
             const landingGridY = findLandingY(newX);
-            const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT/2;
+            const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
             if (currentTween) {
                 const progress = currentTween.progress;
@@ -608,7 +527,7 @@ function update(time) {
             currentBlock.x = newX;
             currentText.x = newX;
             const landingGridY = findLandingY(newX);
-            const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT/2;
+            const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
             if (currentTween) {
                 const progress = currentTween.progress;
@@ -625,7 +544,6 @@ function update(time) {
             lastMoveTime = time;
         }
     }
-
     if (cursors.down.isDown) {
         const currentTween = this.tweens.getTweensOf(currentBlock)[0];
         if (currentTween) currentTween.timeScale = 5.0;
@@ -633,12 +551,10 @@ function update(time) {
         const currentTween = this.tweens.getTweensOf(currentBlock)[0];
         if (currentTween) currentTween.timeScale = 1.0;
     }
-
     if (Phaser.Input.Keyboard.JustDown(spaceKey)) {
-        // Cycle through the current group of words
         currentWordIndex = (currentWordIndex + 1) % currentGroup.length;
         const { part, word } = currentGroup[currentWordIndex];
-        currentText.setText(word);
+        currentText.setText(word === '{Blank}' ? '' : word);
         const newColor = getColorForPart(part);
         currentBlock.setFillStyle(newColor);
         console.log(`Changed word to ${word} (${part})`);
