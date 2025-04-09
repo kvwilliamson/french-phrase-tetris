@@ -53,6 +53,26 @@ let gridGraphics; // Single graphics object for the grid
 let previewGraphics; // Single graphics object for the preview frame
 let resizeTimeout; // For debouncing resize events
 
+// Function to validate a phrase
+function validatePhrase(words) {
+    console.log('validatePhrase called with words:', words);
+    try {
+        const rowPhrase = words.join(' ').toLowerCase();
+        for (let i = 0; i < allPhrases.length; i++) {
+            const phrase = allPhrases[i].phrase.join(' ').toLowerCase();
+            if (rowPhrase === phrase) {
+                console.log('Valid phrase found:', phrase);
+                return true;
+            }
+        }
+        console.log('No valid phrase found for:', rowPhrase);
+        return false;
+    } catch (error) {
+        console.error('Error in validatePhrase:', error);
+        return false;
+    }
+}
+
 // Helper functions
 function shuffle(array) {
     const shuffled = array.slice();
@@ -179,50 +199,36 @@ function clearColumnBlocks(col, startRow, count) {
     }
 }
 
-async function checkForScoring() {
-    for (let y = 0; y < GRID_HEIGHT; y++) {
-        let filledCount = 0;
-        const words = [];
+function checkForScoring(gridY) {
+    console.log('checkForScoring called for row:', gridY);
+    try {
+        let row = grid[gridY];
+        let words = [];
         for (let x = 0; x < GRID_WIDTH; x++) {
-            if (grid[y][x]) {
-                filledCount++;
-                words.push(grid[y][x].text.text);
+            if (row[x] && row[x].word) {
+                words.push(row[x].word);
             }
         }
-        if (filledCount === GRID_WIDTH) {
-            const isValid = await validatePhrase(words);
+        if (words.length === GRID_WIDTH) {
+            let isValid = validatePhrase(words);
             if (isValid) {
-                score += 100;
-                scoreTextObj.setText(`Score: ${score}`);
-                speak("Bravo");
-                clearRow(y);
-            }
-        }
-    }
-    for (let x = 0; x < GRID_WIDTH; x++) {
-        let consecutiveCount = 0;
-        let startRow = -1;
-        const words = [];
-        for (let y = 0; y < GRID_HEIGHT; y++) {
-            if (grid[y][x]) {
-                if (consecutiveCount === 0) startRow = y;
-                consecutiveCount++;
-                words.push(grid[y][x].text.text);
-            } else {
-                consecutiveCount = 0;
-                words.length = 0;
-            }
-            if (consecutiveCount === 4) {
-                const isValid = await validatePhrase(words.slice(-4));
-                if (isValid) {
-                    score += 50;
-                    scoreTextObj.setText(`Score: ${score}`);
-                    speak("Excellent");
-                    clearColumnBlocks(x, startRow, 4);
+                for (let x = 0; x < GRID_WIDTH; x++) {
+                    if (row[x]) {
+                        row[x].block.destroy();
+                        row[x].text.destroy();
+                        row[x] = null;
+                    }
                 }
-                break;
+                score += 100;
+                scoreTextObj.setText("Score: " + score);
+                for (let y = gridY; y > 0; y--) {
+                    grid[y] = grid[y - 1];
+                }
+                grid[0] = Array(GRID_WIDTH).fill(null);
             }
         }
+    } catch (error) {
+        console.error('Error in checkForScoring:', error);
     }
 }
 
@@ -470,21 +476,23 @@ function isPositionOccupied(gridX, gridY) {
     return gridY >= 0 && gridY < GRID_HEIGHT && grid[gridY][gridX] !== null;
 }
 
-async function lockBlock() {
-    const gridX = getGridPosition(currentBlock.x);
-    const gridY = getGridY(currentBlock.y);
-    grid[gridY][gridX] = { block: currentBlock, text: currentText };
-    isDropping = false;
-    currentBlock = null;
-    currentText = null;
-    await checkForScoring();
-    dropIndex++;
-    if (dropIndex === 8) {
-        currentWordGroups = nextWordGroups;
-        nextWordGroups = createWordGroups(selectAndShufflePhrases());
-        dropIndex = 0;
+function lockBlock() {
+    console.log('lockBlock called');
+    try {
+        const gridX = getGridPosition(currentBlock.x);
+        const gridY = getGridY(currentBlock.y);
+        grid[gridY][gridX] = { block: currentBlock, text: currentText, word: currentGroup[currentWordIndex].word };
+        currentBlock = null;
+        currentText = null;
+        isDropping = false;
+        checkForScoring(gridY);
+        dropIndex++;
+        spawnBlock();
+    } catch (error) {
+        console.error('Error in lockBlock:', error);
+        // Optionally display an error message to the player
+        sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
     }
-    if (gameStarted) spawnBlock();
 }
 
 function findLandingY(x) {
@@ -510,37 +518,69 @@ function updatePreview(group) {
 function spawnBlock() {
     console.log('spawnBlock called');
     if (!sceneRef) return;
-    const startX = GRID_START_X + Math.floor(GRID_WIDTH / 2) * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-    const startY = GRID_START_Y + BLOCK_HEIGHT / 2;
-    const spawnGridX = getGridPosition(startX);
-    const spawnGridY = getGridY(startY);
-    if (isPositionOccupied(spawnGridX, spawnGridY)) {
-        sceneRef.tweens.killAll();
-        sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-        return;
+    try {
+        // Check if we've reached the end of currentWordGroups
+        if (dropIndex >= currentWordGroups.length) {
+            if (nextWordGroups.length > 0) {
+                currentWordGroups.push(nextWordGroups.shift());
+            } else {
+                console.error('No more word groups available in nextWordGroups');
+                sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'No More Words', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+                return;
+            }
+            const phraseIndex = Phaser.Math.Between(0, allPhrases.length - 1);
+            const phrase = allPhrases[phraseIndex].phrase;
+            const pos = allPhrases[phraseIndex].pos;
+            const newGroup = [];
+            for (let j = 0; j < phrase.length; j++) {
+                newGroup.push({ pos: pos[j], word: phrase[j] });
+            }
+            nextWordGroups.push(newGroup);
+            dropIndex = currentWordGroups.length - 1;
+        }
+
+        const startX = GRID_START_X + Math.floor(GRID_WIDTH / 2) * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+        const startY = GRID_START_Y + BLOCK_HEIGHT / 2;
+        const spawnGridX = getGridPosition(startX);
+        const spawnGridY = getGridY(startY);
+        if (isPositionOccupied(spawnGridX, spawnGridY)) {
+            sceneRef.tweens.killAll();
+            sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+            return;
+        }
+        currentGroup = currentWordGroups[dropIndex];
+        currentWordIndex = 0;
+        const { pos, word } = currentGroup[currentWordIndex];
+        const color = getColorForPos(pos);
+        console.log(`Spawning block: word=${word}, pos=${pos}, color=${color.toString(16)}`);
+        currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
+        currentText = sceneRef.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+        
+        if (dropIndex < currentWordGroups.length - 1) {
+            updatePreview(currentWordGroups[dropIndex + 1]);
+        } else if (nextWordGroups.length > 0) {
+            updatePreview(nextWordGroups[0]);
+        } else {
+            for (let i = 0; i < PREVIEW_WORDS; i++) {
+                previewBlocks[i].setFillStyle(posColors['Blank']);
+                previewTexts[i].setText('');
+            }
+        }
+        
+        isDropping = true;
+        const landingGridY = findLandingY(startX);
+        const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+        sceneRef.tweens.add({
+            targets: [currentBlock, currentText],
+            y: landingY,
+            duration: 20000,
+            ease: 'Linear',
+            onComplete: lockBlock
+        });
+    } catch (error) {
+        console.error('Error in spawnBlock:', error);
+        sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Error: Game Paused', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
     }
-    currentGroup = currentWordGroups[dropIndex];
-    currentWordIndex = 0;
-    const { pos, word } = currentGroup[currentWordIndex];
-    const color = getColorForPos(pos);
-    console.log(`Spawning block: word=${word}, pos=${pos}, color=${color.toString(16)}`); // Debug log
-    currentBlock = sceneRef.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-    currentText = sceneRef.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
-    if (dropIndex < 7) {
-        updatePreview(currentWordGroups[dropIndex + 1]);
-    } else {
-        updatePreview(nextWordGroups[0]);
-    }
-    isDropping = true;
-    const landingGridY = findLandingY(startX);
-    const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-    sceneRef.tweens.add({
-        targets: [currentBlock, currentText],
-        y: landingY,
-        duration: 20000,
-        ease: 'Linear',
-        onComplete: lockBlock
-    });
 }
 
 // Phaser game configuration
