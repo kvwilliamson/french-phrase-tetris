@@ -1,4 +1,3 @@
-// Define the color scheme for each POS category (updated colors)
 // Define the color scheme for each POS category (using French POS keys with your original pastel colors)
 const posColors = {
     'Articles': 0xFFF9B0,     // Pastel Yellow (e.g., "le", "la")
@@ -52,6 +51,7 @@ let dropIndex = 0;
 let gridGraphics; // Single graphics object for the grid
 let previewGraphics; // Single graphics object for the preview frame
 let resizeTimeout; // For debouncing resize events
+let themeMusic; // Add variable to store the theme music object
 
 // Function to validate a phrase
 function validatePhrase(words) {
@@ -240,6 +240,8 @@ class GameScene extends Phaser.Scene {
     preload() {
         grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(null));
         this.load.json('phrases', 'phrases.json');
+        // Load the theme music
+        this.load.audio('themeMusic', 'ThemeMusic.mp3');
     }
 
     create() {
@@ -294,6 +296,38 @@ class GameScene extends Phaser.Scene {
             previewBlocks.push(block);
             previewTexts.push(text);
         }
+    
+        // Play the theme music
+        themeMusic = this.sound.add('themeMusic', {
+            loop: true,
+            volume: 0.5
+        });
+        themeMusic.play();
+
+        // Fallback: Resume audio on user interaction if blocked by browser
+        this.input.once('pointerdown', () => {
+            if (!themeMusic.isPlaying) {
+                console.log('Resuming theme music after user interaction');
+                themeMusic.play();
+            }
+        });
+        this.input.keyboard.once('keydown', () => {
+            if (!themeMusic.isPlaying) {
+                console.log('Resuming theme music after user interaction');
+                themeMusic.play();
+            }
+        });
+
+        // Add mute toggle with 'M' key
+        this.input.keyboard.on('keydown-M', () => {
+            if (themeMusic.isPlaying) {
+                themeMusic.pause();
+                console.log('Theme music paused');
+            } else {
+                themeMusic.resume();
+                console.log('Theme music resumed');
+            }
+        });
     
         // Start message
         startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, "Appuyez sur Entrée pour commencer le jeu", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
