@@ -2,6 +2,7 @@
 let grid;
 let score = 0;
 let scoreTextObj;
+let rowsCleared = 0;
 
 function initializeGrid() {
     grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(null));
@@ -74,9 +75,34 @@ function checkForScoring(gridY, scene, allPhrases) {
                     grid[y] = grid[y - 1];
                 }
                 grid[0] = Array(GRID_WIDTH).fill(null);
+                rowsCleared++;
+                if (rowsCleared >= 10) {
+                    advanceLevel(scene);
+                }
             }
         }
     } catch (error) {
         console.error('Error in checkForScoring:', error);
     }
+}
+
+function advanceLevel(scene) {
+    rowsCleared = 0;
+    level++;
+    if (level > 4) {
+        scene.tweens.killAll();
+        const winText = scene.add.text(scene.cameras.main.width / 2, scene.cameras.main.height / 2, 'Félicitations! Jeu Terminé!', { fontSize: '48px', color: '#00ff00' }).setOrigin(0.5);
+        winText.setShadow(2, 2, '#000000', 2);
+        return;
+    }
+    PREVIEW_COLS = level;
+    PREVIEW_WORDS = level;
+    const background = scene.children.list.find(child => child.texture && child.texture.key.startsWith('background'));
+    background.setTexture(`background${level}`);
+    themeMusic.stop();
+    themeMusic = scene.sound.add(`themeMusic${level}`, { loop: true, volume: 0.5 });
+    themeMusic.play();
+    generateInitialWordGroups(allPhrases);
+    setupPreviewBlocks();
+    drawPreviewFrame(scene.previewGraphics); // Redraw preview grid lines
 }

@@ -5,6 +5,7 @@ let titleText;
 let previewLabel;
 let gameStarted = false;
 let startMessageText;
+let levelSelectText;
 let gridGraphics;
 let previewGraphics;
 let resizeTimeout;
@@ -18,8 +19,10 @@ class GameScene extends Phaser.Scene {
     preload() {
         initializeGrid();
         this.load.json('phrases', 'phrases.json');
-        this.load.audio('themeMusic', 'ThemeMusic.mp3');
-        this.load.image('background', 'background.png');
+        for (let i = 1; i <= 4; i++) {
+            this.load.audio(`themeMusic${i}`, `ThemeMusic${i}.mp3`);
+            this.load.image(`background${i}`, `background${i}.png`);
+        }
     }
 
     create() {
@@ -29,7 +32,7 @@ class GameScene extends Phaser.Scene {
 
         this.game.canvas.getContext('2d', { willReadFrequently: true });
 
-        const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+        const background = this.add.image(0, 0, `background${level}`).setOrigin(0, 0);
         background.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
 
         titleText = this.add.text(this.cameras.main.width / 2, 80, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
@@ -38,7 +41,7 @@ class GameScene extends Phaser.Scene {
         scoreTextObj = this.add.text(this.cameras.main.width / 2, 120, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
         scoreTextObj.setShadow(2, 2, '#000000', 2);
 
-        previewLabel = this.add.text(200, 100, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
+        previewLabel = this.add.text(PREVIEW_X, PREVIEW_Y - 20, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
         previewLabel.setShadow(2, 2, '#000000', 2);
 
         gridGraphics = this.add.graphics();
@@ -55,49 +58,77 @@ class GameScene extends Phaser.Scene {
             return;
         }
 
-        generateInitialWordGroups(allPhrases);
-
-        for (let i = 0; i < PREVIEW_WORDS; i++) {
-            const x = PREVIEW_X + BLOCK_WIDTH / 2;
-            const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
-            const { pos, word } = currentWordGroups[0][i];
-            const color = getColorForPos(pos);
-            console.log(`Preview block ${i}: word=${word}, pos=${pos}, color=${color.toString(16)}`);
-            const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-            const text = this.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
-            previewBlocks.push(block);
-            previewTexts.push(text);
-        }
-
-        themeMusic = this.sound.add('themeMusic', { loop: true, volume: 0.5 });
-        themeMusic.play();
-
-        this.input.once('pointerdown', () => {
-            if (!themeMusic.isPlaying) themeMusic.play();
-        });
-        this.input.keyboard.once('keydown', () => {
-            if (!themeMusic.isPlaying) themeMusic.play();
-        });
-
-        this.input.keyboard.on('keydown-M', () => {
-            themeMusic.isPlaying ? themeMusic.pause() : themeMusic.resume();
-        });
-
-        startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, "Appuyez sur Entrée pour commencer le jeu", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
+        startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, "Appuyez sur 1-4 pour choisir un niveau", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         startMessageText.setShadow(2, 2, '#000000', 2);
+        levelSelectText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, `Niveau: ${level}`, { fontSize: '20px', color: '#ffffff' }).setOrigin(0.5);
+        levelSelectText.setShadow(2, 2, '#000000', 2);
 
-        this.input.keyboard.on('keydown-ENTER', (event) => {
-            event.preventDefault();
+        this.input.keyboard.on('keydown', (event) => {
             if (!gameStarted) {
-                gameStarted = true;
-                startMessageText.destroy();
-                spawnBlock(this, currentWordGroups, nextWordGroups, allPhrases);
+                if (['1', '2', '3', '4'].includes(event.key)) {
+                    level = parseInt(event.key);
+                    levelSelectText.setText(`Niveau: ${level}`);
+                    background.setTexture(`background${level}`);
+                    if (themeMusic) themeMusic.stop();
+                    try {
+                        themeMusic = this.sound.add(`themeMusic${level}`, { loop: true, volume: 0.5 });
+                        console.log(`Loaded themeMusic${level}`);
+                        themeMusic.on('play', () => console.log(`themeMusic${level} is playing`));
+                        themeMusic.on('error', (err) => console.error(`Error playing themeMusic${level}:`, err));
+                        themeMusic.play();
+                    } catch (err) {
+                        console.error(`Failed to load themeMusic${level}:`, err);
+                    }
+                } else if (event.key === 'Enter') {
+                    event.preventDefault();
+                    gameStarted = true;
+                    startMessageText.destroy();
+                    levelSelectText.destroy();
+                    PREVIEW_COLS = level;
+                    PREVIEW_WORDS = level;
+                    if (!themeMusic) {
+                        try {
+                            themeMusic = this.sound.add(`themeMusic${level}`, { loop: true, volume: 0.5 });
+                            console.log(`Loaded themeMusic${level} on Enter`);
+                            themeMusic.on('play', () => console.log(`themeMusic${level} is playing`));
+                            themeMusic.on('error', (err) => console.error(`Error playing themeMusic${level}:`, err));
+                            themeMusic.play();
+                        } catch (err) {
+                            console.error(`Failed to load themeMusic${level} on Enter:`, err);
+                        }
+                    }
+                    generateInitialWordGroups(allPhrases);
+                    setupPreviewBlocks();
+                    drawPreviewFrame(previewGraphics); // Redraw preview grid lines after setting PREVIEW_COLS
+                    spawnBlock(this, currentWordGroups, nextWordGroups, allPhrases);
+                }
+            } else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+                event.preventDefault();
             }
         });
 
-        this.input.keyboard.on('keydown', (event) => {
-            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
-                event.preventDefault();
+        this.input.once('pointerdown', () => {
+            if (themeMusic && !themeMusic.isPlaying) {
+                console.log('Attempting to play music on pointerdown');
+                themeMusic.play();
+            }
+        });
+        this.input.keyboard.once('keydown', () => {
+            if (themeMusic && !themeMusic.isPlaying) {
+                console.log('Attempting to play music on keydown');
+                themeMusic.play();
+            }
+        });
+
+        this.input.keyboard.on('keydown-M', () => {
+            if (themeMusic) {
+                if (themeMusic.isPlaying) {
+                    themeMusic.pause();
+                    console.log('Music paused');
+                } else {
+                    themeMusic.resume();
+                    console.log('Music resumed');
+                }
             }
         });
 
@@ -181,24 +212,49 @@ class GameScene extends Phaser.Scene {
     }
 }
 
+function setupPreviewBlocks() {
+    previewBlocks = [];
+    previewTexts = [];
+    for (let i = 0; i < PREVIEW_ROWS; i++) {
+        const rowBlocks = [];
+        const rowTexts = [];
+        for (let j = 0; j < PREVIEW_COLS; j++) {
+            const x = PREVIEW_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+            const y = PREVIEW_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+            const { pos, word } = currentWordGroups[0][i * PREVIEW_COLS + j] || { pos: 'Blank', word: '{Blank}' };
+            const color = getColorForPos(pos);
+            const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
+            const text = sceneRef.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+            rowBlocks.push(block);
+            rowTexts.push(text);
+        }
+        previewBlocks.push(rowBlocks);
+        previewTexts.push(rowTexts);
+    }
+}
+
 function resize(gameSize) {
     console.log('Resize event triggered:', gameSize);
     const width = gameSize.width;
+    const height = gameSize.height;
+
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
     PREVIEW_X = 200;
 
     titleText.setPosition(width / 2, 80);
     scoreTextObj.setPosition(width / 2, 120);
-    previewLabel.setPosition(200, 100);
+    previewLabel.setPosition(PREVIEW_X, PREVIEW_Y - 20);
 
     drawGrid(gridGraphics);
     drawPreviewFrame(previewGraphics);
 
-    for (let i = 0; i < PREVIEW_WORDS; i++) {
-        const x = PREVIEW_X + BLOCK_WIDTH / 2;
-        const y = PREVIEW_Y + BLOCK_HEIGHT / 2 + i * BLOCK_HEIGHT;
-        previewBlocks[i].setPosition(x, y);
-        previewTexts[i].setPosition(x, y);
+    for (let i = 0; i < PREVIEW_ROWS; i++) {
+        for (let j = 0; j < PREVIEW_COLS; j++) {
+            const x = PREVIEW_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+            const y = PREVIEW_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+            previewBlocks[i][j].setPosition(x, y);
+            previewTexts[i][j].setPosition(x, y);
+        }
     }
 
     if (currentBlock && currentText) {
@@ -218,12 +274,17 @@ function resize(gameSize) {
         }
     }
 
-    const background = sceneRef.children.list.find(child => child.texture && child.texture.key === 'background');
+    const background = sceneRef.children.list.find(child => child.texture && child.texture.key.startsWith('background'));
     if (background) {
-        background.setDisplaySize(width, gameSize.height);
+        background.setDisplaySize(width, height);
     }
 
     if (startMessageText) {
-        startMessageText.setPosition(width / 2, gameSize.height / 2);
+        startMessageText.setPosition(width / 2, height / 2 - 20);
+    }
+    if (levelSelectText) {
+        levelSelectText.setPosition(width / 2, height / 2 + 20);
     }
 }
+
+window.GameScene = GameScene;
