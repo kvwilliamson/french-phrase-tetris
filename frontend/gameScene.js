@@ -8,6 +8,10 @@ let startMessageText;
 let levelSelectText;
 let gridGraphics;
 let previewGraphics;
+let posGridGraphics;
+let posBlocks = [];
+let posTexts = [];
+let levelText;
 let resizeTimeout;
 let themeMusic;
 
@@ -27,8 +31,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         sceneRef = this;
-        GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
-        PREVIEW_X = 200;
+        GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2; // Safe to reassign since GRID_START_X is now a let
 
         this.game.canvas.getContext('2d', { willReadFrequently: true });
 
@@ -41,14 +44,19 @@ class GameScene extends Phaser.Scene {
         scoreTextObj = this.add.text(this.cameras.main.width / 2, 120, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
         scoreTextObj.setShadow(2, 2, '#000000', 2);
 
+        levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
+        levelText.setShadow(2, 2, '#000000', 2);
+
         previewLabel = this.add.text(PREVIEW_X, PREVIEW_Y - 20, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
         previewLabel.setShadow(2, 2, '#000000', 2);
 
         gridGraphics = this.add.graphics();
         previewGraphics = this.add.graphics();
+        posGridGraphics = this.add.graphics();
 
         drawGrid(gridGraphics);
         drawPreviewFrame(previewGraphics);
+        drawPosGrid();
 
         allPhrases = this.cache.json.get('phrases');
         if (!allPhrases) {
@@ -68,6 +76,7 @@ class GameScene extends Phaser.Scene {
                 if (['1', '2', '3', '4'].includes(event.key)) {
                     level = parseInt(event.key);
                     levelSelectText.setText(`Niveau: ${level}`);
+                    levelText.setText(`Niveau: ${level}`);
                     background.setTexture(`background${level}`);
                     if (themeMusic) themeMusic.stop();
                     try {
@@ -99,7 +108,8 @@ class GameScene extends Phaser.Scene {
                     }
                     generateInitialWordGroups(allPhrases);
                     setupPreviewBlocks();
-                    drawPreviewFrame(previewGraphics); // Redraw preview grid lines after setting PREVIEW_COLS
+                    drawPreviewFrame(previewGraphics);
+                    updatePreview();
                     spawnBlock(this, currentWordGroups, nextWordGroups, allPhrases);
                 }
             } else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
@@ -221,7 +231,7 @@ function setupPreviewBlocks() {
         for (let j = 0; j < PREVIEW_COLS; j++) {
             const x = PREVIEW_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
             const y = PREVIEW_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-            const { pos, word } = currentWordGroups[0][i * PREVIEW_COLS + j] || { pos: 'Blank', word: '{Blank}' };
+            const { pos, word } = { pos: 'Blank', word: '{Blank}' };
             const color = getColorForPos(pos);
             const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
             const text = sceneRef.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
@@ -233,20 +243,75 @@ function setupPreviewBlocks() {
     }
 }
 
+function drawPosGrid() {
+    const POS_GRID_COLS = 3;
+    const POS_GRID_ROWS = 3;
+    const POS_GRID_X = sceneRef.cameras.main.width - PREVIEW_X - (POS_GRID_COLS * BLOCK_WIDTH);
+    const POS_GRID_Y = GRID_START_Y - 5 * BLOCK_HEIGHT;
+
+    const posData = [
+        { label: 'Noms', pos: 'Nom', color: COLOR_NOMS },
+        { label: 'Pronoms', pos: 'Pronom', color: COLOR_PRONOMS },
+        { label: 'Adjectifs', pos: 'Adjectif', color: COLOR_ADJECTIFS },
+        { label: 'Verbes', pos: 'Verbe', color: COLOR_VERBES },
+        { label: 'Adverbes', pos: 'Adverbe', color: COLOR_ADVERBES },
+        { label: 'Articles', pos: 'Article', color: COLOR_ARTICLES },
+        { label: 'Prépositions', pos: 'Préposition', color: COLOR_PREPOSITIONS },
+        { label: 'Other', pos: 'Other', color: COLOR_OTHER },
+        { label: 'Blank', pos: 'Blank', color: COLOR_BLANK }
+    ];
+
+    posBlocks.forEach(row => row.forEach(block => block.destroy()));
+    posTexts.forEach(row => row.forEach(text => text.destroy()));
+    posBlocks = [];
+    posTexts = [];
+
+    for (let i = 0; i < POS_GRID_ROWS; i++) {
+        const rowBlocks = [];
+        const rowTexts = [];
+        for (let j = 0; j < POS_GRID_COLS; j++) {
+            const idx = i * POS_GRID_COLS + j;
+            const x = POS_GRID_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+            const y = POS_GRID_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+            const { label, color } = posData[idx];
+            const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
+            const text = sceneRef.add.text(x, y, label, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+            rowBlocks.push(block);
+            rowTexts.push(text);
+        }
+        posBlocks.push(rowBlocks);
+        posTexts.push(rowTexts);
+    }
+
+    posGridGraphics.clear();
+    posGridGraphics.lineStyle(2, 0xffffff);
+    for (let i = 0; i <= POS_GRID_ROWS; i++) {
+        posGridGraphics.moveTo(POS_GRID_X, POS_GRID_Y + i * BLOCK_HEIGHT);
+        posGridGraphics.lineTo(POS_GRID_X + POS_GRID_COLS * BLOCK_WIDTH, POS_GRID_Y + i * BLOCK_HEIGHT);
+    }
+    for (let j = 0; j <= POS_GRID_COLS; j++) {
+        posGridGraphics.moveTo(POS_GRID_X + j * BLOCK_WIDTH, POS_GRID_Y);
+        posGridGraphics.lineTo(POS_GRID_X + j * BLOCK_WIDTH, POS_GRID_Y + POS_GRID_ROWS * BLOCK_HEIGHT);
+    }
+    posGridGraphics.strokePath();
+}
+
 function resize(gameSize) {
     console.log('Resize event triggered:', gameSize);
     const width = gameSize.width;
     const height = gameSize.height;
 
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
-    PREVIEW_X = 200;
+    // PREVIEW_X is now a const, so we don't reassign it
 
     titleText.setPosition(width / 2, 80);
     scoreTextObj.setPosition(width / 2, 120);
+    levelText.setPosition(width / 2, 160);
     previewLabel.setPosition(PREVIEW_X, PREVIEW_Y - 20);
 
     drawGrid(gridGraphics);
     drawPreviewFrame(previewGraphics);
+    drawPosGrid();
 
     for (let i = 0; i < PREVIEW_ROWS; i++) {
         for (let j = 0; j < PREVIEW_COLS; j++) {

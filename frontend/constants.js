@@ -1,27 +1,59 @@
 // constants.js
-const posColors = {
-    'Articles': 0xFFF9B0,     // Pastel Yellow (e.g., "le", "la")
-    'Noms': 0xA3BFFA,         // Pastel Blue (e.g., "chien")
-    'Pronoms': 0xBFDFFF,      // Lighter Pastel Blue (e.g., "je", "tu")
-    'Verbes': 0xA8D5BA,       // Pastel Green (e.g., "marche")
-    'Adverbes': 0xC2E8C6,     // Lighter Pastel Green (e.g., "bien")
-    'Adjectifs': 0xFFE4B5,    // Pastel Peach (e.g., "joli")
-    'Prépositions': 0xFFCC99, // Pastel Orange (e.g., "avec")
-    'Other': 0xE6E6FA,        // Lavender (e.g., "et", "ou")
-    'Blank': 0xD3D3D3         // Light Gray (e.g., "{Blank}")
-};
-
-const BLOCK_WIDTH = 150;
-const BLOCK_HEIGHT = 20;
 const GRID_WIDTH = 8;
 const GRID_HEIGHT = 20;
+const BLOCK_WIDTH = 150;
+const BLOCK_HEIGHT = 20;
 const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH;
 const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
-let GRID_START_X; // Will be set dynamically in GameScene
+let GRID_START_X = 0;
 const GRID_START_Y = 340;
-
-let PREVIEW_X; // Will be set dynamically
-const PREVIEW_Y = 120;
-const PREVIEW_WORDS = 4;
-
+const PREVIEW_X = 200;
+const PREVIEW_Y = 230;
+let PREVIEW_COLS = 1;
+let PREVIEW_ROWS = 4;
+let PREVIEW_WORDS = 1;
 const MOVE_DELAY = 100;
+let level = 1;
+
+// Color constants for parts of speech
+const COLOR_ARTICLES = 0xFFF9B0;      // Light yellow
+const COLOR_NOMS = 0xA3BFFA;          // Light blue
+const COLOR_PRONOMS = 0xBFDFFF;       // Lighter blue
+const COLOR_VERBES = 0x8AB89A;        // Darker green
+const COLOR_ADVERBES = 0xD4F0D8;      // Lighter green
+const COLOR_ADJECTIFS = 0xFFB6C1;     // Pastel pink
+const COLOR_PREPOSITIONS = 0xFFCC99;  // Light peach
+const COLOR_OTHER = 0xD8BFD8;         // Darker lavender
+const COLOR_BLANK = 0xE0E0E0;         // Lighter gray
+
+// old
+// const BLOCK_WIDTH = 150;
+// const BLOCK_HEIGHT = 20;
+// const GRID_WIDTH = 8;
+// const GRID_HEIGHT = 20;
+// const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH;
+// const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
+// let GRID_START_X; // Will be set dynamically in GameScene
+// const GRID_START_Y = 340;
+// let PREVIEW_X; // Will be set dynamically
+// const PREVIEW_Y = 120;
+// const PREVIEW_WORDS = 4;
+// const MOVE_DELAY = 100;
+
+
+// was
+// const GRID_WIDTH = 10;
+// const GRID_HEIGHT = 20;
+// const BLOCK_WIDTH = 40;
+// const BLOCK_HEIGHT = 40;
+// const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH;
+// const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
+// let GRID_START_X = 0;
+// const GRID_START_Y = 200;
+// const PREVIEW_X = 200;
+// const PREVIEW_Y = 300;
+// let PREVIEW_COLS = 1;
+// let PREVIEW_ROWS = 4;
+// let PREVIEW_WORDS = 1;
+// const MOVE_DELAY = 100;
+// let level = 1;

@@ -1,49 +1,33 @@
 // utils.js
 function shuffle(array) {
-    const shuffled = array.slice();
-    for (let i = shuffled.length - 1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        [array[i], array[j]] = [array[j], array[i]];
     }
-    return shuffled;
-}
-
-function validatePhrase(words, allPhrases) {
-    console.log('validatePhrase called with words:', words);
-    try {
-        const rowPhrase = words.join(' ').toLowerCase();
-        for (let i = 0; i < allPhrases.length; i++) {
-            const phrase = allPhrases[i].phrase.join(' ').toLowerCase();
-            if (rowPhrase === phrase) {
-                console.log('Valid phrase found:', phrase);
-                return true;
-            }
-        }
-        console.log('No valid phrase found for:', rowPhrase);
-        return false;
-    } catch (error) {
-        console.error('Error in validatePhrase:', error);
-        return false;
-    }
+    return array;
 }
 
 function getColorForPos(pos) {
-    const normalizedPos = pos
-        .trim()
-        .replace(/[\u200B-\u200D\uFEFF]/g, '')
-        .charAt(0).toUpperCase() + pos.trim().slice(1).toLowerCase();
-    
-    console.log(`getColorForPos: original=${pos}, normalized=${normalizedPos}, posColors keys=${Object.keys(posColors).join(', ')}`);
-    
-    const color = posColors[normalizedPos] || posColors['Other'];
-    if (!posColors[normalizedPos]) {
-        console.log(`Warning: No color found for ${normalizedPos}, falling back to Other`);
+    switch (pos) {
+        case 'Article':
+            return COLOR_ARTICLES;
+        case 'Nom':
+            return COLOR_NOMS;
+        case 'Pronom':
+            return COLOR_PRONOMS;
+        case 'Verbe':
+            return COLOR_VERBES;
+        case 'Adverbe':
+            return COLOR_ADVERBES;
+        case 'Adjectif':
+        case 'Adjectifs': // Add plural form
+            return COLOR_ADJECTIFS;
+        case 'Préposition':
+            return COLOR_PREPOSITIONS;
+        case 'Other':
+            return COLOR_OTHER;
+        case 'Blank':
+        default:
+            return COLOR_BLANK;
     }
-    return color;
-}
-
-function speak(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fr-FR';
-    speechSynthesis.speak(utterance);
 }
