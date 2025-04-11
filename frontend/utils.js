@@ -9,19 +9,25 @@ function shuffle(array) {
 
 function getColorForPos(pos) {
     switch (pos) {
+        case 'Articles':
         case 'Article':
             return COLOR_ARTICLES;
+        case 'Noms':
         case 'Nom':
             return COLOR_NOMS;
+        case 'Pronoms':
         case 'Pronom':
             return COLOR_PRONOMS;
+        case 'Verbes':
         case 'Verbe':
             return COLOR_VERBES;
+        case 'Adverbes':
         case 'Adverbe':
             return COLOR_ADVERBES;
+        case 'Adjectifs':
         case 'Adjectif':
-        case 'Adjectifs': // Add plural form
             return COLOR_ADJECTIFS;
+        case 'Prépositions':
         case 'Préposition':
             return COLOR_PREPOSITIONS;
         case 'Other':
