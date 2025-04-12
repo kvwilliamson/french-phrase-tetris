@@ -23,7 +23,7 @@ class GameScene extends Phaser.Scene {
     preload() {
         initializeGrid();
         this.load.json('phrases', 'phrases.json');
-        for (let i = 1; i <= 4; i++) { // Up to 4 for now
+        for (let i = 1; i <= 4; i++) {
             this.load.audio(`themeMusic${i}`, `ThemeMusic${i}.mp3`);
             this.load.image(`background${i}`, `background${i}.png`);
         }
@@ -58,9 +58,9 @@ class GameScene extends Phaser.Scene {
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         levelText.setShadow(2, 2, '#000000', 2);
 
-        // Set preview dimensions based on level
+        // Set preview grid sizes
         PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
-        PREVIEW_COLS = 1; // Levels 1–3 use 1 column
+        PREVIEW_COLS = 1;
         PREVIEW_WORDS = PREVIEW_COLS;
 
         const adjustedPreviewY = PREVIEW_Y - 2 * BLOCK_HEIGHT;
@@ -105,7 +105,7 @@ class GameScene extends Phaser.Scene {
                     } catch (err) {
                         console.error(`Failed to load themeMusic${level}:`, err);
                     }
-                    // Update preview grid on level change
+                    // Update preview grid
                     PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
                     PREVIEW_COLS = 1;
                     PREVIEW_WORDS = PREVIEW_COLS;
@@ -116,9 +116,9 @@ class GameScene extends Phaser.Scene {
                     gameStarted = true;
                     startMessageText.destroy();
                     levelSelectText.destroy();
+                    PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
                     PREVIEW_COLS = 1;
                     PREVIEW_WORDS = PREVIEW_COLS;
-                    PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
                     generateInitialWordGroups(allPhrases);
                     setupPreviewBlocks(adjustedPreviewY);
                     drawPreviewFrame(previewGraphics, adjustedPreviewY);
@@ -219,7 +219,7 @@ class GameScene extends Phaser.Scene {
         }
         if (cursors.down.isDown) {
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-            if (currentTween) currentTween.timeScale = 12.0;
+            if (currentTween) currentTween.timeScale = 12.0; // Updated per user change
         } else {
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
             if (currentTween) currentTween.timeScale = 1.0;

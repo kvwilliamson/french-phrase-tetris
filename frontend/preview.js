@@ -47,17 +47,17 @@ function updatePreview() {
     const upcomingGroups = [];
     let remainingCurrent = currentWordGroups.slice(dropIndex + 1);
 
-    // Show only current phrase until last group
+    // Show only current phrase's remaining groups
     while (upcomingGroups.length < PREVIEW_ROWS && remainingCurrent.length > 0) {
         upcomingGroups.push(remainingCurrent.shift());
     }
 
-    // Fill with blanks if not enough groups
+    // Fill with blanks if not enough
     while (upcomingGroups.length < PREVIEW_ROWS) {
         upcomingGroups.push(Array(PREVIEW_COLS).fill({ pos: 'Blank', word: '{Blank}' }));
     }
 
-    // Update grid
+    // Render grid
     for (let i = 0; i < PREVIEW_ROWS; i++) {
         const group = upcomingGroups[i];
         for (let j = 0; j < PREVIEW_COLS; j++) {
@@ -72,7 +72,7 @@ function updatePreview() {
 
 function generateInitialWordGroups(allPhrases) {
     currentWordGroups = createLevelWordGroups(allPhrases);
-    nextWordGroups = []; // Start empty, refill on last word
+    nextWordGroups = []; // Empty until last word
     dropIndex = 0;
     currentPhraseLength = currentWordGroups.reduce((sum, group) => sum + group.length, 0);
     console.log(`Initial phrase length: ${currentPhraseLength}`);
@@ -90,18 +90,15 @@ function createLevelWordGroups(allPhrases) {
         const phraseData = allPhrases[indices[i]];
         const phrase = phraseData.phrase;
         const posTags = phraseData.pos;
-        const paired = phrase.map((word, idx) => ({ word, pos: posTags[idx] }));
+        const paired = phrase.map((word, idx) => ({ word, pos: posTags[idx] || 'Other' }));
         selected.push(shuffle(paired));
     }
 
     const wordGroups = [];
-    const numGroups = Math.max(PREVIEW_ROWS, selected[0].length); // Enough for preview
-    if (level === 1 || level === 2 || level === 3) {
-        const phrase = selected[0];
-        for (let i = 0; i < numGroups; i++) {
-            const wordData = phrase[i % phrase.length];
-            wordGroups.push([wordData]);
-        }
+    const numGroups = selected[0].length; // One group per word
+    for (let i = 0; i < numGroups; i++) {
+        const wordData = selected[0][i];
+        wordGroups.push([wordData]);
     }
     return wordGroups;
 }

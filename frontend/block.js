@@ -30,20 +30,25 @@ function findLandingY(x) {
 }
 
 function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
-    console.log('spawnBlock called');
+    console.log(`spawnBlock: dropIndex=${dropIndex}, currentGroups=${currentWordGroups.length}, nextGroups=${nextWordGroups.length}`);
     if (!scene) return;
     try {
-        // Refill on last group
+        // Refill if on the last group
         if (dropIndex + 1 >= currentWordGroups.length && nextWordGroups.length === 0) {
             console.log('Last group, refilling nextWordGroups');
             nextWordGroups.push(...createLevelWordGroups(allPhrases));
+            currentPhraseLength = nextWordGroups.reduce((sum, group) => sum + group.length, 0);
+            console.log(`New phrase length: ${currentPhraseLength}`);
         }
 
         if (dropIndex >= currentWordGroups.length) {
             if (nextWordGroups.length > 0) {
-                currentWordGroups.push(nextWordGroups.shift());
+                currentWordGroups = [nextWordGroups.shift()];
+                dropIndex = 0;
+            } else {
+                console.error('No groups available');
+                return;
             }
-            dropIndex = currentWordGroups.length - 1;
         }
 
         const startX = GRID_START_X + Math.floor(GRID_WIDTH / 2) * BLOCK_WIDTH + BLOCK_WIDTH / 2;
@@ -73,7 +78,7 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
         scene.tweens.add({
             targets: [currentBlock, currentText],
             y: landingY,
-            duration: dropDurations[level] || 30000, // Default to 30s
+            duration: dropDurations[level] || 30000,
             ease: 'Linear',
             onComplete: lockBlock
         });
