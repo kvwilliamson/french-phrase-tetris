@@ -41,7 +41,6 @@ function checkForScoring(gridY, scene, allPhrases) {
         }
         if (!isRowFull) return;
 
-        // Use currentPhrase from gameScene.js
         const correctPhrase = currentPhrase;
         let isCorrect = true;
         for (let x = 0; x < Math.min(GRID_WIDTH, correctPhrase.length); x++) {
@@ -53,6 +52,24 @@ function checkForScoring(gridY, scene, allPhrases) {
 
         if (isCorrect) {
             console.log('Correct row detected');
+            // Dramatic Flash: 3x 0.15s, bold, 16px
+            const rowY = GRID_START_Y + gridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+            const flashText = scene.add.text(
+                GRID_START_X + GRID_WIDTH_PX / 2,
+                rowY,
+                correctPhrase.join(' '),
+                { fontSize: '16px', color: '#ffffff', fontStyle: 'bold' }
+            ).setOrigin(0.5);
+            flashText.setShadow(2, 2, '#000000', 2);
+            scene.tweens.add({
+                targets: flashText,
+                alpha: 0,
+                duration: 150,
+                ease: 'Linear',
+                repeat: 2,
+                yoyo: true,
+                onComplete: () => flashText.destroy()
+            });
             scene.sound.play('excellent');
             score += 100;
             scoreTextObj.setText(`Score: ${score}`);
@@ -66,6 +83,16 @@ function checkForScoring(gridY, scene, allPhrases) {
             scene.sound.play('completionSound');
         } else {
             console.log('Incorrect row detected');
+            // Show correct phrase under grid for 3s
+            const textY = GRID_START_Y + GRID_HEIGHT_PX + 20;
+            const errorText = scene.add.text(
+                GRID_START_X + GRID_WIDTH_PX / 2,
+                textY,
+                correctPhrase.join(' '),
+                { fontSize: '15px', color: '#ffffff' }
+            ).setOrigin(0.5);
+            errorText.setShadow(2, 2, '#000000', 2);
+            scene.time.delayedCall(3000, () => errorText.destroy());
             scene.sound.play('wrongSound');
             scene.sound.play('merde');
             for (let x = 0; x < GRID_WIDTH; x++) {

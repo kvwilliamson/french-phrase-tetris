@@ -14,7 +14,7 @@ let posTexts = [];
 let levelText;
 let resizeTimeout;
 let themeMusic;
-let currentPhrase = []; // Store target phrase for pre-population
+let currentPhrase = [];
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -59,7 +59,6 @@ class GameScene extends Phaser.Scene {
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         levelText.setShadow(2, 2, '#000000', 2);
 
-        // Preview grid sizes from Phase 1
         PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
         PREVIEW_COLS = 1;
         PREVIEW_WORDS = PREVIEW_COLS;
@@ -120,7 +119,6 @@ class GameScene extends Phaser.Scene {
                     PREVIEW_COLS = 1;
                     PREVIEW_WORDS = PREVIEW_COLS;
 
-                    // Initialize phrase and pre-populate
                     generateInitialWordGroups(allPhrases);
                     const phraseIndex = Math.floor(Math.random() * allPhrases.length);
                     currentPhrase = allPhrases[phraseIndex].phrase;
@@ -182,7 +180,7 @@ class GameScene extends Phaser.Scene {
             }
         });
 
-        this.physics.world.setBounds(GRID_START_X, GRID_START_Y, GRID_WIDTH_PX, GRID_HEIGHT_PX);
+        this.physics.world.setBounds(GRID_START_X, GRID_START_Y, GRID_WIDTH_PX, GRID_HEIGHT_PX + 30); // Extra space for text
 
         this.scale.on('resize', (gameSize) => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
