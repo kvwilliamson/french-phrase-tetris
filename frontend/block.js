@@ -33,12 +33,14 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
     console.log(`spawnBlock: dropIndex=${dropIndex}, currentGroups=${currentWordGroups.length}, nextGroups=${nextWordGroups.length}`);
     if (!scene) return;
     try {
-        // Refill if on the last group
         if (dropIndex + 1 >= currentWordGroups.length && nextWordGroups.length === 0) {
             console.log('Last group, refilling nextWordGroups');
             nextWordGroups.push(...createLevelWordGroups(allPhrases));
             currentPhraseLength = nextWordGroups.reduce((sum, group) => sum + group.length, 0);
             console.log(`New phrase length: ${currentPhraseLength}`);
+            // Update currentPhrase for next phrase
+            const phraseIndex = Math.floor(Math.random() * allPhrases.length);
+            currentPhrase = allPhrases[phraseIndex].phrase;
         }
 
         if (dropIndex >= currentWordGroups.length) {
@@ -74,7 +76,7 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
         isDropping = true;
         const landingGridY = findLandingY(startX);
         const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-        const dropDurations = { 1: 30000, 2: 25000, 3: 20000, 4: 15000 };
+        const dropDurations = { 1: 30000, 2: 30000, 3: 30000, 4: 15000 };
         scene.tweens.add({
             targets: [currentBlock, currentText],
             y: landingY,

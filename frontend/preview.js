@@ -3,7 +3,7 @@ let previewBlocks = [];
 let previewTexts = [];
 let currentWordGroups = [];
 let nextWordGroups = [];
-let currentPhraseLength = 0; // Track words in current phrase
+let currentPhraseLength = 0;
 
 function drawPreviewFrame(graphics, adjustedPreviewY) {
     graphics.clear();
@@ -47,17 +47,14 @@ function updatePreview() {
     const upcomingGroups = [];
     let remainingCurrent = currentWordGroups.slice(dropIndex + 1);
 
-    // Show only current phrase's remaining groups
     while (upcomingGroups.length < PREVIEW_ROWS && remainingCurrent.length > 0) {
         upcomingGroups.push(remainingCurrent.shift());
     }
 
-    // Fill with blanks if not enough
     while (upcomingGroups.length < PREVIEW_ROWS) {
         upcomingGroups.push(Array(PREVIEW_COLS).fill({ pos: 'Blank', word: '{Blank}' }));
     }
 
-    // Render grid
     for (let i = 0; i < PREVIEW_ROWS; i++) {
         const group = upcomingGroups[i];
         for (let j = 0; j < PREVIEW_COLS; j++) {
@@ -72,14 +69,14 @@ function updatePreview() {
 
 function generateInitialWordGroups(allPhrases) {
     currentWordGroups = createLevelWordGroups(allPhrases);
-    nextWordGroups = []; // Empty until last word
+    nextWordGroups = [];
     dropIndex = 0;
     currentPhraseLength = currentWordGroups.reduce((sum, group) => sum + group.length, 0);
     console.log(`Initial phrase length: ${currentPhraseLength}`);
 }
 
 function createLevelWordGroups(allPhrases) {
-    const numPhrases = 1; // Levels 1–3 use 1 phrase
+    const numPhrases = 1;
     const selected = [];
     const indices = [];
     while (indices.length < numPhrases) {
@@ -95,7 +92,7 @@ function createLevelWordGroups(allPhrases) {
     }
 
     const wordGroups = [];
-    const numGroups = selected[0].length; // One group per word
+    const numGroups = selected[0].length;
     for (let i = 0; i < numGroups; i++) {
         const wordData = selected[0][i];
         wordGroups.push([wordData]);

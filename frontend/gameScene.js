@@ -14,6 +14,7 @@ let posTexts = [];
 let levelText;
 let resizeTimeout;
 let themeMusic;
+let currentPhrase = []; // Store target phrase for pre-population
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -58,7 +59,7 @@ class GameScene extends Phaser.Scene {
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         levelText.setShadow(2, 2, '#000000', 2);
 
-        // Set preview grid sizes
+        // Preview grid sizes from Phase 1
         PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
         PREVIEW_COLS = 1;
         PREVIEW_WORDS = PREVIEW_COLS;
@@ -105,7 +106,6 @@ class GameScene extends Phaser.Scene {
                     } catch (err) {
                         console.error(`Failed to load themeMusic${level}:`, err);
                     }
-                    // Update preview grid
                     PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
                     PREVIEW_COLS = 1;
                     PREVIEW_WORDS = PREVIEW_COLS;
@@ -119,7 +119,34 @@ class GameScene extends Phaser.Scene {
                     PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
                     PREVIEW_COLS = 1;
                     PREVIEW_WORDS = PREVIEW_COLS;
+
+                    // Initialize phrase and pre-populate
                     generateInitialWordGroups(allPhrases);
+                    const phraseIndex = Math.floor(Math.random() * allPhrases.length);
+                    currentPhrase = allPhrases[phraseIndex].phrase;
+                    if (level === 1 || level === 2) {
+                        const numPrePopulate = level === 1 ? 2 : 1;
+                        const indices = [];
+                        while (indices.length < numPrePopulate && indices.length < currentPhrase.length) {
+                            const idx = Math.floor(Math.random() * currentPhrase.length);
+                            if (!indices.includes(idx)) indices.push(idx);
+                        }
+                        const bottomRow = GRID_HEIGHT - 1;
+                        indices.forEach((idx) => {
+                            if (idx < GRID_WIDTH) {
+                                const word = currentPhrase[idx];
+                                const pos = allPhrases[phraseIndex].pos[idx] || 'Other';
+                                const color = getColorForPos(pos);
+                                const x = GRID_START_X + idx * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+                                const y = GRID_START_Y + bottomRow * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                                const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
+                                const text = this.add.text(x, y, word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+                                grid[bottomRow][idx] = { block, text, word };
+                                console.log(`Pre-populated: word=${word}, pos=${pos}, col=${idx}`);
+                            }
+                        });
+                    }
+
                     setupPreviewBlocks(adjustedPreviewY);
                     drawPreviewFrame(previewGraphics, adjustedPreviewY);
                     updatePreview();
@@ -219,7 +246,7 @@ class GameScene extends Phaser.Scene {
         }
         if (cursors.down.isDown) {
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-            if (currentTween) currentTween.timeScale = 12.0; // Updated per user change
+            if (currentTween) currentTween.timeScale = 12.0;
         } else {
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
             if (currentTween) currentTween.timeScale = 1.0;
