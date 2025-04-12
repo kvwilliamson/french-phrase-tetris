@@ -164,13 +164,15 @@ function checkForScoring(gridY, scene, allPhrases) {
             repeat: 2,
             onComplete: () => text.destroy()
         });
-        totalScore += scoreEarned; // Now defined
+        totalScore += scoreEarned;
         scoreTextObj.setText(`Score: ${totalScore}`);
     } else {
         scene.sound.play('wrongSound');
         scene.sound.play('merde');
         const style = { font: '18px Arial', fill: '#000000', backgroundColor: '#ffffff' };
-        const text = scene.add.text(scene.cameras.main.width / 2, GRID_START_Y + GRID_HEIGHT_PX + 40, 'Incorrecte', style).setOrigin(0.5);
+        // Show correct phrase, replace {Blank} with ''
+        const displayPhrase = currentPhrase.map(word => word === '{Blank}' ? '' : word).join(' ').trim();
+        const text = scene.add.text(scene.cameras.main.width / 2, GRID_START_Y + GRID_HEIGHT_PX + 40, displayPhrase, style).setOrigin(0.5);
         text.setShadow(2, 2, '#000000', 2);
         scene.tweens.add({
             targets: text,
