@@ -33,9 +33,9 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
     console.log('spawnBlock called');
     if (!scene) return;
     try {
-        // Refill nextWordGroups if below threshold (buffer for preview)
-        if (nextWordGroups.length < PREVIEW_ROWS * 2) {
-            console.log(`nextWordGroups low (${nextWordGroups.length}), refilling`);
+        // Refill on last group
+        if (dropIndex + 1 >= currentWordGroups.length && nextWordGroups.length === 0) {
+            console.log('Last group, refilling nextWordGroups');
             nextWordGroups.push(...createLevelWordGroups(allPhrases));
         }
 
@@ -73,7 +73,7 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
         scene.tweens.add({
             targets: [currentBlock, currentText],
             y: landingY,
-            duration: dropDurations[level],
+            duration: dropDurations[level] || 30000, // Default to 30s
             ease: 'Linear',
             onComplete: lockBlock
         });
