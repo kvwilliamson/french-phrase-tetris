@@ -1,29 +1,29 @@
-// preview.js
+// frontend/preview.js
 let previewBlocks = [];
 let previewTexts = [];
 let currentWordGroups = [];
 let nextWordGroups = [];
 
-function drawPreviewFrame(graphics) {
+function drawPreviewFrame(graphics, adjustedPreviewY) {
     graphics.clear();
     graphics.lineStyle(2, 0xffffff);
     for (let x = 0; x <= PREVIEW_COLS; x++) {
-        graphics.moveTo(PREVIEW_X + x * BLOCK_WIDTH, PREVIEW_Y);
-        graphics.lineTo(PREVIEW_X + x * BLOCK_WIDTH, PREVIEW_Y + PREVIEW_ROWS * BLOCK_HEIGHT);
+        graphics.moveTo(PREVIEW_X + x * BLOCK_WIDTH, adjustedPreviewY);
+        graphics.lineTo(PREVIEW_X + x * BLOCK_WIDTH, adjustedPreviewY + PREVIEW_ROWS * BLOCK_HEIGHT);
     }
     for (let y = 0; y <= PREVIEW_ROWS; y++) {
-        graphics.moveTo(PREVIEW_X, PREVIEW_Y + y * BLOCK_HEIGHT);
-        graphics.lineTo(PREVIEW_X + PREVIEW_COLS * BLOCK_WIDTH, PREVIEW_Y + y * BLOCK_HEIGHT);
+        graphics.moveTo(PREVIEW_X, adjustedPreviewY + y * BLOCK_HEIGHT);
+        graphics.lineTo(PREVIEW_X + PREVIEW_COLS * BLOCK_WIDTH, adjustedPreviewY + y * BLOCK_HEIGHT);
     }
     graphics.strokePath();
 }
 
 function updatePreview() {
+    console.log(`Updating preview, nextWordGroups length: ${nextWordGroups.length}`);
     const upcomingGroups = [];
-    let remainingCurrent = currentWordGroups.slice(dropIndex + 1); // Groups after the current one
+    let remainingCurrent = currentWordGroups.slice(dropIndex + 1);
     let remainingNext = [...nextWordGroups];
 
-    // Collect up to PREVIEW_ROWS (7) groups
     while (upcomingGroups.length < PREVIEW_ROWS && (remainingCurrent.length > 0 || remainingNext.length > 0)) {
         if (remainingCurrent.length > 0) {
             upcomingGroups.push(remainingCurrent.shift());
@@ -32,17 +32,14 @@ function updatePreview() {
         }
     }
 
-    // Fill remaining rows with blanks if we don't have enough groups
     while (upcomingGroups.length < PREVIEW_ROWS) {
         upcomingGroups.push(Array(PREVIEW_COLS).fill({ pos: 'Blank', word: '{Blank}' }));
     }
 
-    // Update each row with the corresponding group
     for (let i = 0; i < PREVIEW_ROWS; i++) {
         const group = upcomingGroups[i];
         for (let j = 0; j < PREVIEW_COLS; j++) {
-            // Cycle through the group's words if group is shorter than PREVIEW_COLS
-            const wordIndex = j % (group.length || 1); // Avoid division by 0
+            const wordIndex = j % (group.length || 1);
             const { pos, word } = group[wordIndex] || { pos: 'Blank', word: '{Blank}' };
             const color = getColorForPos(pos);
             previewBlocks[i][j].setFillStyle(color);
@@ -74,21 +71,31 @@ function createLevelWordGroups(allPhrases) {
     }
 
     const wordGroups = [];
+    const numGroups = 16; // Increased from 8 to ensure more words
     if (level === 1) {
         const phrase = selected[0];
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < numGroups; i++) {
             const wordData = phrase[i % phrase.length];
             wordGroups.push([wordData]);
         }
     } else {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < numGroups; i++) {
             const group = [];
             for (let j = 0; j < numPhrases; j++) {
-                const wordData = selected[j][i] || { word: '{Blank}', pos: 'Blank' };
+                const wordData = selected[j][i % selected[j].length] || { word: '{Blank}', pos: 'Blank' };
                 group.push(wordData);
             }
             wordGroups.push(group);
         }
     }
     return wordGroups;
+}
+
+function shuffle(array) {
+    // Fisher-Yates shuffle
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }

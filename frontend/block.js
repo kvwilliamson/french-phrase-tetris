@@ -1,4 +1,4 @@
-// block.js (only showing relevant parts)
+// frontend/block.js
 let currentBlock;
 let currentText;
 let isDropping = false;
@@ -33,11 +33,15 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
     console.log('spawnBlock called');
     if (!scene) return;
     try {
+        // Refill nextWordGroups if below threshold (buffer for preview)
+        if (nextWordGroups.length < PREVIEW_ROWS * 2) {
+            console.log(`nextWordGroups low (${nextWordGroups.length}), refilling`);
+            nextWordGroups.push(...createLevelWordGroups(allPhrases));
+        }
+
         if (dropIndex >= currentWordGroups.length) {
             if (nextWordGroups.length > 0) {
                 currentWordGroups.push(nextWordGroups.shift());
-            } else {
-                nextWordGroups.push(...createLevelWordGroups(allPhrases));
             }
             dropIndex = currentWordGroups.length - 1;
         }
@@ -88,7 +92,6 @@ function lockBlock() {
         currentText = null;
         isDropping = false;
 
-        // Play the placed sound when the block locks
         console.log('Playing placedSound');
         sceneRef.sound.play('placedSound');
 
