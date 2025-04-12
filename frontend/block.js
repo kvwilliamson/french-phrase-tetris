@@ -29,28 +29,13 @@ function findLandingY(x) {
     return GRID_HEIGHT - 1;
 }
 
-function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
-    console.log(`spawnBlock: dropIndex=${dropIndex}, currentGroups=${currentWordGroups.length}, nextGroups=${nextWordGroups.length}`);
+function spawnBlock(scene, currentWordGroups, allPhrases) {
+    console.log(`spawnBlock: dropIndex=${dropIndex}, currentGroups=${currentWordGroups.length}`);
     if (!scene) return;
     try {
-        if (dropIndex + 1 >= currentWordGroups.length && nextWordGroups.length === 0) {
-            console.log('Last group, refilling nextWordGroups');
-            nextWordGroups.push(...createLevelWordGroups(allPhrases));
-            currentPhraseLength = nextWordGroups.reduce((sum, group) => sum + group.length, 0);
-            console.log(`New phrase length: ${currentPhraseLength}`);
-            // Update currentPhrase for next phrase
-            const phraseIndex = Math.floor(Math.random() * allPhrases.length);
-            currentPhrase = allPhrases[phraseIndex].phrase;
-        }
-
         if (dropIndex >= currentWordGroups.length) {
-            if (nextWordGroups.length > 0) {
-                currentWordGroups = [nextWordGroups.shift()];
-                dropIndex = 0;
-            } else {
-                console.error('No groups available');
-                return;
-            }
+            console.log('Waiting for lockBlock to load new phrase');
+            return;
         }
 
         const startX = GRID_START_X + Math.floor(GRID_WIDTH / 2) * BLOCK_WIDTH + BLOCK_WIDTH / 2;
@@ -69,18 +54,20 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
         const color = getColorForPos(pos);
         console.log(`Spawning block: word=${word}, pos=${pos}, color=${color.toString(16)}`);
         currentBlock = scene.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-        currentText = scene.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+        currentText = scene.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: '12px', color: '#000000' }).setOrigin(0.5);
 
         updatePreview();
 
         isDropping = true;
         const landingGridY = findLandingY(startX);
         const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-        const dropDurations = { 1: 30000, 2: 30000, 3: 30000, 4: 15000 };
+        const baseDuration = 30000;
+        const speedMultipliers = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5 };
+        const duration = baseDuration / (speedMultipliers[level] || 1);
         scene.tweens.add({
             targets: [currentBlock, currentText],
             y: landingY,
-            duration: dropDurations[level] || 30000,
+            duration,
             ease: 'Linear',
             onComplete: lockBlock
         });
@@ -104,9 +91,98 @@ function lockBlock() {
 
         checkForScoring(gridY, sceneRef, allPhrases);
         dropIndex++;
-        spawnBlock(sceneRef, currentWordGroups, nextWordGroups, allPhrases);
+
+        if (dropIndex >= currentWordGroups.length) {
+            localStorage.setItem('lastPhrase', JSON.stringify(currentPhrase));
+            currentPhrase = [];
+            currentPhraseBlocks = [];
+            currentWordGroups = [];
+            loadNewPhrase();
+            const numPrePopulate = { 1: 3, 2: 2, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }[level] || 0;
+            const bottomRow = GRID_HEIGHT - 1;
+            for (let i = 0; i < GRID_WIDTH; i++) {
+                if (grid[bottomRow][i]) {
+                    grid[bottomRow][i].block.destroy();
+                    grid[bottomRow][i].text.destroy();
+                    grid[bottomRow][i] = null;
+                }
+            }
+            for (let i = 0; i < numPrePopulate; i++) {
+                const block = currentPhraseBlocks[i];
+                const idx = block.position;
+                const x = GRID_START_X + idx * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+                const y = GRID_START_Y + bottomRow * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                const color = getColorForPos(block.pos);
+                const blockObj = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
+                const text = sceneRef.add.text(x, y, block.word === '{Blank}' ? '' : block.word, { fontSize: '12px', color: '#000000' }).setOrigin(0.5);
+                grid[bottomRow][idx] = { block: blockObj, text, word: block.word };
+                console.log(`Pre-populated (new phrase): word=${block.word}, pos=${block.pos}, col=${idx}`);
+            }
+            currentWordGroups = currentPhraseBlocks.slice(numPrePopulate).map(block => [block]);
+            dropIndex = 0;
+            currentPhraseLength = currentWordGroups.length;
+            console.log(`Initialized new phrase, length: ${currentPhraseLength}, blocks: ${currentPhraseBlocks.map(b => b.word).join(', ')}`);
+        }
+
+        spawnBlock(sceneRef, currentWordGroups, allPhrases);
     } catch (error) {
         console.error('Error in lockBlock:', error);
+    }
+}
+
+function checkForScoring(gridY, scene, allPhrases) {
+    let row = grid[gridY];
+    let allOccupied = true;
+    for (let x = 0; x < GRID_WIDTH; x++) {
+        if (!row[x]) {
+            allOccupied = false;
+            break;
+        }
+    }
+    if (!allOccupied) return;
+
+    let isCorrect = true;
+    let scoreEarned = 100 * level;
+    for (let x = 0; x < GRID_WIDTH; x++) {
+        if (row[x].word !== currentPhrase[x]) {
+            isCorrect = false;
+            break;
+        }
+    }
+
+    if (isCorrect) {
+        scene.sound.play('excellent');
+        scene.sound.play('completionSound');
+        const style = { font: 'bold 16px Arial', fill: '#ffffff' };
+        const text = scene.add.text(scene.cameras.main.width / 2, GRID_START_Y + GRID_HEIGHT_PX + 40, 'Correcte!', style).setOrigin(0.5);
+        text.setShadow(2, 2, '#000000', 2);
+        scene.tweens.add({
+            targets: text,
+            alpha: 0,
+            duration: 150,
+            yoyo: true,
+            repeat: 2,
+            onComplete: () => text.destroy()
+        });
+        totalScore += scoreEarned; // Now defined
+        scoreTextObj.setText(`Score: ${totalScore}`);
+    } else {
+        scene.sound.play('wrongSound');
+        scene.sound.play('merde');
+        const style = { font: '18px Arial', fill: '#000000', backgroundColor: '#ffffff' };
+        const text = scene.add.text(scene.cameras.main.width / 2, GRID_START_Y + GRID_HEIGHT_PX + 40, 'Incorrecte', style).setOrigin(0.5);
+        text.setShadow(2, 2, '#000000', 2);
+        scene.tweens.add({
+            targets: text,
+            alpha: 0,
+            duration: 3000,
+            onComplete: () => text.destroy()
+        });
+    }
+    for (let x = 0; x < GRID_WIDTH; x++) {
+        row[x].block.destroy();
+        row[x].text.destroy();
+        grid[gridY][x] = null;
     }
 }
 

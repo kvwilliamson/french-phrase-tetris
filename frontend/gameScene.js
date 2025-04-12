@@ -15,6 +15,8 @@ let levelText;
 let resizeTimeout;
 let themeMusic;
 let currentPhrase = [];
+let currentPhraseBlocks = [];
+let totalScore = 0; // Initialize score
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -24,7 +26,7 @@ class GameScene extends Phaser.Scene {
     preload() {
         initializeGrid();
         this.load.json('phrases', 'phrases.json');
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= 8; i++) {
             this.load.audio(`themeMusic${i}`, `ThemeMusic${i}.mp3`);
             this.load.image(`background${i}`, `background${i}.png`);
         }
@@ -34,10 +36,10 @@ class GameScene extends Phaser.Scene {
         this.load.audio('merde', 'merde.m4a');
         this.load.audio('placedSound', 'placed.wav');
         this.load.on('filecomplete', (key) => {
-            console.log(`Loaded audio: ${key}`);
+            console.log(`Loaded asset: ${key}`);
         });
         this.load.on('loaderror', (file) => {
-            console.error(`Failed to load audio: ${file.key}`);
+            console.error(`Failed to load asset: ${file.key}`);
         });
     }
 
@@ -59,11 +61,7 @@ class GameScene extends Phaser.Scene {
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         levelText.setShadow(2, 2, '#000000', 2);
 
-        PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
-        PREVIEW_COLS = 1;
-        PREVIEW_WORDS = PREVIEW_COLS;
-
-        const adjustedPreviewY = PREVIEW_Y - 2 * BLOCK_HEIGHT;
+        const adjustedPreviewY = PREVIEW_Y;
         previewLabel = this.add.text(PREVIEW_X, adjustedPreviewY - 20, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
         previewLabel.setShadow(2, 2, '#000000', 2);
 
@@ -83,14 +81,14 @@ class GameScene extends Phaser.Scene {
             return;
         }
 
-        startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, "Appuyez sur 1-4 pour choisir un niveau", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
+        startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, "Appuyez sur 1-8 pour choisir un niveau", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         startMessageText.setShadow(2, 2, '#000000', 2);
         levelSelectText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, `Niveau: ${level}`, { fontSize: '20px', color: '#ffffff' }).setOrigin(0.5);
         levelSelectText.setShadow(2, 2, '#000000', 2);
 
         this.input.keyboard.on('keydown', (event) => {
             if (!gameStarted) {
-                if (['1', '2', '3', '4'].includes(event.key)) {
+                if (['1', '2', '3', '4', '5', '6', '7', '8'].includes(event.key)) {
                     level = parseInt(event.key);
                     levelSelectText.setText(`Niveau: ${level}`);
                     levelText.setText(`Niveau: ${level}`);
@@ -99,15 +97,10 @@ class GameScene extends Phaser.Scene {
                     try {
                         themeMusic = this.sound.add(`themeMusic${level}`, { loop: true, volume: 0.5 });
                         console.log(`Loaded themeMusic${level}`);
-                        themeMusic.on('play', () => console.log(`themeMusic${level} is playing`));
-                        themeMusic.on('error', (err) => console.error(`Error playing themeMusic${level}:`, err));
                         themeMusic.play();
                     } catch (err) {
                         console.error(`Failed to load themeMusic${level}:`, err);
                     }
-                    PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
-                    PREVIEW_COLS = 1;
-                    PREVIEW_WORDS = PREVIEW_COLS;
                     setupPreviewBlocks(adjustedPreviewY);
                     drawPreviewFrame(previewGraphics, adjustedPreviewY);
                 } else if (event.key === 'Enter') {
@@ -115,40 +108,35 @@ class GameScene extends Phaser.Scene {
                     gameStarted = true;
                     startMessageText.destroy();
                     levelSelectText.destroy();
-                    PREVIEW_ROWS = level === 1 ? 5 : level === 2 ? 6 : 7;
-                    PREVIEW_COLS = 1;
-                    PREVIEW_WORDS = PREVIEW_COLS;
 
-                    generateInitialWordGroups(allPhrases);
-                    const phraseIndex = Math.floor(Math.random() * allPhrases.length);
-                    currentPhrase = allPhrases[phraseIndex].phrase;
-                    if (level === 1 || level === 2) {
-                        const numPrePopulate = level === 1 ? 2 : 1;
-                        const indices = [];
-                        while (indices.length < numPrePopulate && indices.length < currentPhrase.length) {
-                            const idx = Math.floor(Math.random() * currentPhrase.length);
-                            if (!indices.includes(idx)) indices.push(idx);
-                        }
-                        const bottomRow = GRID_HEIGHT - 1;
-                        indices.forEach((idx) => {
-                            if (idx < GRID_WIDTH) {
-                                const word = currentPhrase[idx];
-                                const pos = allPhrases[phraseIndex].pos[idx] || 'Other';
-                                const color = getColorForPos(pos);
-                                const x = GRID_START_X + idx * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-                                const y = GRID_START_Y + bottomRow * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-                                const block = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-                                const text = this.add.text(x, y, word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
-                                grid[bottomRow][idx] = { block, text, word };
-                                console.log(`Pre-populated: word=${word}, pos=${pos}, col=${idx}`);
-                            }
-                        });
+                    // Initial phrase load
+                    loadNewPhrase();
+                    totalScore = 0; // Reset on game start
+                    scoreTextObj.setText(`Score: ${totalScore}`);
+                    const prePopulateCounts = { 1: 3, 2: 2, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+                    const numPrePopulate = prePopulateCounts[level] || 0;
+                    const bottomRow = GRID_HEIGHT - 1;
+                    for (let i = 0; i < numPrePopulate; i++) {
+                        const block = currentPhraseBlocks[i];
+                        const idx = block.position;
+                        const x = GRID_START_X + idx * BLOCK_WIDTH + BLOCK_WIDTH / 2;
+                        const y = GRID_START_Y + bottomRow * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                        const color = getColorForPos(block.pos);
+                        const blockObj = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
+                        const text = this.add.text(x, y, block.word === '{Blank}' ? '' : block.word, { fontSize: '12px', color: '#000000' }).setOrigin(0.5);
+                        grid[bottomRow][idx] = { block: blockObj, text, word: block.word };
+                        console.log(`Pre-populated: word=${block.word}, pos=${block.pos}, col=${idx}`);
                     }
+
+                    currentWordGroups = currentPhraseBlocks.slice(numPrePopulate).map(block => [block]);
+                    dropIndex = 0;
+                    currentPhraseLength = currentWordGroups.length;
+                    console.log(`Initialized phrase, length: ${currentPhraseLength}, blocks: ${currentPhraseBlocks.map(b => b.word).join(', ')}`);
 
                     setupPreviewBlocks(adjustedPreviewY);
                     drawPreviewFrame(previewGraphics, adjustedPreviewY);
                     updatePreview();
-                    spawnBlock(this, currentWordGroups, nextWordGroups, allPhrases);
+                    spawnBlock(this, currentWordGroups, allPhrases);
                 }
             } else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
                 event.preventDefault();
@@ -180,7 +168,7 @@ class GameScene extends Phaser.Scene {
             }
         });
 
-        this.physics.world.setBounds(GRID_START_X, GRID_START_Y, GRID_WIDTH_PX, GRID_HEIGHT_PX + 30); // Extra space for text
+        this.physics.world.setBounds(GRID_START_X, GRID_START_Y, GRID_WIDTH_PX, GRID_HEIGHT_PX + 30);
 
         this.scale.on('resize', (gameSize) => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
@@ -263,7 +251,7 @@ class GameScene extends Phaser.Scene {
 function drawPosGrid() {
     const POS_GRID_COLS = 3;
     const POS_GRID_ROWS = 3;
-    const POS_GRID_X = sceneRef.cameras.main.width - PREVIEW_X - (POS_GRID_COLS * BLOCK_WIDTH);
+    const POS_GRID_X = GRID_START_X + 4.5 * BLOCK_WIDTH;
     const POS_GRID_Y = GRID_START_Y - 5 * BLOCK_HEIGHT;
 
     const posData = [
@@ -292,7 +280,7 @@ function drawPosGrid() {
             const y = POS_GRID_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
             const { label, color } = posData[idx];
             const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-            const text = sceneRef.add.text(x, y, label, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+            const text = sceneRef.add.text(x, y, label, { fontSize: '12px', color: '#000000' }).setOrigin(0.5);
             rowBlocks.push(block);
             rowTexts.push(text);
         }
@@ -366,6 +354,33 @@ function resize(gameSize, adjustedPreviewY) {
     if (levelSelectText) {
         levelSelectText.setPosition(width / 2, height / 2 + 20);
     }
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function loadNewPhrase() {
+    const phraseIndex = Math.floor(Math.random() * allPhrases.length);
+    let phrase = allPhrases[phraseIndex].phrase.slice(0, GRID_WIDTH);
+    const posTags = allPhrases[phraseIndex].pos.slice(0, GRID_WIDTH);
+    if (phrase.length < GRID_WIDTH) {
+        phrase = phrase.concat(Array(GRID_WIDTH - phrase.length).fill('{Blank}'));
+        posTags.concat(Array(GRID_WIDTH - phrase.length).fill('Blank'));
+    }
+    currentPhrase = phrase;
+    currentPhraseBlocks = phrase.map((word, idx) => ({
+        word,
+        pos: posTags[idx] || 'Other',
+        position: idx
+    }));
+    currentPhraseBlocks = shuffle(currentPhraseBlocks);
+    localStorage.setItem('lastPhrase', JSON.stringify(currentPhrase));
+    console.log(`Loaded new phrase: ${currentPhrase.join(', ')}`);
 }
 
 window.GameScene = GameScene;
