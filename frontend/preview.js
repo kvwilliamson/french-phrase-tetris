@@ -7,13 +7,13 @@ let nextWordGroups = [];
 function drawPreviewFrame(graphics) {
     graphics.clear();
     graphics.lineStyle(2, 0xffffff);
-    for (let i = 0; i <= PREVIEW_ROWS; i++) {
-        graphics.moveTo(PREVIEW_X, PREVIEW_Y + i * BLOCK_HEIGHT);
-        graphics.lineTo(PREVIEW_X + PREVIEW_COLS * BLOCK_WIDTH, PREVIEW_Y + i * BLOCK_HEIGHT);
+    for (let x = 0; x <= PREVIEW_COLS; x++) {
+        graphics.moveTo(PREVIEW_X + x * BLOCK_WIDTH, PREVIEW_Y);
+        graphics.lineTo(PREVIEW_X + x * BLOCK_WIDTH, PREVIEW_Y + PREVIEW_ROWS * BLOCK_HEIGHT);
     }
-    for (let j = 0; j <= PREVIEW_COLS; j++) {
-        graphics.moveTo(PREVIEW_X + j * BLOCK_WIDTH, PREVIEW_Y);
-        graphics.lineTo(PREVIEW_X + j * BLOCK_WIDTH, PREVIEW_Y + PREVIEW_ROWS * BLOCK_HEIGHT);
+    for (let y = 0; y <= PREVIEW_ROWS; y++) {
+        graphics.moveTo(PREVIEW_X, PREVIEW_Y + y * BLOCK_HEIGHT);
+        graphics.lineTo(PREVIEW_X + PREVIEW_COLS * BLOCK_WIDTH, PREVIEW_Y + y * BLOCK_HEIGHT);
     }
     graphics.strokePath();
 }
@@ -23,7 +23,7 @@ function updatePreview() {
     let remainingCurrent = currentWordGroups.slice(dropIndex + 1); // Groups after the current one
     let remainingNext = [...nextWordGroups];
 
-    // Collect the next 4 groups
+    // Collect up to PREVIEW_ROWS (7) groups
     while (upcomingGroups.length < PREVIEW_ROWS && (remainingCurrent.length > 0 || remainingNext.length > 0)) {
         if (remainingCurrent.length > 0) {
             upcomingGroups.push(remainingCurrent.shift());
@@ -41,7 +41,9 @@ function updatePreview() {
     for (let i = 0; i < PREVIEW_ROWS; i++) {
         const group = upcomingGroups[i];
         for (let j = 0; j < PREVIEW_COLS; j++) {
-            const { pos, word } = group[j] || { pos: 'Blank', word: '{Blank}' };
+            // Cycle through the group's words if group is shorter than PREVIEW_COLS
+            const wordIndex = j % (group.length || 1); // Avoid division by 0
+            const { pos, word } = group[wordIndex] || { pos: 'Blank', word: '{Blank}' };
             const color = getColorForPos(pos);
             previewBlocks[i][j].setFillStyle(color);
             previewTexts[i][j].setText(word === '{Blank}' ? '' : word);

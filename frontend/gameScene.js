@@ -27,11 +27,22 @@ class GameScene extends Phaser.Scene {
             this.load.audio(`themeMusic${i}`, `ThemeMusic${i}.mp3`);
             this.load.image(`background${i}`, `background${i}.png`);
         }
+        this.load.audio('completionSound', 'completion.wav');
+        this.load.audio('wrongSound', 'wrong.wav');
+        this.load.audio('excellent', 'excellent.m4a');
+        this.load.audio('merde', 'merde.m4a');
+        this.load.audio('placedSound', 'placed.wav');
+        this.load.on('filecomplete', (key) => {
+            console.log(`Loaded audio: ${key}`);
+        });
+        this.load.on('loaderror', (file) => {
+            console.error(`Failed to load audio: ${file.key}`);
+        });
     }
 
     create() {
         sceneRef = this;
-        GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2; // Safe to reassign since GRID_START_X is now a let
+        GRID_START_X = (this.cameras.main.width - GRID_WIDTH_PX) / 2;
 
         this.game.canvas.getContext('2d', { willReadFrequently: true });
 
@@ -47,7 +58,14 @@ class GameScene extends Phaser.Scene {
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         levelText.setShadow(2, 2, '#000000', 2);
 
-        previewLabel = this.add.text(PREVIEW_X, PREVIEW_Y - 20, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
+        // Set preview dimensions
+        PREVIEW_ROWS = 7;
+        PREVIEW_COLS = level;
+        PREVIEW_WORDS = level;
+
+        // Use adjusted Y position without modifying PREVIEW_Y
+        const adjustedPreviewY = PREVIEW_Y - 2 * BLOCK_HEIGHT;
+        previewLabel = this.add.text(PREVIEW_X, adjustedPreviewY - 20, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
         previewLabel.setShadow(2, 2, '#000000', 2);
 
         gridGraphics = this.add.graphics();
@@ -55,7 +73,7 @@ class GameScene extends Phaser.Scene {
         posGridGraphics = this.add.graphics();
 
         drawGrid(gridGraphics);
-        drawPreviewFrame(previewGraphics);
+        drawPreviewFrame(previewGraphics, adjustedPreviewY); // Pass adjusted Y
         drawPosGrid();
 
         allPhrases = this.cache.json.get('phrases');
@@ -95,20 +113,10 @@ class GameScene extends Phaser.Scene {
                     levelSelectText.destroy();
                     PREVIEW_COLS = level;
                     PREVIEW_WORDS = level;
-                    if (!themeMusic) {
-                        try {
-                            themeMusic = this.sound.add(`themeMusic${level}`, { loop: true, volume: 0.5 });
-                            console.log(`Loaded themeMusic${level} on Enter`);
-                            themeMusic.on('play', () => console.log(`themeMusic${level} is playing`));
-                            themeMusic.on('error', (err) => console.error(`Error playing themeMusic${level}:`, err));
-                            themeMusic.play();
-                        } catch (err) {
-                            console.error(`Failed to load themeMusic${level} on Enter:`, err);
-                        }
-                    }
+                    PREVIEW_ROWS = 7;
                     generateInitialWordGroups(allPhrases);
-                    setupPreviewBlocks();
-                    drawPreviewFrame(previewGraphics);
+                    setupPreviewBlocks(adjustedPreviewY); // Pass adjusted Y
+                    drawPreviewFrame(previewGraphics, adjustedPreviewY);
                     updatePreview();
                     spawnBlock(this, currentWordGroups, nextWordGroups, allPhrases);
                 }
@@ -146,7 +154,7 @@ class GameScene extends Phaser.Scene {
 
         this.scale.on('resize', (gameSize) => {
             if (resizeTimeout) clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => resize(gameSize), 100);
+            resizeTimeout = setTimeout(() => resize(gameSize, adjustedPreviewY), 100); // Pass adjusted Y
         }, this);
 
         this.game.canvas.setAttribute('tabindex', '0');
@@ -206,7 +214,7 @@ class GameScene extends Phaser.Scene {
         }
         if (cursors.down.isDown) {
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-            if (currentTween) currentTween.timeScale = 5.0;
+            if (currentTween) currentTween.timeScale = 12.0;
         } else {
             const currentTween = this.tweens.getTweensOf(currentBlock)[0];
             if (currentTween) currentTween.timeScale = 1.0;
@@ -222,7 +230,7 @@ class GameScene extends Phaser.Scene {
     }
 }
 
-function setupPreviewBlocks() {
+function setupPreviewBlocks(adjustedPreviewY) {
     previewBlocks = [];
     previewTexts = [];
     for (let i = 0; i < PREVIEW_ROWS; i++) {
@@ -230,7 +238,7 @@ function setupPreviewBlocks() {
         const rowTexts = [];
         for (let j = 0; j < PREVIEW_COLS; j++) {
             const x = PREVIEW_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-            const y = PREVIEW_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+            const y = adjustedPreviewY + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
             const { pos, word } = { pos: 'Blank', word: '{Blank}' };
             const color = getColorForPos(pos);
             const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
@@ -296,27 +304,26 @@ function drawPosGrid() {
     posGridGraphics.strokePath();
 }
 
-function resize(gameSize) {
+function resize(gameSize, adjustedPreviewY) {
     console.log('Resize event triggered:', gameSize);
     const width = gameSize.width;
     const height = gameSize.height;
 
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
-    // PREVIEW_X is now a const, so we don't reassign it
 
     titleText.setPosition(width / 2, 80);
     scoreTextObj.setPosition(width / 2, 120);
     levelText.setPosition(width / 2, 160);
-    previewLabel.setPosition(PREVIEW_X, PREVIEW_Y - 20);
+    previewLabel.setPosition(PREVIEW_X, adjustedPreviewY - 20);
 
     drawGrid(gridGraphics);
-    drawPreviewFrame(previewGraphics);
+    drawPreviewFrame(previewGraphics, adjustedPreviewY);
     drawPosGrid();
 
     for (let i = 0; i < PREVIEW_ROWS; i++) {
         for (let j = 0; j < PREVIEW_COLS; j++) {
             const x = PREVIEW_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-            const y = PREVIEW_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+            const y = adjustedPreviewY + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
             previewBlocks[i][j].setPosition(x, y);
             previewTexts[i][j].setPosition(x, y);
         }
@@ -349,6 +356,49 @@ function resize(gameSize) {
     }
     if (levelSelectText) {
         levelSelectText.setPosition(width / 2, height / 2 + 20);
+    }
+}
+
+function drawPreviewFrame(graphics, adjustedPreviewY) {
+    graphics.clear();
+    graphics.lineStyle(2, 0xffffff);
+    for (let x = 0; x <= PREVIEW_COLS; x++) {
+        graphics.moveTo(PREVIEW_X + x * BLOCK_WIDTH, adjustedPreviewY);
+        graphics.lineTo(PREVIEW_X + x * BLOCK_WIDTH, adjustedPreviewY + PREVIEW_ROWS * BLOCK_HEIGHT);
+    }
+    for (let y = 0; y <= PREVIEW_ROWS; y++) {
+        graphics.moveTo(PREVIEW_X, adjustedPreviewY + y * BLOCK_HEIGHT);
+        graphics.lineTo(PREVIEW_X + PREVIEW_COLS * BLOCK_WIDTH, adjustedPreviewY + y * BLOCK_HEIGHT);
+    }
+    graphics.strokePath();
+}
+
+function updatePreview() {
+    const upcomingGroups = [];
+    let remainingCurrent = currentWordGroups.slice(dropIndex + 1);
+    let remainingNext = [...nextWordGroups];
+
+    while (upcomingGroups.length < PREVIEW_ROWS && (remainingCurrent.length > 0 || remainingNext.length > 0)) {
+        if (remainingCurrent.length > 0) {
+            upcomingGroups.push(remainingCurrent.shift());
+        } else if (remainingNext.length > 0) {
+            upcomingGroups.push(remainingNext.shift());
+        }
+    }
+
+    while (upcomingGroups.length < PREVIEW_ROWS) {
+        upcomingGroups.push(Array(PREVIEW_COLS).fill({ pos: 'Blank', word: '{Blank}' }));
+    }
+
+    for (let i = 0; i < PREVIEW_ROWS; i++) {
+        const group = upcomingGroups[i];
+        for (let j = 0; j < PREVIEW_COLS; j++) {
+            const wordIndex = j % (group.length || 1);
+            const { pos, word } = group[wordIndex] || { pos: 'Blank', word: '{Blank}' };
+            const color = getColorForPos(pos);
+            previewBlocks[i][j].setFillStyle(color);
+            previewTexts[i][j].setText(word === '{Blank}' ? '' : word);
+        }
     }
 }
 

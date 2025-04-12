@@ -60,30 +60,48 @@ function checkForScoring(gridY, scene, allPhrases) {
             }
         }
         if (words.length === GRID_WIDTH) {
-            let isValid = validatePhrase(words, allPhrases);
+            const rowPhrase = words.join(' ');
+            const isValid = allPhrases.some(phraseData => phraseData.phrase.join(' ') === rowPhrase);
+
             if (isValid) {
-                for (let x = 0; x < GRID_WIDTH; x++) {
-                    if (row[x]) {
-                        row[x].block.destroy();
-                        row[x].text.destroy();
-                        row[x] = null;
-                    }
-                }
-                score += 100;
+                highlightRow(gridY, scene);
+                console.log('Playing completionSound');
+                scene.sound.play('completionSound');
+                console.log('Playing excellent');
+                scene.sound.play('excellent');
+                score += 100 * level;
                 scoreTextObj.setText("Score: " + score);
-                for (let y = gridY; y > 0; y--) {
-                    grid[y] = grid[y - 1];
-                }
-                grid[0] = Array(GRID_WIDTH).fill(null);
+                clearRow(gridY, scene);
                 rowsCleared++;
                 if (rowsCleared >= 10) {
                     advanceLevel(scene);
                 }
+            } else {
+                console.log('Playing wrongSound');
+                scene.sound.play('wrongSound');
+                console.log('Playing merde');
+                scene.sound.play('merde');
+                console.log('Invalid phrase in row:', rowPhrase);
             }
         }
     } catch (error) {
         console.error('Error in checkForScoring:', error);
     }
+}
+
+function highlightRow(row, scene) {
+    const blocks = grid[row].map(cell => cell.block);
+    const originalColors = blocks.map(block => block.fillColor);
+
+    blocks.forEach(block => block.setFillStyle(0xffffff));
+    scene.time.delayedCall(300, () => {
+        blocks.forEach((block, idx) => block.setFillStyle(originalColors[idx]));
+    });
+}
+
+function speakFrench(text, scene) {
+    // No longer needed as a standalone function; audio is played directly in checkForScoring
+    console.log(`French voice says: "${text}"`); // Kept for debugging
 }
 
 function advanceLevel(scene) {
@@ -104,5 +122,5 @@ function advanceLevel(scene) {
     themeMusic.play();
     generateInitialWordGroups(allPhrases);
     setupPreviewBlocks();
-    drawPreviewFrame(scene.previewGraphics); // Redraw preview grid lines
+    drawPreviewFrame(scene.previewGraphics);
 }

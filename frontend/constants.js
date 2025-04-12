@@ -8,9 +8,9 @@ const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
 let GRID_START_X = 0;
 const GRID_START_Y = 340;
 const PREVIEW_X = 200;
-const PREVIEW_Y = 230;
+const PREVIEW_Y = 190;
 let PREVIEW_COLS = 1;
-let PREVIEW_ROWS = 4;
+let PREVIEW_ROWS = 7;
 let PREVIEW_WORDS = 1;
 const MOVE_DELAY = 100;
 let level = 1;
@@ -25,35 +25,3 @@ const COLOR_ADJECTIFS = 0xFFB6C1;     // Pastel pink
 const COLOR_PREPOSITIONS = 0xFFCC99;  // Light peach
 const COLOR_OTHER = 0xD8BFD8;         // Darker lavender
 const COLOR_BLANK = 0xE0E0E0;         // Lighter gray
-
-// old
-// const BLOCK_WIDTH = 150;
-// const BLOCK_HEIGHT = 20;
-// const GRID_WIDTH = 8;
-// const GRID_HEIGHT = 20;
-// const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH;
-// const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
-// let GRID_START_X; // Will be set dynamically in GameScene
-// const GRID_START_Y = 340;
-// let PREVIEW_X; // Will be set dynamically
-// const PREVIEW_Y = 120;
-// const PREVIEW_WORDS = 4;
-// const MOVE_DELAY = 100;
-
-
-// was
-// const GRID_WIDTH = 10;
-// const GRID_HEIGHT = 20;
-// const BLOCK_WIDTH = 40;
-// const BLOCK_HEIGHT = 40;
-// const GRID_WIDTH_PX = GRID_WIDTH * BLOCK_WIDTH;
-// const GRID_HEIGHT_PX = GRID_HEIGHT * BLOCK_HEIGHT;
-// let GRID_START_X = 0;
-// const GRID_START_Y = 200;
-// const PREVIEW_X = 200;
-// const PREVIEW_Y = 300;
-// let PREVIEW_COLS = 1;
-// let PREVIEW_ROWS = 4;
-// let PREVIEW_WORDS = 1;
-// const MOVE_DELAY = 100;
-// let level = 1;

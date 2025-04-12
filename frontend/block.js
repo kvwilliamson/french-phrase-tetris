@@ -1,4 +1,4 @@
-// block.js
+// block.js (only showing relevant parts)
 let currentBlock;
 let currentText;
 let isDropping = false;
@@ -60,7 +60,7 @@ function spawnBlock(scene, currentWordGroups, nextWordGroups, allPhrases) {
         currentBlock = scene.add.rectangle(startX, startY, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
         currentText = scene.add.text(startX, startY, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
 
-        updatePreview(); // Update preview to show the next 4 groups
+        updatePreview();
 
         isDropping = true;
         const landingGridY = findLandingY(startX);
@@ -88,7 +88,11 @@ function lockBlock() {
         currentText = null;
         isDropping = false;
 
-        checkForScoring(gridY);
+        // Play the placed sound when the block locks
+        console.log('Playing placedSound');
+        sceneRef.sound.play('placedSound');
+
+        checkForScoring(gridY, sceneRef, allPhrases);
         dropIndex++;
         spawnBlock(sceneRef, currentWordGroups, nextWordGroups, allPhrases);
     } catch (error) {
