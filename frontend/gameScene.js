@@ -39,6 +39,8 @@ class GameScene extends Phaser.Scene {
         this.load.audio('excellent', 'excellent.m4a');
         this.load.audio('merde', 'merde.m4a');
         this.load.audio('placedSound', 'placed.wav');
+        this.load.audio('highScoreFanfare', 'highScoreFanfare.mp3');
+        // Optional: this.load.image('trophy', 'trophy.png');
         this.load.on('filecomplete', (key) => {
             console.log(`Loaded asset: ${key}`);
         });
@@ -248,20 +250,83 @@ class GameScene extends Phaser.Scene {
     promptForHighScoreName(score) {
         console.log(`promptForHighScoreName called with score=${score}`);
         try {
-            const inputBox = this.add.rectangle(this.cameras.main.width / 2, this.cameras.main.height / 2, 200, 100, 0xffffff)
-                .setOrigin(0.5)
-                .setDepth(20);
-            const promptText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'Enter Name (3 chars):', { 
-                fontSize: '20px', 
-                color: '#000000' 
-            }).setOrigin(0.5).setDepth(20);
-            const nameText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, '', { 
-                fontSize: '24px', 
-                color: '#000000' 
-            }).setOrigin(0.5).setDepth(20);
-            let playerName = '';
+            // Play fanfare sound
+            try {
+                this.sound.play('highScoreFanfare', { volume: 0.7 });
+                console.log('Playing highScoreFanfare');
+            } catch (err) {
+                console.error('Failed to play highScoreFanfare, using fallback:', err);
+                try {
+                    this.sound.play('excellent', { volume: 0.7 });
+                    console.log('Playing fallback excellent sound');
+                } catch (fallbackErr) {
+                    console.error('Failed to play fallback sound:', fallbackErr);
+                }
+            }
 
-            console.log('High score input UI created, setting up key handler');
+            // Gradient background
+            const graphics = this.add.graphics().setDepth(20);
+            const bgWidth = 300;
+            const bgHeight = 200;
+            const bgX = this.cameras.main.width / 2 - bgWidth / 2;
+            const bgY = this.cameras.main.height / 2 - bgHeight / 2;
+            graphics.fillGradientStyle(0xffd700, 0xffd700, 0xff4500, 0xff4500, 1);
+            graphics.fillRect(bgX, bgY, bgWidth, bgHeight);
+            // Pulse animation
+            this.tweens.add({
+                targets: graphics,
+                alpha: { from: 0.8, to: 1.0 },
+                duration: 1000,
+                yoyo: true,
+                loop: -1
+            });
+
+            // Title
+            const title = this.add.text(this.cameras.main.width / 2, bgY + 30, 'New High Score!', {
+                fontSize: '40px',
+                color: '#ffd700',
+                fontStyle: 'bold'
+            }).setOrigin(0.5).setDepth(20);
+            title.setShadow(2, 2, '#000000', 4, true, true);
+            // Bounce animation
+            this.tweens.add({
+                targets: title,
+                scale: { from: 1.0, to: 1.2 },
+                duration: 500,
+                yoyo: true,
+                loop: -1
+            });
+
+            // Score display
+            const scoreText = this.add.text(this.cameras.main.width / 2, bgY + 80, `Score: ${score}`, {
+                fontSize: '28px',
+                color: '#ffffff'
+            }).setOrigin(0.5).setDepth(20);
+            scoreText.setShadow(2, 2, '#000000', 2);
+
+            // Input field (prioritized before particles)
+            const inputBox = this.add.rectangle(this.cameras.main.width / 2, bgY + 130, 120, 40, 0x000000).setOrigin(0.5).setDepth(20);
+            inputBox.setStrokeStyle(2, 0xffd700);
+            const nameText = this.add.text(this.cameras.main.width / 2, bgY + 130, '', {
+                fontSize: '24px',
+                color: '#ffffff'
+            }).setOrigin(0.5).setDepth(20);
+            // Blinking cursor
+            const cursor = this.add.text(this.cameras.main.width / 2, bgY + 130, '|', {
+                fontSize: '24px',
+                color: '#ffffff'
+            }).setOrigin(0, 0.5).setDepth(20);
+            this.tweens.add({
+                targets: cursor,
+                alpha: { from: 1, to: 0 },
+                duration: 500,
+                yoyo: true,
+                loop: -1
+            });
+
+            // Input handling
+            let playerName = '';
+            console.log('High score input field created, setting up key handler');
 
             const updateHighScore = () => {
                 const finalName = playerName || 'COM';
@@ -269,9 +334,14 @@ class GameScene extends Phaser.Scene {
                 localStorage.setItem('highScoreName', finalName);
                 highScoreText.setText(`High Score: ${score} ${finalName}`);
                 console.log(`High score saved: score=${score}, name=${finalName}`);
+                graphics.destroy();
+                title.destroy();
+                scoreText.destroy();
                 inputBox.destroy();
-                promptText.destroy();
                 nameText.destroy();
+                cursor.destroy();
+                if (emitter) emitter.destroy();
+                // trophy.destroy();
                 this.input.keyboard.off('keydown', keyHandler);
             };
 
@@ -283,14 +353,45 @@ class GameScene extends Phaser.Scene {
                 } else if (event.key === 'Backspace') {
                     playerName = playerName.slice(0, -1);
                     nameText.setText(playerName);
+                    cursor.setX(nameText.x + nameText.width / 2 + 5);
                 } else if (playerName.length < 3 && event.key.length === 1 && /[a-zA-Z0-9]/.test(event.key)) {
                     playerName += event.key.toUpperCase();
                     nameText.setText(playerName);
+                    cursor.setX(nameText.x + nameText.width / 2 + 5);
                 }
             };
 
             this.input.keyboard.on('keydown', keyHandler);
             console.log('Key handler attached for high score input');
+
+            // Confetti particles (isolated to prevent crashes)
+            let emitter = null;
+            try {
+                emitter = this.add.particles(0, 0, 'circle', {
+                    speed: { min: 100, max: 300 },
+                    angle: { min: 180, max: 360 },
+                    gravityY: 200,
+                    lifespan: 3000,
+                    quantity: 5,
+                    scale: { start: 0.2, end: 0.1 },
+                    alpha: { start: 1, end: 0 },
+                    tint: [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff],
+                    x: { min: bgX, max: bgX + bgWidth },
+                    y: bgY,
+                    frequency: 200
+                }).setDepth(20);
+                console.log('Confetti emitter created');
+            } catch (particleErr) {
+                console.error('Failed to create confetti emitter:', particleErr);
+            }
+
+            // Optional trophy
+            /*
+            const trophy = this.add.image(this.cameras.main.width / 2, bgY - 80, 'trophy')
+                .setOrigin(0.5)
+                .setDepth(20)
+                .setScale(0.5);
+            */
         } catch (error) {
             console.error('Error in promptForHighScoreName:', error);
         }
