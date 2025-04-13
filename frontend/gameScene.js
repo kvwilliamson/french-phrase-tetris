@@ -20,6 +20,7 @@ let totalScore = 0;
 let correctPhrasesCompleted = 0;
 let currentPhraseId = 0;
 let scoreTextObj;
+let highScoreText;
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -63,6 +64,12 @@ class GameScene extends Phaser.Scene {
 
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
         levelText.setShadow(2, 2, '#000000', 2);
+
+        // High Score Display
+        let highScore = localStorage.getItem('highScore') || '0';
+        let highScoreName = localStorage.getItem('highScoreName') || 'COM';
+        highScoreText = this.add.text(this.cameras.main.width - 10, 40, `High Score: ${highScore} ${highScoreName}`, { fontSize: '28px', color: '#ffffff' }).setOrigin(1, 0);
+        highScoreText.setShadow(2, 2, '#000000', 2);
 
         const adjustedPreviewY = PREVIEW_Y;
         previewLabel = this.add.text(PREVIEW_X, adjustedPreviewY - 20, "Prochain Mots", { fontSize: '20px', color: '#ffffff' }).setOrigin(0, 0.5);
@@ -158,6 +165,8 @@ class GameScene extends Phaser.Scene {
                         // Game over: no space for pre-population
                         const gameOverText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
                         gameOverText.setShadow(2, 2, '#000000', 2);
+                        if (themeMusic) themeMusic.stop();
+                        window.checkHighScore(this, totalScore);
                         return;
                     }
                     for (let i = 0; i < numPrePopulate; i++) {
@@ -237,6 +246,41 @@ class GameScene extends Phaser.Scene {
 
         this.game.canvas.setAttribute('tabindex', '0');
         this.game.canvas.focus();
+    }
+
+    promptForHighScoreName(score) {
+        console.log('Prompting for high score name');
+        const inputBox = this.add.rectangle(this.cameras.main.width / 2, this.cameras.main.height / 2, 200, 100, 0xffffff).setOrigin(0.5);
+        const promptText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'Enter Name (3 chars):', { fontSize: '20px', color: '#000000' }).setOrigin(0.5);
+        const nameText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, '', { fontSize: '24px', color: '#000000' }).setOrigin(0.5);
+        let playerName = '';
+
+        const updateHighScore = () => {
+            const finalName = playerName || 'COM';
+            localStorage.setItem('highScore', score.toString());
+            localStorage.setItem('highScoreName', finalName);
+            highScoreText.setText(`High Score: ${score} ${finalName}`);
+            console.log(`High score updated: ${score} ${finalName}`);
+            inputBox.destroy();
+            promptText.destroy();
+            nameText.destroy();
+            this.input.keyboard.off('keydown', keyHandler);
+        };
+
+        const keyHandler = (event) => {
+            event.preventDefault();
+            if (event.key === 'Enter') {
+                updateHighScore();
+            } else if (event.key === 'Backspace') {
+                playerName = playerName.slice(0, -1);
+                nameText.setText(playerName);
+            } else if (playerName.length < 3 && event.key.length === 1 && /[a-zA-Z0-9]/.test(event.key)) {
+                playerName += event.key.toUpperCase();
+                nameText.setText(playerName);
+            }
+        };
+
+        this.input.keyboard.on('keydown', keyHandler);
     }
 
     update(time) {
@@ -373,6 +417,7 @@ function resize(gameSize, adjustedPreviewY) {
     titleText.setPosition(width / 2, 80);
     scoreTextObj.setPosition(width / 2, 120);
     levelText.setPosition(width / 2, 160);
+    highScoreText.setPosition(width - 10, 40);
     previewLabel.setPosition(PREVIEW_X, adjustedPreviewY - 20);
 
     drawGrid(gridGraphics);

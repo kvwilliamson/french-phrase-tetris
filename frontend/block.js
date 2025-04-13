@@ -64,6 +64,20 @@ function clearCurrentPhrase() {
     console.log('Cleared current phrase and Prochain Mots');
 }
 
+function clearGrid() {
+    for (let y = 0; y < GRID_HEIGHT; y++) {
+        for (let x = 0; x < GRID_WIDTH; x++) {
+            if (grid[y][x]) {
+                grid[y][x].block.destroy();
+                grid[y][x].text.destroy();
+                grid[y][x] = null;
+            }
+        }
+    }
+    initializeGrid();
+    console.log('Grid cleared and reset to 20 rows');
+}
+
 function spawnBlock(scene, currentWordGroups, allPhrases) {
     console.log(`spawnBlock: dropIndex=${dropIndex}, currentGroups=${currentWordGroups.length}, isDropping=${isDropping}`);
     if (!scene) return;
@@ -85,6 +99,8 @@ function spawnBlock(scene, currentWordGroups, allPhrases) {
             scene.tweens.killAll();
             const gameOverText = scene.add.text(scene.cameras.main.width / 2, scene.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
             gameOverText.setShadow(2, 2, '#000000', 2);
+            if (themeMusic) themeMusic.stop();
+            checkHighScore(scene, totalScore);
             return;
         }
         currentGroup = currentWordGroups[dropIndex];
@@ -117,6 +133,16 @@ function spawnBlock(scene, currentWordGroups, allPhrases) {
         });
     } catch (error) {
         console.error('Error in spawnBlock:', error);
+    }
+}
+
+function checkHighScore(scene, score) {
+    let highScore = parseInt(localStorage.getItem('highScore') || '0');
+    let highScoreName = localStorage.getItem('highScoreName') || 'COM';
+    if (score > highScore) {
+        console.log(`New high score: ${score} > ${highScore}`);
+        // Call gameScene.js function to prompt for name
+        scene.promptForHighScoreName(score);
     }
 }
 
@@ -198,6 +224,8 @@ function lockBlock() {
                 // Game over: no space for pre-population
                 const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
                 gameOverText.setShadow(2, 2, '#000000', 2);
+                if (themeMusic) themeMusic.stop();
+                checkHighScore(sceneRef, totalScore);
                 return;
             }
             // Clear non-permanent blocks in target row
@@ -243,6 +271,16 @@ function lockBlock() {
         currentText = null;
         isDropping = false;
 
+        // Check for game over (top row reached)
+        if (gridY === 0) {
+            console.log('Game Over: Block placed in top row (grid[0])');
+            const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+            gameOverText.setShadow(2, 2, '#000000', 2);
+            if (themeMusic) themeMusic.stop();
+            checkHighScore(sceneRef, totalScore);
+            return;
+        }
+
         console.log('Playing placedSound');
         sceneRef.sound.play('placedSound');
 
@@ -255,6 +293,7 @@ function lockBlock() {
                     correctPhrasesCompleted = 0;
                     console.log(`Level up! New level: ${level}`);
                     levelText.setText(`Niveau: ${level}`);
+                    clearGrid(); // Reset grid to 20 rows
                     const background = sceneRef.children.list.find(child => child.texture && child.texture.key.startsWith('background'));
                     if (background) {
                         background.setTexture(`background${level}`);
@@ -288,6 +327,8 @@ function lockBlock() {
                     // Game over: no space for pre-population
                     const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
                     gameOverText.setShadow(2, 2, '#000000', 2);
+                    if (themeMusic) themeMusic.stop();
+                    checkHighScore(sceneRef, totalScore);
                     return;
                 }
                 // Clear non-permanent blocks in target row
@@ -398,3 +439,4 @@ window.spawnBlock = spawnBlock;
 window.lockBlock = lockBlock;
 window.checkForScoring = checkForScoring;
 window.clearCurrentPhrase = clearCurrentPhrase;
+window.clearGrid = clearGrid;
