@@ -162,11 +162,8 @@ class GameScene extends Phaser.Scene {
                         targetRow--;
                     }
                     if (targetRow < 0) {
-                        // Game over: no space for pre-population
-                        const gameOverText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-                        gameOverText.setShadow(2, 2, '#000000', 2);
-                        if (themeMusic) themeMusic.stop();
-                        window.checkHighScore(this, totalScore);
+                        console.log('No space for pre-population at start, game over');
+                        window.triggerGameOver(this, totalScore);
                         return;
                     }
                     for (let i = 0; i < numPrePopulate; i++) {
@@ -249,7 +246,7 @@ class GameScene extends Phaser.Scene {
     }
 
     promptForHighScoreName(score) {
-        console.log('Prompting for high score name');
+        console.log(`Prompting for high score name, score=${score}`);
         const inputBox = this.add.rectangle(this.cameras.main.width / 2, this.cameras.main.height / 2, 200, 100, 0xffffff).setOrigin(0.5);
         const promptText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'Enter Name (3 chars):', { fontSize: '20px', color: '#000000' }).setOrigin(0.5);
         const nameText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, '', { fontSize: '24px', color: '#000000' }).setOrigin(0.5);
@@ -299,8 +296,10 @@ class GameScene extends Phaser.Scene {
                     const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
                     const currentTween = this.tweens.getTweensOf(currentBlock)[0];
                     if (currentTween) {
-                        const progress = currentTween.progress;
-                        const remainingDuration = currentTween.duration * (1 - progress);
+                        const remainingDistance = landingY - currentBlock.y;
+                        const speedMultipliers = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5 };
+                        const speed = 20 * (speedMultipliers[level] || 1); // Match spawnBlock baseSpeed
+                        const remainingDuration = (remainingDistance / speed) * 1000;
                         currentTween.stop();
                         this.tweens.add({
                             targets: [currentBlock, currentText],
@@ -321,8 +320,10 @@ class GameScene extends Phaser.Scene {
                     const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
                     const currentTween = this.tweens.getTweensOf(currentBlock)[0];
                     if (currentTween) {
-                        const progress = currentTween.progress;
-                        const remainingDuration = currentTween.duration * (1 - progress);
+                        const remainingDistance = landingY - currentBlock.y;
+                        const speedMultipliers = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5 };
+                        const speed = 20 * (speedMultipliers[level] || 1);
+                        const remainingDuration = (remainingDistance / speed) * 1000;
                         currentTween.stop();
                         this.tweens.add({
                             targets: [currentBlock, currentText],
@@ -493,3 +494,4 @@ function loadNewPhrase() {
 }
 
 window.GameScene = GameScene;
+window.triggerGameOver = triggerGameOver;

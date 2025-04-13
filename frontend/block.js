@@ -78,6 +78,16 @@ function clearGrid() {
     console.log('Grid cleared and reset to 20 rows');
 }
 
+function triggerGameOver(scene, score) {
+    console.log('Game Over triggered');
+    scene.tweens.killAll();
+    isDropping = false;
+    const gameOverText = scene.add.text(scene.cameras.main.width / 2, scene.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+    gameOverText.setShadow(2, 2, '#000000', 2);
+    if (themeMusic) themeMusic.stop();
+    checkHighScore(scene, score);
+}
+
 function spawnBlock(scene, currentWordGroups, allPhrases) {
     console.log(`spawnBlock: dropIndex=${dropIndex}, currentGroups=${currentWordGroups.length}, isDropping=${isDropping}`);
     if (!scene) return;
@@ -96,11 +106,8 @@ function spawnBlock(scene, currentWordGroups, allPhrases) {
         const spawnGridX = getGridPosition(startX);
         const spawnGridY = getGridY(startY);
         if (isPositionOccupied(spawnGridX, spawnGridY)) {
-            scene.tweens.killAll();
-            const gameOverText = scene.add.text(scene.cameras.main.width / 2, scene.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-            gameOverText.setShadow(2, 2, '#000000', 2);
-            if (themeMusic) themeMusic.stop();
-            checkHighScore(scene, totalScore);
+            console.log('Spawn position occupied, game over');
+            triggerGameOver(scene, totalScore);
             return;
         }
         currentGroup = currentWordGroups[dropIndex];
@@ -116,14 +123,18 @@ function spawnBlock(scene, currentWordGroups, allPhrases) {
         isDropping = true;
         const landingGridY = findLandingY(startX);
         if (landingGridY < 0) {
-            console.log('Invalid spawn position');
-            spawnBlock(scene, currentWordGroups, allPhrases);
+            console.log('Invalid spawn position, game over');
+            triggerGameOver(scene, totalScore);
             return;
         }
         const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-        const baseDuration = 30000;
+        // Calculate duration based on distance and constant speed
+        const distance = landingY - startY;
+        const baseSpeed = 20; // Pixels per second, tuned to match original 30s for 600 pixels at level 1
         const speedMultipliers = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5 };
-        const duration = baseDuration / (speedMultipliers[level] || 1);
+        const speed = baseSpeed * (speedMultipliers[level] || 1);
+        const duration = (distance / speed) * 1000; // Convert to milliseconds
+        console.log(`Drop distance=${distance}, speed=${speed}, duration=${duration}ms`);
         scene.tweens.add({
             targets: [currentBlock, currentText],
             y: landingY,
@@ -137,12 +148,13 @@ function spawnBlock(scene, currentWordGroups, allPhrases) {
 }
 
 function checkHighScore(scene, score) {
+    console.log(`Checking high score: current=${score}, stored=${localStorage.getItem('highScore')}`);
     let highScore = parseInt(localStorage.getItem('highScore') || '0');
-    let highScoreName = localStorage.getItem('highScoreName') || 'COM';
     if (score > highScore) {
         console.log(`New high score: ${score} > ${highScore}`);
-        // Call gameScene.js function to prompt for name
         scene.promptForHighScoreName(score);
+    } else {
+        console.log(`Score ${score} does not beat high score ${highScore}`);
     }
 }
 
@@ -221,11 +233,8 @@ function lockBlock() {
                 }
             }
             if (targetRow < 0) {
-                // Game over: no space for pre-population
-                const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-                gameOverText.setShadow(2, 2, '#000000', 2);
-                if (themeMusic) themeMusic.stop();
-                checkHighScore(sceneRef, totalScore);
+                console.log('No space for pre-population, game over');
+                triggerGameOver(sceneRef, totalScore);
                 return;
             }
             // Clear non-permanent blocks in target row
@@ -274,10 +283,7 @@ function lockBlock() {
         // Check for game over (top row reached)
         if (gridY === 0) {
             console.log('Game Over: Block placed in top row (grid[0])');
-            const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-            gameOverText.setShadow(2, 2, '#000000', 2);
-            if (themeMusic) themeMusic.stop();
-            checkHighScore(sceneRef, totalScore);
+            triggerGameOver(sceneRef, totalScore);
             return;
         }
 
@@ -324,11 +330,8 @@ function lockBlock() {
                     targetRow--;
                 }
                 if (targetRow < 0) {
-                    // Game over: no space for pre-population
-                    const gameOverText = sceneRef.add.text(sceneRef.cameras.main.width / 2, sceneRef.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
-                    gameOverText.setShadow(2, 2, '#000000', 2);
-                    if (themeMusic) themeMusic.stop();
-                    checkHighScore(sceneRef, totalScore);
+                    console.log('No space for pre-population, game over');
+                    triggerGameOver(sceneRef, totalScore);
                     return;
                 }
                 // Clear non-permanent blocks in target row
