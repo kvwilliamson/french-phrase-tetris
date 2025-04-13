@@ -16,7 +16,10 @@ let resizeTimeout;
 let themeMusic;
 let currentPhrase = [];
 let currentPhraseBlocks = [];
-let totalScore = 0; // Initialize score
+let totalScore = 0;
+let correctPhrasesCompleted = 0;
+let currentPhraseId = 0;
+let scoreTextObj;
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -55,7 +58,7 @@ class GameScene extends Phaser.Scene {
         titleText = this.add.text(this.cameras.main.width / 2, 80, "Tetris de Phrases Françaises", { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
         titleText.setShadow(2, 2, '#000000', 2);
 
-        scoreTextObj = this.add.text(this.cameras.main.width / 2, 120, "Score: 0", { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
+        scoreTextObj = this.add.text(this.cameras.main.width / 2, 120, `Score: ${totalScore}`, { fontSize: '28px', color: '#ffffff' }).setOrigin(0.5);
         scoreTextObj.setShadow(2, 2, '#000000', 2);
 
         levelText = this.add.text(this.cameras.main.width / 2, 160, `Niveau: ${level}`, { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
@@ -81,9 +84,31 @@ class GameScene extends Phaser.Scene {
             return;
         }
 
-        startMessageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, "Appuyez sur 1-8 pour choisir un niveau", { fontSize: '24px', color: '#ffffff' }).setOrigin(0.5);
+        startMessageText = this.add.text(
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2 - 20,
+            "Appuyez sur 1-8 pour choisir un niveau\n et 'Enter' pour Commencer",
+            {
+                fontSize: '24px',
+                color: '#ffffff',
+                align: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                padding: { x: 10, y: 5 }
+            }
+        ).setOrigin(0.5);
         startMessageText.setShadow(2, 2, '#000000', 2);
-        levelSelectText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, `Niveau: ${level}`, { fontSize: '20px', color: '#ffffff' }).setOrigin(0.5);
+
+        levelSelectText = this.add.text(
+            this.cameras.main.width / 2,
+            this.cameras.main.height / 2 + 40,
+            `Niveau: ${level}`,
+            {
+                fontSize: '24px',
+                color: '#ffffff',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                padding: { x: 10, y: 5 }
+            }
+        ).setOrigin(0.5);
         levelSelectText.setShadow(2, 2, '#000000', 2);
 
         this.input.keyboard.on('keydown', (event) => {
@@ -109,23 +134,42 @@ class GameScene extends Phaser.Scene {
                     startMessageText.destroy();
                     levelSelectText.destroy();
 
-                    // Initial phrase load
                     loadNewPhrase();
-                    totalScore = 0; // Reset on game start
+                    totalScore = 0;
+                    correctPhrasesCompleted = 0;
+                    currentPhraseId = 0;
                     scoreTextObj.setText(`Score: ${totalScore}`);
                     const prePopulateCounts = { 1: 3, 2: 2, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
                     const numPrePopulate = prePopulateCounts[level] || 0;
-                    const bottomRow = GRID_HEIGHT - 1;
+                    // Find lowest non-permanent row
+                    let targetRow = GRID_HEIGHT - 1;
+                    while (targetRow >= 0) {
+                        let hasPermanent = false;
+                        for (let x = 0; x < GRID_WIDTH; x++) {
+                            if (grid[targetRow][x] && grid[targetRow][x].isPermanent) {
+                                hasPermanent = true;
+                                break;
+                            }
+                        }
+                        if (!hasPermanent) break;
+                        targetRow--;
+                    }
+                    if (targetRow < 0) {
+                        // Game over: no space for pre-population
+                        const gameOverText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+                        gameOverText.setShadow(2, 2, '#000000', 2);
+                        return;
+                    }
                     for (let i = 0; i < numPrePopulate; i++) {
                         const block = currentPhraseBlocks[i];
                         const idx = block.position;
                         const x = GRID_START_X + idx * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-                        const y = GRID_START_Y + bottomRow * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                        const y = GRID_START_Y + targetRow * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
                         const color = getColorForPos(block.pos);
                         const blockObj = this.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-                        const text = this.add.text(x, y, block.word === '{Blank}' ? '' : block.word, { fontSize: '12px', color: '#000000' }).setOrigin(0.5);
-                        grid[bottomRow][idx] = { block: blockObj, text, word: block.word };
-                        console.log(`Pre-populated: word=${block.word}, pos=${block.pos}, col=${idx}`);
+                        const text = this.add.text(x, y, block.word === '{Blank}' ? '' : block.word, { fontSize: '14px', color: '#000000' }).setOrigin(0.5);
+                        grid[targetRow][idx] = { block: blockObj, text, word: block.word, phraseId: currentPhraseId, isPermanent: false };
+                        console.log(`Pre-populated: word=${block.word}, pos=${block.pos}, col=${idx}, row=${targetRow}, phraseId=${currentPhraseId}`);
                     }
 
                     currentWordGroups = currentPhraseBlocks.slice(numPrePopulate).map(block => [block]);
@@ -140,6 +184,22 @@ class GameScene extends Phaser.Scene {
                 }
             } else if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
                 event.preventDefault();
+            }
+        });
+
+        // Secret pause functionality
+        this.isPaused = false;
+        this.input.keyboard.on('keydown-P', () => {
+            if (!gameStarted) return; // Ignore during level select
+            this.isPaused = !this.isPaused;
+            if (this.isPaused) {
+                if (themeMusic) themeMusic.pause();
+                this.tweens.pauseAll();
+                console.log('Game paused');
+            } else {
+                if (themeMusic) themeMusic.resume();
+                this.tweens.resumeAll();
+                console.log('Game resumed');
             }
         });
 
@@ -180,70 +240,72 @@ class GameScene extends Phaser.Scene {
     }
 
     update(time) {
-        if (!currentBlock || !isDropping) return;
-        const cursors = this.input.keyboard.createCursorKeys();
-        const spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        if (time - lastMoveTime < MOVE_DELAY) return;
+        if (gameStarted && !this.isPaused) {
+            if (!currentBlock || !isDropping) return;
+            const cursors = this.input.keyboard.createCursorKeys();
+            const spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+            if (time - lastMoveTime < MOVE_DELAY) return;
 
-        if (cursors.left.isDown) {
-            const newX = currentBlock.x - BLOCK_WIDTH;
-            if (isValidMove(newX)) {
-                currentBlock.x = newX;
-                currentText.x = newX;
-                const landingGridY = findLandingY(newX);
-                const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-                const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-                if (currentTween) {
-                    const progress = currentTween.progress;
-                    const remainingDuration = currentTween.duration * (1 - progress);
-                    currentTween.stop();
-                    this.tweens.add({
-                        targets: [currentBlock, currentText],
-                        y: landingY,
-                        duration: remainingDuration,
-                        ease: 'Linear',
-                        onComplete: lockBlock
-                    });
+            if (cursors.left.isDown) {
+                const newX = currentBlock.x - BLOCK_WIDTH;
+                if (window.isValidMove(newX)) {
+                    currentBlock.x = newX;
+                    currentText.x = newX;
+                    const landingGridY = window.findLandingY(newX);
+                    const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                    const currentTween = this.tweens.getTweensOf(currentBlock)[0];
+                    if (currentTween) {
+                        const progress = currentTween.progress;
+                        const remainingDuration = currentTween.duration * (1 - progress);
+                        currentTween.stop();
+                        this.tweens.add({
+                            targets: [currentBlock, currentText],
+                            y: landingY,
+                            duration: remainingDuration,
+                            ease: 'Linear',
+                            onComplete: window.lockBlock
+                        });
+                    }
+                    lastMoveTime = time;
                 }
-                lastMoveTime = time;
-            }
-        } else if (cursors.right.isDown) {
-            const newX = currentBlock.x + BLOCK_WIDTH;
-            if (isValidMove(newX)) {
-                currentBlock.x = newX;
-                currentText.x = newX;
-                const landingGridY = findLandingY(newX);
-                const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-                const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-                if (currentTween) {
-                    const progress = currentTween.progress;
-                    const remainingDuration = currentTween.duration * (1 - progress);
-                    currentTween.stop();
-                    this.tweens.add({
-                        targets: [currentBlock, currentText],
-                        y: landingY,
-                        duration: remainingDuration,
-                        ease: 'Linear',
-                        onComplete: lockBlock
-                    });
+            } else if (cursors.right.isDown) {
+                const newX = currentBlock.x + BLOCK_WIDTH;
+                if (window.isValidMove(newX)) {
+                    currentBlock.x = newX;
+                    currentText.x = newX;
+                    const landingGridY = window.findLandingY(newX);
+                    const landingY = GRID_START_Y + landingGridY * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                    const currentTween = this.tweens.getTweensOf(currentBlock)[0];
+                    if (currentTween) {
+                        const progress = currentTween.progress;
+                        const remainingDuration = currentTween.duration * (1 - progress);
+                        currentTween.stop();
+                        this.tweens.add({
+                            targets: [currentBlock, currentText],
+                            y: landingY,
+                            duration: remainingDuration,
+                            ease: 'Linear',
+                            onComplete: window.lockBlock
+                        });
+                    }
+                    lastMoveTime = time;
                 }
-                lastMoveTime = time;
             }
-        }
-        if (cursors.down.isDown) {
-            const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-            if (currentTween) currentTween.timeScale = 12.0;
-        } else {
-            const currentTween = this.tweens.getTweensOf(currentBlock)[0];
-            if (currentTween) currentTween.timeScale = 1.0;
-        }
-        if (Phaser.Input.Keyboard.JustDown(spaceKey)) {
-            currentWordIndex = (currentWordIndex + 1) % currentGroup.length;
-            const { pos, word } = currentGroup[currentWordIndex];
-            currentText.setText(word === '{Blank}' ? '' : word);
-            const newColor = getColorForPos(pos);
-            console.log(`Cycling block: word=${word}, pos=${pos}, color=${newColor.toString(16)}`);
-            currentBlock.setFillStyle(newColor);
+            if (cursors.down.isDown) {
+                const currentTween = this.tweens.getTweensOf(currentBlock)[0];
+                if (currentTween) currentTween.timeScale = 12.0;
+            } else {
+                const currentTween = this.tweens.getTweensOf(currentBlock)[0];
+                if (currentTween) currentTween.timeScale = 1.0;
+            }
+            if (Phaser.Input.Keyboard.JustDown(spaceKey)) {
+                currentWordIndex = (currentWordIndex + 1) % currentGroup.length;
+                const { pos, word } = currentGroup[currentWordIndex];
+                currentText.setText(word === '{Blank}' ? '' : word);
+                const newColor = getColorForPos(pos);
+                console.log(`Cycling block: word=${word}, pos=${pos}, color=${newColor.toString(16)}`);
+                currentBlock.setFillStyle(newColor);
+            }
         }
     }
 }
@@ -280,7 +342,7 @@ function drawPosGrid() {
             const y = POS_GRID_Y + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
             const { label, color } = posData[idx];
             const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-            const text = sceneRef.add.text(x, y, label, { fontSize: '12px', color: '#000000' }).setOrigin(0.5);
+            const text = sceneRef.add.text(x, y, label, { fontSize: '14px', color: '#000000' }).setOrigin(0.5);
             rowBlocks.push(block);
             rowTexts.push(text);
         }
@@ -365,6 +427,8 @@ function shuffle(array) {
 }
 
 function loadNewPhrase() {
+    currentPhraseId++;
+    console.log(`New phrase ID: ${currentPhraseId}`);
     const phraseIndex = Math.floor(Math.random() * allPhrases.length);
     let phrase = allPhrases[phraseIndex].phrase.slice(0, GRID_WIDTH);
     const posTags = allPhrases[phraseIndex].pos.slice(0, GRID_WIDTH);
