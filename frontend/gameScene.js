@@ -246,38 +246,54 @@ class GameScene extends Phaser.Scene {
     }
 
     promptForHighScoreName(score) {
-        console.log(`Prompting for high score name, score=${score}`);
-        const inputBox = this.add.rectangle(this.cameras.main.width / 2, this.cameras.main.height / 2, 200, 100, 0xffffff).setOrigin(0.5);
-        const promptText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'Enter Name (3 chars):', { fontSize: '20px', color: '#000000' }).setOrigin(0.5);
-        const nameText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, '', { fontSize: '24px', color: '#000000' }).setOrigin(0.5);
-        let playerName = '';
+        console.log(`promptForHighScoreName called with score=${score}`);
+        try {
+            const inputBox = this.add.rectangle(this.cameras.main.width / 2, this.cameras.main.height / 2, 200, 100, 0xffffff)
+                .setOrigin(0.5)
+                .setDepth(20);
+            const promptText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'Enter Name (3 chars):', { 
+                fontSize: '20px', 
+                color: '#000000' 
+            }).setOrigin(0.5).setDepth(20);
+            const nameText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2 + 20, '', { 
+                fontSize: '24px', 
+                color: '#000000' 
+            }).setOrigin(0.5).setDepth(20);
+            let playerName = '';
 
-        const updateHighScore = () => {
-            const finalName = playerName || 'COM';
-            localStorage.setItem('highScore', score.toString());
-            localStorage.setItem('highScoreName', finalName);
-            highScoreText.setText(`High Score: ${score} ${finalName}`);
-            console.log(`High score updated: ${score} ${finalName}`);
-            inputBox.destroy();
-            promptText.destroy();
-            nameText.destroy();
-            this.input.keyboard.off('keydown', keyHandler);
-        };
+            console.log('High score input UI created, setting up key handler');
 
-        const keyHandler = (event) => {
-            event.preventDefault();
-            if (event.key === 'Enter') {
-                updateHighScore();
-            } else if (event.key === 'Backspace') {
-                playerName = playerName.slice(0, -1);
-                nameText.setText(playerName);
-            } else if (playerName.length < 3 && event.key.length === 1 && /[a-zA-Z0-9]/.test(event.key)) {
-                playerName += event.key.toUpperCase();
-                nameText.setText(playerName);
-            }
-        };
+            const updateHighScore = () => {
+                const finalName = playerName || 'COM';
+                localStorage.setItem('highScore', score.toString());
+                localStorage.setItem('highScoreName', finalName);
+                highScoreText.setText(`High Score: ${score} ${finalName}`);
+                console.log(`High score saved: score=${score}, name=${finalName}`);
+                inputBox.destroy();
+                promptText.destroy();
+                nameText.destroy();
+                this.input.keyboard.off('keydown', keyHandler);
+            };
 
-        this.input.keyboard.on('keydown', keyHandler);
+            const keyHandler = (event) => {
+                console.log(`Key pressed in high score prompt: ${event.key}`);
+                event.preventDefault();
+                if (event.key === 'Enter') {
+                    updateHighScore();
+                } else if (event.key === 'Backspace') {
+                    playerName = playerName.slice(0, -1);
+                    nameText.setText(playerName);
+                } else if (playerName.length < 3 && event.key.length === 1 && /[a-zA-Z0-9]/.test(event.key)) {
+                    playerName += event.key.toUpperCase();
+                    nameText.setText(playerName);
+                }
+            };
+
+            this.input.keyboard.on('keydown', keyHandler);
+            console.log('Key handler attached for high score input');
+        } catch (error) {
+            console.error('Error in promptForHighScoreName:', error);
+        }
     }
 
     update(time) {
@@ -298,7 +314,7 @@ class GameScene extends Phaser.Scene {
                     if (currentTween) {
                         const remainingDistance = landingY - currentBlock.y;
                         const speedMultipliers = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5 };
-                        const speed = 20 * (speedMultipliers[level] || 1); // Match spawnBlock baseSpeed
+                        const speed = 20 * (speedMultipliers[level] || 1);
                         const remainingDuration = (remainingDistance / speed) * 1000;
                         currentTween.stop();
                         this.tweens.add({

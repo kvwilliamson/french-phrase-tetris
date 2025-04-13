@@ -79,10 +79,10 @@ function clearGrid() {
 }
 
 function triggerGameOver(scene, score) {
-    console.log('Game Over triggered');
+    console.log(`triggerGameOver: score=${score}, scene exists=${!!scene}`);
     scene.tweens.killAll();
     isDropping = false;
-    const gameOverText = scene.add.text(scene.cameras.main.width / 2, scene.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5);
+    const gameOverText = scene.add.text(scene.cameras.main.width / 2, scene.cameras.main.height / 2, 'Game Over', { fontSize: '48px', color: '#ff0000' }).setOrigin(0.5).setDepth(10);
     gameOverText.setShadow(2, 2, '#000000', 2);
     if (themeMusic) themeMusic.stop();
     checkHighScore(scene, score);
@@ -148,13 +148,19 @@ function spawnBlock(scene, currentWordGroups, allPhrases) {
 }
 
 function checkHighScore(scene, score) {
-    console.log(`Checking high score: current=${score}, stored=${localStorage.getItem('highScore')}`);
-    let highScore = parseInt(localStorage.getItem('highScore') || '0');
-    if (score > highScore) {
-        console.log(`New high score: ${score} > ${highScore}`);
-        scene.promptForHighScoreName(score);
+    console.log(`checkHighScore: currentScore=${score}, storedHighScore=${localStorage.getItem('highScore')}, scene exists=${!!scene}`);
+    const currentScore = Number(score) || 0;
+    const highScore = Number(localStorage.getItem('highScore')) || 0;
+    console.log(`Parsed scores: currentScore=${currentScore}, highScore=${highScore}`);
+    if (currentScore > highScore) {
+        console.log(`New high score detected: ${currentScore} > ${highScore}`);
+        try {
+            scene.promptForHighScoreName(currentScore);
+        } catch (error) {
+            console.error('Error triggering promptForHighScoreName:', error);
+        }
     } else {
-        console.log(`Score ${score} does not beat high score ${highScore}`);
+        console.log(`No new high score: ${currentScore} <= ${highScore}`);
     }
 }
 
@@ -170,7 +176,7 @@ function lockBlock() {
             console.log(`Stacking detected at grid[${gridY}][${gridX}], phraseId=${currentPhraseId}`);
             sceneRef.sound.play('wrongSound');
             sceneRef.sound.play('merde');
-            totalScore = Math.max(0, totalScore - 50);
+            totalScore = Math.max(0, totalScore - 0);
             scoreTextObj.setText(`Score: ${totalScore}`);
             console.log(`Score deducted: ${totalScore}`);
             currentBlock.destroy();
