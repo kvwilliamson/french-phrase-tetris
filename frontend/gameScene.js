@@ -39,7 +39,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('excellent', 'excellent.m4a');
         this.load.audio('merde', 'merde.m4a');
         this.load.audio('placedSound', 'placed.wav');
-        this.load.audio('highScoreFanfare', 'highScoreFanfare.mp3');
+        this.load.audio('highScoreFanfare', 'highScoreFanfare.wav');
         // Optional: this.load.image('trophy', 'trophy.png');
         this.load.on('filecomplete', (key) => {
             console.log(`Loaded asset: ${key}`);
