@@ -13,11 +13,12 @@ with open(input_file, 'r', encoding='utf-8') as f:
 processed_lines = []
 for line in lines:
     if line.rstrip().endswith('.'):  # only process lines ending with period
-        line = line.rstrip()[:-1] + ' .\n'  # remove period, add space + period + newline
+        line = line.rstrip()[:-1]
+        line += ' .\n'  # remove period, add space + period + newline
     processed_lines.append(line)
 
 # Write to new file
 with open(output_file, 'w', encoding='utf-8') as f:
     f.writelines(processed_lines)
 
-print(f"Done! Added spaces before periods and saved to clean2.txt")
+print("Done! Added spaces before periods and saved to clean2.txt")
