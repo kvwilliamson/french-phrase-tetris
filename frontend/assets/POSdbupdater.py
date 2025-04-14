@@ -8,10 +8,7 @@ import os
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("pos_tagging.log"),
-        logging.StreamHandler()
-    ]
+    handlers=[logging.FileHandler("pos_tagging.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -44,8 +41,9 @@ POS_MAPPING = {
     "PROPN": "Noms",
     "PUNCT": "Other",
     "SYM": "Other",
-    "X": "Other"
+    "X": "Other",
 }
+
 
 def load_phrases(file_path):
     """Load phrases from JSON file."""
@@ -53,7 +51,7 @@ def load_phrases(file_path):
         if not file_path.exists():
             logger.error(f"File not found: {file_path}")
             return []
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             phrases = json.load(f)
         logger.info(f"Loaded {len(phrases)} entries from {file_path}")
         return phrases
@@ -61,9 +59,11 @@ def load_phrases(file_path):
         logger.error(f"Failed to load phrases from {file_path}: {str(e)}")
         return []
 
+
 def normalize_token(token):
     """Normalize token to handle apostrophes."""
-    return token.replace("’", "'")
+    return token.replace("'", "'")
+
 
 def recombine_tokens(tokens, pos_tags, input_words):
     """
@@ -80,10 +80,31 @@ def recombine_tokens(tokens, pos_tags, input_words):
         current_pos = pos_tags[i]
 
         # Handle elisions and contractions (e.g., "j'", "C'", "L'")
-        if i + 1 < len(tokens) and current in {"J'", "s'", "l'", "d'", "n'", "c'", "t'", "m'", "qu'", "C'", "T'", "L'", "Qu'"}:
+        if i + 1 < len(tokens) and current in {
+            "J'",
+            "s'",
+            "l'",
+            "d'",
+            "n'",
+            "c'",
+            "t'",
+            "m'",
+            "qu'",
+            "C'",
+            "T'",
+            "L'",
+            "Qu'",
+        }:
             next_token = normalize_token(tokens[i + 1])
             # Try specific contractions
-            if current == "j'" and next_token in {"ai", "y", "entends", "appelle", "attendais", "suis"}:
+            if current == "j'" and next_token in {
+                "ai",
+                "y",
+                "entends",
+                "appelle",
+                "attendais",
+                "suis",
+            }:
                 combined = "j'" + next_token
                 recombined_tokens.append(combined)
                 recombined_pos.append(pos_tags[i + 1])  # Use verb's POS
@@ -136,8 +157,15 @@ def recombine_tokens(tokens, pos_tags, input_words):
                 continue
 
         # Handle complex phrases (e.g., "s'il-te-plaît")
-        if i + 5 < len(tokens) and current == "s'" and normalize_token(tokens[i + 1]) == "il" and tokens[i + 2] == "-" and \
-           normalize_token(tokens[i + 3]) == "te" and tokens[i + 4] == "-" and normalize_token(tokens[i + 5]) == "plaît":
+        if (
+            i + 5 < len(tokens)
+            and current == "s'"
+            and normalize_token(tokens[i + 1]) == "il"
+            and tokens[i + 2] == "-"
+            and normalize_token(tokens[i + 3]) == "te"
+            and tokens[i + 4] == "-"
+            and normalize_token(tokens[i + 5]) == "plaît"
+        ):
             combined = "s'il-te-plaît"
             if combined in input_words_normalized:
                 recombined_tokens.append(combined)
@@ -154,25 +182,12 @@ def recombine_tokens(tokens, pos_tags, input_words):
                 i += 2
                 continue
 
-        # Handle question markers (e.g., "Est-ce", "Qu'est-ce")
-        if i + 2 < len(tokens) and current == "Est" and tokens[i + 1] == "-ce":
-            combined = "Est-ce"
-            recombined_tokens.append(combined)
-            recombined_pos.append(pos_tags[i])  # Use "Est" POS
-            i += 2
-            continue
-        if i + 3 < len(tokens) and current == "Qu'" and normalize_token(tokens[i + 1]) == "est" and tokens[i + 2] == "-ce":
-            combined = "Qu'est-ce"
-            recombined_tokens.append(combined)
-            recombined_pos.append(pos_tags[i + 1])  # Use "est" POS
-            i += 3
-            continue
-
         recombined_tokens.append(current)
         recombined_pos.append(current_pos)
         i += 1
 
     return recombined_tokens, recombined_pos
+
 
 def validate_and_tag_phrase(phrase):
     """
@@ -227,7 +242,10 @@ def validate_and_tag_phrase(phrase):
         input_words_normalized = [normalize_token(w) for w in input_words]
         if tokens_without_punct != input_words_normalized:
             logger.warning(f"Token mismatch in phrase {original_phrase}: got {recombined_tokens}")
-            logger.debug(f"Expected (w/o punct): {input_words_normalized}, Got (w/o punct): {tokens_without_punct}")
+            logger.debug(
+                f"Expected (w/o punct): {input_words_normalized}, "
+                f"Got (w/o punct): {tokens_without_punct}"
+            )
             # Relax validation: accept if lengths match
             if len(tokens_without_punct) == len(input_words_normalized):
                 logger.info(f"Accepting phrase with minor mismatch: {original_phrase}")
@@ -236,13 +254,11 @@ def validate_and_tag_phrase(phrase):
 
         logger.debug(f"Phrase: {recombined_tokens}, POS: {recombined_pos}")
 
-        return {
-            "phrase": recombined_tokens,
-            "pos": recombined_pos
-        }
+        return {"phrase": recombined_tokens, "pos": recombined_pos}
     except Exception as e:
         logger.error(f"Error processing phrase {original_phrase}: {str(e)}")
         return None
+
 
 def main():
     # File paths
@@ -269,11 +285,12 @@ def main():
 
     # Write output
     try:
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(valid_phrases, f, ensure_ascii=False, indent=2)
         logger.info(f"Wrote {len(valid_phrases)} phrases to {output_path}")
     except Exception as e:
         logger.error(f"Failed to write output to {output_path}: {str(e)}")
+
 
 if __name__ == "__main__":
     main()
