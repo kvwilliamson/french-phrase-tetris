@@ -59,10 +59,10 @@
       "Noms",
       "Adjectifs",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -299,12 +299,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Pronoms",
       "Verbes",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -387,11 +387,11 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Pronoms",
       "Verbes",
       "Prépositions",
       "Articles",
+      "Verbes",
+      "Noms",
       "Other"
     ]
   },
@@ -478,9 +478,9 @@
       "Adjectifs",
       "Articles",
       "Noms",
-      "Other",
       "Adverbes",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -610,9 +610,9 @@
       "Adjectifs",
       "Adverbes",
       "Prépositions",
-      "Other",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -650,7 +650,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Noms",
       "Noms",
       "Prépositions",
       "Noms",
@@ -721,7 +721,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -826,8 +826,8 @@
     ],
     "pos": [
       "Articles",
-      "Other",
-      "Other",
+      "Noms",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Noms",
@@ -848,13 +848,13 @@
     ],
     "pos": [
       "Articles",
-      "Other",
-      "Other",
-      "Pronoms",
+      "Noms",
       "Verbes",
       "Prépositions",
       "Articles",
-      "Adjectifs"
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -874,9 +874,9 @@
       "Noms",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -1028,9 +1028,9 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -1114,11 +1114,11 @@
       "Articles",
       "Noms",
       "Noms",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -1203,7 +1203,7 @@
       "Noms",
       "Prépositions",
       "Noms",
-      "Other",
+      "Noms",
       "Articles",
       "Adjectifs",
       "Other"
@@ -1271,7 +1271,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -1290,11 +1290,11 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -1311,7 +1311,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Adjectifs",
@@ -1401,10 +1401,10 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -1421,7 +1421,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -1511,10 +1511,10 @@
       "Noms",
       "Adverbes",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -1596,13 +1596,13 @@
     ],
     "pos": [
       "Articles",
-      "Other",
-      "Other",
       "Noms",
       "Noms",
+      "Prépositions",
+      "Articles",
       "Noms",
-      "Pronoms",
-      "Noms"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -1751,12 +1751,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
-      "Pronoms",
-      "Other",
       "Verbes",
       "Prépositions",
-      "Articles"
+      "Noms",
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -1861,7 +1861,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Articles",
       "Noms",
       "Adverbes",
@@ -1952,9 +1952,9 @@
       "Pronoms",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -2060,11 +2060,11 @@
       "Articles",
       "Noms",
       "Adjectifs",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -2151,8 +2151,8 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -2327,7 +2327,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -2370,9 +2370,9 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Noms"
+      "Noms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -2389,7 +2389,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Noms",
       "Adverbes",
       "Articles",
       "Noms",
@@ -2479,10 +2479,10 @@
       "Noms",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -2500,11 +2500,11 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
       "Adverbes",
       "Prépositions",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -2569,8 +2569,8 @@
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -2610,11 +2610,11 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Adverbes"
+      "Adverbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -2808,11 +2808,11 @@
       "Articles",
       "Noms",
       "Adjectifs",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -2919,7 +2919,7 @@
       "Noms",
       "Verbes",
       "Articles",
-      "Other",
+      "Noms",
       "Prépositions",
       "Noms",
       "Other"
@@ -2962,11 +2962,11 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -3005,10 +3005,10 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
-      "Other",
+      "Noms",
       "Adjectifs",
       "Other"
     ]
@@ -3029,10 +3029,10 @@
       "Noms",
       "Adjectifs",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -3070,7 +3070,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Noms",
       "Adjectifs",
       "Prépositions",
       "Noms",
@@ -3096,8 +3096,8 @@
       "Verbes",
       "Prépositions",
       "Articles",
-      "Other",
-      "Other",
+      "Noms",
+      "Noms",
       "Other"
     ]
   },
@@ -3184,9 +3184,9 @@
       "Adjectifs",
       "Adjectifs",
       "Prépositions",
-      "Other",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -3227,10 +3227,10 @@
       "Noms",
       "Adverbes",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -3449,7 +3449,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -3493,7 +3493,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -3512,11 +3512,11 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -3643,12 +3643,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Pronoms",
       "Noms",
       "Prépositions",
       "Adjectifs",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -3777,10 +3777,10 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -3818,13 +3818,13 @@
     ],
     "pos": [
       "Articles",
-      "Other",
-      "Other",
-      "Pronoms",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -3844,9 +3844,9 @@
       "Adjectifs",
       "Prépositions",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -4061,12 +4061,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Pronoms",
       "Verbes",
       "Adverbes",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -4175,7 +4175,7 @@
       "Noms",
       "Prépositions",
       "Articles",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -4239,10 +4239,10 @@
       "Noms",
       "Adjectifs",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -4261,10 +4261,10 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -4306,9 +4306,9 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
       "Verbes",
-      "Pronoms"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -4417,8 +4417,8 @@
       "Articles",
       "Noms",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -4434,7 +4434,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -4544,13 +4544,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Adverbes",
-      "Other",
-      "Other",
-      "Pronoms"
+      "Verbes",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -4565,14 +4565,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -4699,7 +4699,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -4742,7 +4742,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Adjectifs",
@@ -4764,7 +4764,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Noms",
       "Articles",
       "Noms",
@@ -4851,14 +4851,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -4878,7 +4878,7 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Other"
     ]
@@ -4920,7 +4920,7 @@
       "Articles",
       "Noms",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -4941,12 +4941,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Verbes",
       "Other",
       "Verbes",
-      "Other",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -5005,14 +5005,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -5051,7 +5051,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -5116,7 +5116,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -5164,9 +5164,9 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5182,13 +5182,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
-      "Other",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5204,7 +5204,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -5226,7 +5226,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Verbes",
@@ -5247,14 +5247,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5271,12 +5271,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Noms",
-      "Other",
-      "Pronoms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5314,13 +5314,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
-      "Other",
       "Noms",
       "Adjectifs",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5336,7 +5336,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -5379,14 +5379,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Adjectifs"
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5403,7 +5403,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -5428,9 +5428,9 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Noms"
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5469,7 +5469,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Adjectifs",
@@ -5491,7 +5491,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
@@ -5512,13 +5512,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Noms"
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -5535,7 +5535,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -5557,7 +5557,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Articles",
@@ -5579,7 +5579,7 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Articles",
@@ -5600,7 +5600,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -5623,7 +5623,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Noms",
       "Prépositions",
       "Articles",
@@ -5643,14 +5643,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5667,7 +5667,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Adjectifs",
       "Prépositions",
@@ -5712,7 +5712,7 @@
       "Articles",
       "Noms",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -5731,14 +5731,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
       "Adjectifs",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5755,12 +5755,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Noms",
       "Other",
       "Noms",
-      "Other",
-      "Prépositions"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5776,7 +5776,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -5802,9 +5802,9 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -5819,14 +5819,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -5887,7 +5887,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Adjectifs",
       "Articles",
@@ -5907,14 +5907,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Verbes",
       "Noms",
       "Prépositions",
-      "Other",
       "Verbes",
-      "Articles"
+      "Verbes",
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -5931,7 +5931,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -5975,7 +5975,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Adjectifs",
@@ -6040,7 +6040,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Noms",
       "Articles",
       "Noms",
@@ -6062,7 +6062,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -6085,7 +6085,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Other",
       "Verbes",
@@ -6128,12 +6128,12 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -6150,7 +6150,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -6173,7 +6173,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Articles",
@@ -6193,14 +6193,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Verbes",
       "Noms",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -6261,7 +6261,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Noms",
       "Prépositions",
       "Articles",
@@ -6281,14 +6281,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
-      "Other",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -6305,7 +6305,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -6371,7 +6371,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Noms",
@@ -6393,7 +6393,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Pronoms",
       "Verbes",
@@ -6414,7 +6414,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -6440,9 +6440,9 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -6459,7 +6459,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -6502,13 +6502,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -6524,7 +6524,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -6547,7 +6547,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -6567,14 +6567,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -6591,7 +6591,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Articles",
@@ -6613,7 +6613,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Articles",
@@ -6634,7 +6634,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -6660,7 +6660,7 @@
       "Prépositions",
       "Adjectifs",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Noms",
       "Other"
     ]
@@ -6679,7 +6679,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Noms",
       "Articles",
@@ -6699,14 +6699,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -6745,7 +6745,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -6811,7 +6811,7 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -6843,7 +6843,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "oublié",
       "mes",
       "clés",
@@ -6853,14 +6853,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -6898,7 +6898,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -6947,8 +6947,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7053,7 +7053,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Other",
@@ -7118,7 +7118,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -7129,7 +7129,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "perdu",
       "mon",
       "portefeuille",
@@ -7139,14 +7139,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7206,7 +7206,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Articles",
@@ -7272,7 +7272,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -7289,18 +7289,18 @@
       "un",
       "écureuil",
       "dans",
-      "l’arbre",
+      "l'arbre",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Noms",
-      "Noms"
+      "Other"
     ]
   },
   {
@@ -7338,7 +7338,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -7377,13 +7377,13 @@
       "tombée",
       "très",
       "rapidement",
-      "aujourd’hui",
+      "aujourd'hui",
       "."
     ],
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Adverbes",
       "Adverbes",
@@ -7417,7 +7417,7 @@
     "phrase": [
       "Ce",
       "film",
-      "m’a",
+      "m'a",
       "beaucoup",
       "fait",
       "réfléchir",
@@ -7427,12 +7427,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Adjectifs",
-      "Other",
-      "Adverbes",
-      "Other",
       "Verbes",
-      "Adverbes"
+      "Adverbes",
+      "Verbes",
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -7449,7 +7449,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adverbes",
       "Adverbes",
@@ -7459,7 +7459,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "reçu",
       "une",
       "lettre",
@@ -7469,14 +7469,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -7497,8 +7497,8 @@
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7514,13 +7514,13 @@
     ],
     "pos": [
       "Articles",
-      "Other",
       "Noms",
       "Adjectifs",
       "Adverbes",
       "Prépositions",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -7531,18 +7531,18 @@
       "le",
       "bus",
       "pour",
-      "l’aéroport",
+      "l'aéroport",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Noms",
-      "Noms"
+      "Other"
     ]
   },
   {
@@ -7569,7 +7569,7 @@
   },
   {
     "phrase": [
-      "J’aime",
+      "J'aime",
       "marcher",
       "dans",
       "la",
@@ -7579,36 +7579,14 @@
       "."
     ],
     "pos": [
-      "Other",
       "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
-    ]
-  },
-  {
-    "phrase": [
-      "Ce",
-      "matin",
-      "j’ai",
-      "oublié",
-      "de",
-      "mettre",
-      "chaussettes",
-      "."
-    ],
-    "pos": [
-      "Articles",
       "Noms",
-      "Adjectifs",
-      "Other",
-      "Verbes",
-      "Prépositions",
-      "Verbes",
-      "Noms"
+      "Other"
     ]
   },
   {
@@ -7639,7 +7617,7 @@
       "chien",
       "aboie",
       "quand",
-      "quelqu’un",
+      "quelqu'un",
       "sonne",
       "toujours",
       "."
@@ -7647,12 +7625,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Other",
+      "Noms",
       "Other",
       "Articles",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -7679,7 +7657,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "mis",
       "mon",
       "manteau",
@@ -7689,19 +7667,19 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Pronoms",
       "Verbes",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "oublié",
       "mon",
       "parapluie",
@@ -7711,14 +7689,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7738,9 +7716,9 @@
       "Verbes",
       "Adjectifs",
       "Articles",
-      "Other",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -7757,7 +7735,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Prépositions",
@@ -7778,7 +7756,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Verbes",
       "Prépositions",
@@ -7795,18 +7773,18 @@
       "un",
       "pull",
       "pour",
-      "l’hiver",
+      "l'hiver",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Noms",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -7822,7 +7800,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -7855,7 +7833,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "nettoyé",
       "toute",
       "la",
@@ -7865,14 +7843,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Articles",
       "Noms",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7888,7 +7866,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -7910,7 +7888,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -7937,8 +7915,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7948,7 +7926,7 @@
       "toujours",
       "avant",
       "de",
-      "s’endormir",
+      "s'endormir",
       "profondément",
       "."
     ],
@@ -7959,8 +7937,8 @@
       "Prépositions",
       "Prépositions",
       "Verbes",
-      "Adjectifs",
-      "Adverbes"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -7969,7 +7947,7 @@
       "lit",
       "toujours",
       "avant",
-      "d’aller",
+      "d'aller",
       "se",
       "coucher",
       "."
@@ -7979,10 +7957,10 @@
       "Verbes",
       "Adverbes",
       "Prépositions",
-      "Adverbes",
       "Verbes",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -8197,7 +8175,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Noms",
       "Noms",
       "Prépositions",
       "Articles",
@@ -8484,7 +8462,7 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
+      "Noms",
       "Prépositions",
       "Articles",
       "Noms",
@@ -10001,7 +9979,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Noms",
       "Noms",
       "Prépositions",
       "Articles",
@@ -10242,12 +10220,12 @@
     ],
     "pos": [
       "Verbes",
-      "Other",
-      "Articles",
       "Adjectifs",
       "Noms",
       "Prépositions",
       "Verbes",
+      "Other",
+      "Pronoms",
       "Other"
     ]
   },
@@ -10265,12 +10243,12 @@
     "pos": [
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -10330,13 +10308,13 @@
     ],
     "pos": [
       "Verbes",
-      "Other",
-      "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -10353,7 +10331,7 @@
     "pos": [
       "Verbes",
       "Prépositions",
-      "Other",
+      "Noms",
       "Prépositions",
       "Verbes",
       "Prépositions",
@@ -10395,7 +10373,7 @@
       "."
     ],
     "pos": [
-      "Other",
+      "Verbes",
       "Prépositions",
       "Articles",
       "Noms",
@@ -10461,7 +10439,7 @@
       "."
     ],
     "pos": [
-      "Other",
+      "Verbes",
       "Prépositions",
       "Prépositions",
       "Noms",
@@ -10484,13 +10462,13 @@
     ],
     "pos": [
       "Verbes",
-      "Other",
-      "Prépositions",
       "Articles",
       "Noms",
       "Other",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -10505,14 +10483,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
-      "Other",
+      "Noms",
       "Pronoms",
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -10549,7 +10527,7 @@
       "."
     ],
     "pos": [
-      "Other",
+      "Noms",
       "Articles",
       "Noms",
       "Prépositions",
@@ -10599,8 +10577,8 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -10619,10 +10597,10 @@
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -10681,7 +10659,7 @@
       "."
     ],
     "pos": [
-      "Other",
+      "Verbes",
       "Prépositions",
       "Noms",
       "Other",
@@ -10707,10 +10685,10 @@
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -10772,11 +10750,11 @@
       "Noms",
       "Adjectifs",
       "Verbes",
-      "Other",
-      "Articles",
-      "Other",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Verbes",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -10791,14 +10769,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
-      "Pronoms",
-      "Other",
-      "Articles",
+      "Verbes",
       "Noms",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Articles",
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -10828,7 +10806,7 @@
       "Petit",
       "à",
       "petit",
-      "l’oiseau",
+      "l'oiseau",
       "fait",
       "son",
       "nid",
@@ -10839,10 +10817,10 @@
       "Prépositions",
       "Adjectifs",
       "Noms",
-      "Adjectifs",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -10870,7 +10848,7 @@
   {
     "phrase": [
       "Ce",
-      "n’est",
+      "n'est",
       "pas",
       "la",
       "mer",
@@ -10879,14 +10857,14 @@
       "."
     ],
     "pos": [
-      "Articles",
-      "Noms",
-      "Other",
+      "Pronoms",
+      "Verbes",
       "Adverbes",
       "Articles",
       "Verbes",
       "Prépositions",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -10896,19 +10874,19 @@
       "ont",
       "toujours",
       "tort",
-      "c’est",
+      "c'est",
       "sûr",
       "."
     ],
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Noms",
+      "Adverbes",
+      "Verbes",
       "Adjectifs",
-      "Other",
-      "Adjectifs"
+      "Other"
     ]
   },
   {
@@ -11001,7 +10979,7 @@
   },
   {
     "phrase": [
-      "L’habit",
+      "L'habit",
       "ne",
       "fait",
       "pas",
@@ -11011,14 +10989,14 @@
       "."
     ],
     "pos": [
-      "Other",
       "Noms",
       "Adverbes",
       "Verbes",
       "Adverbes",
       "Articles",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -11060,31 +11038,31 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Other",
-      "Verbes"
+      "Noms",
+      "Verbes",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Ce",
-      "n’est",
+      "n'est",
       "pas",
       "en",
       "criant",
-      "qu’on",
+      "qu'on",
       "convainc",
       "."
     ],
     "pos": [
-      "Articles",
-      "Noms",
-      "Other",
+      "Pronoms",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Verbes",
-      "Other",
-      "Pronoms"
+      "Pronoms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -11099,14 +11077,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Articles",
       "Noms",
       "Adverbes",
       "Verbes",
       "Adverbes",
-      "Other",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -11212,11 +11190,11 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
       "Adjectifs",
-      "Adjectifs"
+      "Adjectifs",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -11257,10 +11235,10 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
+      "Noms",
       "Articles",
       "Noms",
-      "Articles"
+      "Other"
     ]
   },
   {
@@ -11276,7 +11254,7 @@
     ],
     "pos": [
       "Noms",
-      "Other",
+      "Noms",
       "Verbes",
       "Prépositions",
       "Noms",
@@ -11344,7 +11322,7 @@
       "Articles",
       "Noms",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Articles",
       "Noms",
@@ -11368,7 +11346,7 @@
       "Verbes",
       "Adverbes",
       "Prépositions",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Other"
     ]
@@ -11386,7 +11364,7 @@
     ],
     "pos": [
       "Noms",
-      "Other",
+      "Noms",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -11433,10 +11411,10 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
+      "Noms",
       "Articles",
       "Noms",
-      "Articles"
+      "Other"
     ]
   },
   {
@@ -11453,12 +11431,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -11563,12 +11541,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Other",
       "Articles",
-      "Noms"
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -11587,10 +11565,10 @@
       "Noms",
       "Adjectifs",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -11696,11 +11674,11 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles",
       "Noms",
-      "Other",
-      "Adverbes"
+      "Verbes",
+      "Adverbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -11716,7 +11694,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -11741,7 +11719,7 @@
       "Noms",
       "Prépositions",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Other"
@@ -11783,7 +11761,7 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -11804,7 +11782,7 @@
     ],
     "pos": [
       "Prépositions",
-      "Other",
+      "Noms",
       "Pronoms",
       "Verbes",
       "Adverbes",
@@ -11827,7 +11805,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Noms",
@@ -11872,7 +11850,7 @@
       "Articles",
       "Noms",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -11915,7 +11893,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -12091,7 +12069,7 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
+      "Noms",
       "Other",
       "Articles",
       "Noms",
@@ -12113,7 +12091,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -12135,7 +12113,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Verbes",
@@ -12179,7 +12157,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
@@ -12211,28 +12189,6 @@
   },
   {
     "phrase": [
-      "Bonjour",
-      "madame",
-      "comment",
-      "allez-vous",
-      "ce",
-      "matin",
-      "finalement",
-      "?"
-    ],
-    "pos": [
-      "Other",
-      "Noms",
-      "Adverbes",
-      "Other",
-      "Verbes",
-      "Pronoms",
-      "Articles",
-      "Noms"
-    ]
-  },
-  {
-    "phrase": [
       "Le",
       "clocher",
       "sonne",
@@ -12247,10 +12203,10 @@
       "Noms",
       "Adjectifs",
       "Verbes",
-      "Other",
-      "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -12311,7 +12267,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Articles",
@@ -12334,11 +12290,11 @@
       "Articles",
       "Noms",
       "Verbes",
-      "Other",
-      "Pronoms",
-      "Other",
       "Verbes",
-      "Prépositions"
+      "Verbes",
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12359,8 +12315,8 @@
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12380,9 +12336,9 @@
       "Verbes",
       "Prépositions",
       "Articles",
-      "Other",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -12400,11 +12356,11 @@
       "Pronoms",
       "Verbes",
       "Noms",
-      "Other",
-      "Prépositions",
       "Noms",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12421,12 +12377,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
       "Verbes",
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Pronoms"
+      "Verbes",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -12443,12 +12399,12 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
       "Verbes",
-      "Other",
-      "Pronoms",
-      "Other",
-      "Adjectifs"
+      "Verbes",
+      "Verbes",
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12469,8 +12425,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -12491,8 +12447,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12531,9 +12487,9 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Other",
+      "Noms",
       "Adjectifs",
       "Noms",
       "Other"
@@ -12552,7 +12508,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Adjectifs",
@@ -12575,7 +12531,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Other",
@@ -12596,7 +12552,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -12620,7 +12576,7 @@
       "Articles",
       "Noms",
       "Adjectifs",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Verbes",
       "Adverbes",
@@ -12635,7 +12591,7 @@
       "après",
       "la",
       "messe",
-      "d’accord",
+      "d'accord",
       "?"
     ],
     "pos": [
@@ -12645,8 +12601,8 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12664,7 +12620,7 @@
       "Pronoms",
       "Verbes",
       "Other",
-      "Other",
+      "Noms",
       "Verbes",
       "Prépositions",
       "Noms",
@@ -12708,8 +12664,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Other",
+      "Noms",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Other"
@@ -12772,7 +12728,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -12789,23 +12745,23 @@
       "on",
       "mange",
       "dehors",
-      "aujourd’hui",
+      "aujourd'hui",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Noms",
       "Pronoms",
       "Verbes",
       "Prépositions",
-      "Noms",
+      "Adverbes",
       "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "vu",
       "les",
       "nouvelles",
@@ -12815,14 +12771,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
       "Adjectifs",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12861,7 +12817,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
@@ -12895,7 +12851,7 @@
     "phrase": [
       "La",
       "poste",
-      "n’ouvre",
+      "n'ouvre",
       "plus",
       "le",
       "samedi",
@@ -12905,19 +12861,19 @@
     "pos": [
       "Articles",
       "Noms",
-      "Pronoms",
       "Verbes",
       "Adverbes",
       "Articles",
       "Noms",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "On",
       "prend",
-      "l’apéro",
+      "l'apéro",
       "chez",
       "moi",
       "ce",
@@ -12928,11 +12884,11 @@
       "Pronoms",
       "Verbes",
       "Noms",
-      "Verbes",
       "Prépositions",
       "Pronoms",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -12940,7 +12896,7 @@
       "La",
       "cloche",
       "de",
-      "l’église",
+      "l'église",
       "sonne",
       "trop",
       "fort",
@@ -12951,10 +12907,10 @@
       "Noms",
       "Prépositions",
       "Noms",
-      "Noms",
       "Adjectifs",
       "Adverbes",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -12971,7 +12927,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Pronoms",
@@ -13003,7 +12959,7 @@
   },
   {
     "phrase": [
-      "L’eau",
+      "L'eau",
       "de",
       "la",
       "source",
@@ -13013,14 +12969,14 @@
       "."
     ],
     "pos": [
-      "Other",
       "Noms",
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -13036,7 +12992,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -13059,7 +13015,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -13075,7 +13031,7 @@
       "à",
       "cache-cache",
       "dans",
-      "l’église",
+      "l'église",
       "."
     ],
     "pos": [
@@ -13083,10 +13039,10 @@
       "Noms",
       "Verbes",
       "Prépositions",
-      "Other",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13103,7 +13059,7 @@
     "pos": [
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
@@ -13128,7 +13084,7 @@
       "Articles",
       "Noms",
       "Articles",
-      "Other"
+      "Noms"
     ]
   },
   {
@@ -13138,7 +13094,7 @@
       "sent",
       "fort",
       "mais",
-      "c’est",
+      "c'est",
       "délicieux",
       "."
     ],
@@ -13148,9 +13104,9 @@
       "Verbes",
       "Adverbes",
       "Other",
+      "Verbes",
       "Adjectifs",
-      "Other",
-      "Adjectifs"
+      "Other"
     ]
   },
   {
@@ -13171,13 +13127,13 @@
       "Articles",
       "Noms",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "vu",
       "les",
       "nouvelles",
@@ -13187,13 +13143,13 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
       "Noms",
       "Prépositions",
+      "Noms",
       "Other"
     ]
   },
@@ -13205,40 +13161,18 @@
       "plein",
       "de",
       "mousse",
-      "aujourd’hui",
+      "aujourd'hui",
       "."
     ],
     "pos": [
       "Articles",
       "Noms",
-      "Other",
-      "Adjectifs",
-      "Prépositions",
-      "Noms",
-      "Noms",
-      "Other"
-    ]
-  },
-  {
-    "phrase": [
-      "Viens",
-      "boire",
-      "un",
-      "coup",
-      "j’ai",
-      "du",
-      "rosé",
-      "."
-    ],
-    "pos": [
-      "Other",
       "Verbes",
-      "Articles",
-      "Noms",
       "Adjectifs",
-      "Other",
       "Prépositions",
-      "Verbes"
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -13353,7 +13287,7 @@
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "entendu",
       "les",
       "grenouilles",
@@ -13363,14 +13297,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Adverbes",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13432,11 +13366,11 @@
       "Pronoms",
       "Verbes",
       "Noms",
-      "Other",
       "Adverbes",
       "Pronoms",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -13474,13 +13408,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -13540,13 +13474,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -13606,13 +13540,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Adjectifs",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13631,10 +13565,10 @@
       "Adverbes",
       "Verbes",
       "Adverbes",
-      "Other",
-      "Pronoms",
       "Verbes",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -13653,10 +13587,10 @@
       "Verbes",
       "Pronoms",
       "Verbes",
-      "Other",
-      "Pronoms",
-      "Other",
-      "Adverbes"
+      "Verbes",
+      "Adverbes",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -13672,13 +13606,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Pronoms",
       "Verbes",
       "Adverbes",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13716,7 +13650,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -13743,8 +13677,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Prépositions"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13760,13 +13694,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
-      "Other",
-      "Adjectifs"
+      "Adjectifs",
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13784,7 +13718,7 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Adverbes",
@@ -13805,12 +13739,12 @@
     "pos": [
       "Pronoms",
       "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Other",
+      "Noms",
       "Prépositions",
       "Noms",
-      "Prépositions"
+      "Other"
     ]
   },
   {
@@ -13852,7 +13786,7 @@
       "Prépositions",
       "Adjectifs",
       "Prépositions",
-      "Other",
+      "Noms",
       "Adverbes",
       "Other"
     ]
@@ -13870,35 +13804,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Pronoms",
       "Pronoms",
-      "Adjectifs"
-    ]
-  },
-  {
-    "phrase": [
-      "Il",
-      "faut",
-      "que",
-      "j'y",
-      "aille",
-      "maintenant",
-      "désolé",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
-      "Verbes",
-      "Other",
-      "Other",
-      "Pronoms",
-      "Pronoms",
-      "Verbes",
-      "Adverbes"
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -13919,51 +13831,7 @@
       "Articles",
       "Adjectifs",
       "Noms",
-      "Other",
-      "Adverbes"
-    ]
-  },
-  {
-    "phrase": [
-      "Je",
-      "te",
-      "laisse",
-      "j'ai",
-      "un",
-      "rendez-vous",
-      "important",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
-      "Pronoms",
-      "Verbes",
-      "Other",
-      "Pronoms",
-      "Other",
-      "Verbes",
-      "Articles"
-    ]
-  },
-  {
-    "phrase": [
-      "C'est",
-      "la",
-      "première",
-      "fois",
-      "que",
-      "j'entends",
-      "ça",
-      "."
-    ],
-    "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
-      "Articles",
-      "Adjectifs",
-      "Other",
-      "Noms",
+      "Adverbes",
       "Other"
     ]
   },
@@ -14002,13 +13870,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Noms",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14024,7 +13892,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Noms",
@@ -14090,7 +13958,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
@@ -14134,7 +14002,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Prépositions",
@@ -14177,14 +14045,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
-      "Other",
+      "Verbes",
       "Other",
       "Pronoms",
       "Pronoms",
-      "Adverbes"
+      "Pronoms",
+      "Verbes",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -14222,7 +14090,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
@@ -14266,13 +14134,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
-      "Adverbes",
-      "Other",
       "Verbes",
-      "Pronoms"
+      "Adverbes",
+      "Verbes",
+      "Pronoms",
+      "Pronoms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -14309,14 +14177,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Pronoms",
       "Other",
       "Pronoms",
       "Pronoms",
       "Verbes",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -14332,7 +14200,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Pronoms",
       "Verbes",
@@ -14354,13 +14222,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14398,7 +14266,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -14420,13 +14288,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Noms",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14447,8 +14315,8 @@
       "Prépositions",
       "Pronoms",
       "Prépositions",
-      "Other",
-      "Pronoms"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -14464,7 +14332,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Noms",
       "Noms",
@@ -14485,14 +14353,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Other",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -14507,14 +14375,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
-      "Pronoms",
+      "Verbes",
       "Other",
       "Pronoms",
       "Adjectifs",
-      "Prépositions"
+      "Prépositions",
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14557,8 +14425,8 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14573,14 +14441,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Pronoms",
       "Pronoms",
       "Adjectifs",
       "Adjectifs",
       "Articles",
-      "Adjectifs"
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14641,12 +14509,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
-      "Other",
       "Pronoms",
       "Verbes",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14684,7 +14552,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Pronoms",
@@ -14727,14 +14595,14 @@
       "!"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Prépositions",
       "Adverbes",
       "Noms",
       "Prépositions",
       "Verbes",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -14754,7 +14622,7 @@
       "Verbes",
       "Adverbes",
       "Other",
-      "Other",
+      "Verbes",
       "Noms",
       "Other"
     ]
@@ -14777,8 +14645,8 @@
       "Adverbes",
       "Pronoms",
       "Verbes",
-      "Other",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -14821,8 +14689,8 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Pronoms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14837,14 +14705,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
-      "Other",
+      "Verbes",
       "Noms",
-      "Other",
       "Pronoms",
-      "Adverbes"
+      "Adverbes",
+      "Verbes",
+      "Adverbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -14860,13 +14728,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -14882,12 +14750,12 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Pronoms",
       "Pronoms",
-      "Other",
-      "Pronoms",
+      "Verbes",
+      "Verbes",
       "Other"
     ]
   },
@@ -14931,8 +14799,8 @@
       "Adverbes",
       "Adverbes",
       "Pronoms",
-      "Other",
-      "Articles"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -14950,11 +14818,11 @@
       "Pronoms",
       "Verbes",
       "Adverbes",
-      "Other",
-      "Other",
       "Pronoms",
       "Verbes",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -14970,13 +14838,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Articles",
       "Verbes",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -14997,8 +14865,8 @@
       "Prépositions",
       "Articles",
       "Adjectifs",
-      "Other",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -15019,8 +14887,8 @@
       "Adverbes",
       "Verbes",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15036,7 +14904,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -15080,13 +14948,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
-      "Prépositions"
+      "Pronoms",
+      "Verbes",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -15172,7 +15040,7 @@
       "Adjectifs",
       "Other",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Other"
     ]
@@ -15211,14 +15079,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15256,7 +15124,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -15278,13 +15146,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Verbes",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -15305,7 +15173,7 @@
       "Verbes",
       "Adverbes",
       "Verbes",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -15323,12 +15191,12 @@
     "pos": [
       "Pronoms",
       "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Other",
-      "Prépositions",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -15349,8 +15217,8 @@
       "Articles",
       "Noms",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15388,7 +15256,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Verbes",
@@ -15477,12 +15345,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
-      "Other",
       "Pronoms",
       "Pronoms",
       "Verbes",
-      "Adverbes"
+      "Adverbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -15497,14 +15365,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Noms",
       "Prépositions",
       "Articles",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15521,12 +15389,12 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
+      "Verbes",
       "Prépositions",
-      "Other",
+      "Noms",
       "Articles",
       "Noms",
-      "Articles"
+      "Other"
     ]
   },
   {
@@ -15542,35 +15410,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adjectifs",
-      "Other",
-      "Prépositions",
-      "Other",
       "Verbes",
-      "Adverbes"
-    ]
-  },
-  {
-    "phrase": [
-      "Ce",
-      "n'est",
-      "pas",
-      "vraiment",
-      "ce",
-      "que",
-      "j'attendais",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
-      "Other",
+      "Adjectifs",
+      "Verbes",
+      "Verbes",
       "Adverbes",
-      "Other",
-      "Adverbes",
-      "Adverbes",
-      "Other",
-      "Pronoms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15585,14 +15431,14 @@
       "!"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Adverbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15611,10 +15457,10 @@
       "Verbes",
       "Other",
       "Pronoms",
-      "Other",
       "Verbes",
-      "Other",
-      "Prépositions"
+      "Verbes",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15630,13 +15476,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15651,36 +15497,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Other",
       "Pronoms",
       "Verbes",
-      "Pronoms"
-    ]
-  },
-  {
-    "phrase": [
-      "Je",
-      "ne",
-      "peux",
-      "pas",
-      "j'ai",
-      "déjà",
-      "mangé",
-      "."
-    ],
-    "pos": [
       "Pronoms",
-      "Adverbes",
       "Verbes",
-      "Adverbes",
-      "Other",
-      "Pronoms",
-      "Other",
-      "Adverbes"
+      "Other"
     ]
   },
   {
@@ -15717,14 +15541,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Adjectifs",
       "Noms",
       "Prépositions",
-      "Verbes"
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -15807,12 +15631,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
-      "Other",
       "Pronoms",
       "Verbes",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15828,7 +15652,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Prépositions",
@@ -15850,7 +15674,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Noms",
       "Verbes",
@@ -15893,14 +15717,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -15916,13 +15740,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Pronoms",
       "Prépositions",
-      "Pronoms"
+      "Pronoms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -15937,14 +15761,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Pronoms",
       "Pronoms",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -15981,14 +15805,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
-      "Other",
       "Verbes",
-      "Prépositions",
+      "Verbes",
       "Articles",
-      "Adjectifs"
+      "Adjectifs",
+      "Noms",
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16004,13 +15828,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16047,14 +15871,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Adjectifs",
       "Noms",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16070,7 +15894,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -16092,13 +15916,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16117,10 +15941,10 @@
       "Adjectifs",
       "Other",
       "Pronoms",
-      "Other",
-      "Pronoms",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -16141,30 +15965,8 @@
       "Adverbes",
       "Pronoms",
       "Verbes",
-      "Other",
-      "Adverbes"
-    ]
-  },
-  {
-    "phrase": [
-      "Il",
-      "faut",
-      "que",
-      "j'appelle",
-      "mes",
-      "parents",
-      "demain",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
-      "Verbes",
-      "Other",
-      "Other",
-      "Pronoms",
-      "Verbes",
-      "Articles",
-      "Noms"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -16270,11 +16072,11 @@
       "Pronoms",
       "Verbes",
       "Other",
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
-      "Adjectifs"
+      "Adjectifs",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16311,14 +16113,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Noms",
-      "Other",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Verbes",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -16379,19 +16181,19 @@
     "pos": [
       "Noms",
       "Adverbes",
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Tu",
       "veux",
-      "qu’on",
+      "qu'on",
       "mange",
       "ensemble",
       "ce",
@@ -16401,17 +16203,17 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
       "Pronoms",
       "Verbes",
       "Adjectifs",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "oublié",
       "mes",
       "clés",
@@ -16421,21 +16223,21 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Il",
       "faut",
-      "qu’on",
+      "qu'on",
       "parle",
       "de",
       "ce",
@@ -16445,12 +16247,12 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
       "Pronoms",
       "Verbes",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16466,7 +16268,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Prépositions",
@@ -16499,7 +16301,7 @@
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "toujours",
       "la",
       "même",
@@ -16509,36 +16311,14 @@
       "."
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Articles",
       "Adjectifs",
       "Noms",
       "Prépositions",
-      "Noms"
-    ]
-  },
-  {
-    "phrase": [
-      "Je",
-      "peux",
-      "pas",
-      "venir",
-      "j’ai",
-      "un",
-      "truc",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
-      "Verbes",
-      "Adverbes",
-      "Verbes",
-      "Adjectifs",
-      "Verbes",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16579,7 +16359,7 @@
       "Verbes",
       "Verbes",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Other"
@@ -16588,7 +16368,7 @@
   {
     "phrase": [
       "On",
-      "n’a",
+      "n'a",
       "plus",
       "rien",
       "dans",
@@ -16598,13 +16378,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
       "Verbes",
       "Adverbes",
       "Pronoms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16632,7 +16412,7 @@
   {
     "phrase": [
       "Elle",
-      "m’a",
+      "m'a",
       "dit",
       "exactement",
       "la",
@@ -16642,40 +16422,18 @@
     ],
     "pos": [
       "Pronoms",
-      "Noms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adverbes",
       "Articles",
       "Adjectifs",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
-      "mal",
-      "dormi",
-      "j’suis",
-      "épuisé",
-      "ce",
-      "matin",
-      "."
-    ],
-    "pos": [
-      "Other",
-      "Other",
-      "Adverbes",
-      "Prépositions",
-      "Adjectifs",
-      "Other",
-      "Verbes",
-      "Articles"
-    ]
-  },
-  {
-    "phrase": [
-      "J’ai",
+      "J'ai",
       "plus",
       "de",
       "batterie",
@@ -16685,14 +16443,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Noms",
       "Pronoms",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -16719,7 +16477,7 @@
     "phrase": [
       "Ce",
       "film",
-      "m’a",
+      "m'a",
       "vraiment",
       "foutu",
       "les",
@@ -16729,17 +16487,17 @@
     "pos": [
       "Articles",
       "Noms",
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "pas",
       "oublié",
       "quelque",
@@ -16749,14 +16507,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16771,7 +16529,7 @@
       "."
     ],
     "pos": [
-      "Other",
+      "Noms",
       "Adverbes",
       "Other",
       "Pronoms",
@@ -16787,20 +16545,20 @@
       "a",
       "encore",
       "fait",
-      "n’importe",
+      "n'importe",
       "quoi",
       "lui",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
-      "Other",
       "Verbes",
+      "Other",
       "Pronoms",
-      "Pronoms"
+      "Other"
     ]
   },
   {
@@ -16816,7 +16574,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Articles",
@@ -16849,7 +16607,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "vu",
       "ton",
       "message",
@@ -16859,19 +16617,19 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Noms",
       "Verbes",
       "Adverbes",
       "Adverbes",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "passé",
       "une",
       "super",
@@ -16881,14 +16639,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Verbes",
       "Verbes",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -16943,7 +16701,7 @@
       "prêter",
       "vingt",
       "euros",
-      "s’il-te-plaît",
+      "s'il-te-plaît",
       "?"
     ],
     "pos": [
@@ -16953,8 +16711,8 @@
       "Verbes",
       "Other",
       "Noms",
-      "Other",
-      "Verbes"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17003,7 +16761,7 @@
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "qui",
       "cette",
       "personne",
@@ -17013,14 +16771,14 @@
       "?"
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Pronoms",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17038,16 +16796,16 @@
       "Pronoms",
       "Pronoms",
       "Verbes",
-      "Other",
       "Adverbes",
+      "Prépositions",
+      "Other",
       "Noms",
-      "Adjectifs",
-      "Prépositions"
+      "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "bien",
       "reçu",
       "mon",
@@ -17057,19 +16815,19 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "bien",
       "dormi",
       "et",
@@ -17079,19 +16837,19 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Other",
       "Pronoms",
       "Pronoms",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "une",
       "idée",
       "pour",
@@ -17101,14 +16859,14 @@
       "?"
     ],
     "pos": [
-      "Other",
       "Noms",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -17117,7 +16875,7 @@
       "se",
       "retrouve",
       "à",
-      "l’entrée",
+      "l'entrée",
       "du",
       "parc",
       "."
@@ -17128,14 +16886,14 @@
       "Verbes",
       "Prépositions",
       "Noms",
-      "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "toi",
       "qui",
       "as",
@@ -17145,14 +16903,14 @@
       "?"
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17223,7 +16981,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "réservé",
       "une",
       "table",
@@ -17233,21 +16991,21 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Tu",
       "viens",
-      "m’aider",
+      "m'aider",
       "ou",
       "tu",
       "restes",
@@ -17256,13 +17014,13 @@
     ],
     "pos": [
       "Articles",
-      "Noms",
       "Adjectifs",
       "Verbes",
       "Other",
-      "Other",
       "Verbes",
-      "Adverbes"
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -17271,7 +17029,7 @@
       "faut",
       "que",
       "je",
-      "m’achète",
+      "m'achète",
       "un",
       "parapluie",
       "."
@@ -17281,10 +17039,10 @@
       "Verbes",
       "Other",
       "Pronoms",
-      "Noms",
-      "Adjectifs",
+      "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17300,7 +17058,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Verbes",
@@ -17322,7 +17080,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -17337,20 +17095,20 @@
       "suis",
       "pas",
       "sûr",
-      "d’avoir",
+      "d'avoir",
       "tout",
       "compris",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
       "Verbes",
-      "Verbes",
       "Articles",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -17368,7 +17126,7 @@
       "Pronoms",
       "Verbes",
       "Other",
-      "Other",
+      "Verbes",
       "Noms",
       "Prépositions",
       "Verbes",
@@ -17377,7 +17135,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "trouvé",
       "un",
       "super",
@@ -17387,19 +17145,19 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Verbes",
       "Adverbes",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "encore",
       "laissé",
       "traîner",
@@ -17409,20 +17167,20 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
     "phrase": [
       "On",
-      "n’a",
+      "n'a",
       "pas",
       "parlé",
       "de",
@@ -17431,39 +17189,17 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Prépositions",
-      "Articles"
-    ]
-  },
-  {
-    "phrase": [
-      "Je",
-      "crois",
-      "que",
-      "j’ai",
-      "oublié",
-      "mon",
-      "portefeuille",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
-      "Verbes",
-      "Other",
-      "Adjectifs",
-      "Other",
-      "Verbes",
       "Articles",
       "Noms"
     ]
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "toujours",
       "moi",
       "qui",
@@ -17473,14 +17209,14 @@
       "."
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Pronoms",
       "Pronoms",
       "Adjectifs",
       "Prépositions",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -17508,9 +17244,9 @@
   {
     "phrase": [
       "Elle",
-      "m’a",
+      "m'a",
       "dit",
-      "qu’elle",
+      "qu'elle",
       "ne",
       "viendrait",
       "pas",
@@ -17518,13 +17254,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Noms",
-      "Other",
       "Verbes",
-      "Other",
+      "Verbes",
       "Pronoms",
       "Adverbes",
-      "Verbes"
+      "Verbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -17551,7 +17287,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "vu",
       "ce",
       "film",
@@ -17561,36 +17297,36 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Other",
       "Noms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
     "phrase": [
       "On",
-      "s’appelle",
+      "s'appelle",
       "demain",
       "pour",
       "en",
       "reparler",
-      "d’accord",
+      "d'accord",
       "?"
     ],
     "pos": [
       "Pronoms",
       "Verbes",
-      "Verbes",
       "Adverbes",
       "Prépositions",
       "Pronoms",
       "Verbes",
-      "Adverbes"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17598,7 +17334,7 @@
       "Je",
       "pense",
       "que",
-      "c’est",
+      "c'est",
       "une",
       "mauvaise",
       "idée",
@@ -17608,17 +17344,17 @@
       "Pronoms",
       "Verbes",
       "Other",
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Articles",
       "Adjectifs",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Je",
-      "n’ai",
+      "n'ai",
       "pas",
       "reçu",
       "ton",
@@ -17629,12 +17365,12 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
       "Adverbes",
       "Verbes",
       "Adverbes",
       "Adjectifs",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17662,7 +17398,7 @@
   {
     "phrase": [
       "Tu",
-      "m’as",
+      "m'as",
       "manqué",
       "pendant",
       "tout",
@@ -17671,14 +17407,14 @@
       "."
     ],
     "pos": [
-      "Articles",
-      "Noms",
-      "Other",
+      "Pronoms",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Adjectifs",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17708,7 +17444,7 @@
       "Il",
       "a",
       "oublié",
-      "l’anniversaire",
+      "l'anniversaire",
       "de",
       "sa",
       "mère",
@@ -17716,13 +17452,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
       "Verbes",
-      "Noms",
+      "Verbes",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -17730,7 +17466,7 @@
       "On",
       "a",
       "pris",
-      "l’apéro",
+      "l'apéro",
       "chez",
       "des",
       "amis",
@@ -17738,18 +17474,18 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Noms",
-      "Verbes",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "failli",
       "rater",
       "mon",
@@ -17759,19 +17495,19 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "pas",
       "comme",
       "ça",
@@ -17781,21 +17517,21 @@
       "."
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Pronoms",
       "Other",
       "Pronoms",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Je",
       "crois",
-      "qu’il",
+      "qu'il",
       "est",
       "temps",
       "de",
@@ -17805,12 +17541,12 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -17843,23 +17579,23 @@
       "chaud",
       "pour",
       "courir",
-      "aujourd’hui",
+      "aujourd'hui",
       "."
     ],
     "pos": [
       "Pronoms",
       "Verbes",
       "Adverbes",
-      "Other",
+      "Noms",
       "Prépositions",
       "Verbes",
-      "Noms",
+      "Adverbes",
       "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "bien",
       "fermé",
       "la",
@@ -17869,21 +17605,21 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "besoin",
-      "d’un",
+      "d'un",
       "moment",
       "pour",
       "moi",
@@ -17891,14 +17627,14 @@
       "."
     ],
     "pos": [
-      "Other",
       "Verbes",
       "Noms",
-      "Other",
       "Articles",
       "Noms",
       "Prépositions",
-      "Pronoms"
+      "Pronoms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -17925,7 +17661,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "rien",
       "compris",
       "à",
@@ -17935,20 +17671,20 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Pronoms",
       "Verbes",
       "Prépositions",
       "Articles",
       "Adjectifs",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Tu",
-      "m’accompagnes",
+      "m'accompagnes",
       "faire",
       "les",
       "courses",
@@ -17957,20 +17693,20 @@
       "?"
     ],
     "pos": [
-      "Articles",
-      "Noms",
+      "Pronoms",
       "Adjectifs",
       "Verbes",
       "Articles",
       "Noms",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "On",
-      "n’a",
+      "n'a",
       "plus",
       "de",
       "papier",
@@ -17980,13 +17716,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Verbes",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -17995,7 +17731,7 @@
       "veux",
       "que",
       "je",
-      "t’explique",
+      "t'explique",
       "comment",
       "faire",
       "?"
@@ -18005,16 +17741,16 @@
       "Adjectifs",
       "Other",
       "Pronoms",
-      "Adjectifs",
       "Verbes",
       "Adverbes",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
     "phrase": [
       "On",
-      "s’est",
+      "s'est",
       "croisés",
       "ce",
       "matin",
@@ -18025,17 +17761,17 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "déjà",
       "lu",
       "ce",
@@ -18045,14 +17781,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Other",
+      "Noms",
       "Articles",
       "Noms",
       "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -18063,7 +17799,7 @@
       "à",
       "midi",
       "comme",
-      "d’habitude",
+      "d'habitude",
       "?"
     ],
     "pos": [
@@ -18073,8 +17809,8 @@
       "Prépositions",
       "Verbes",
       "Prépositions",
-      "Adverbes",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -18101,7 +17837,7 @@
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "pas",
       "à",
       "moi",
@@ -18111,14 +17847,14 @@
       "."
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Pronoms",
       "Prépositions",
       "Verbes",
-      "Pronoms"
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -18129,7 +17865,7 @@
       "à",
       "la",
       "gare",
-      "d’accord",
+      "d'accord",
       "?"
     ],
     "pos": [
@@ -18139,13 +17875,13 @@
       "Prépositions",
       "Articles",
       "Noms",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "acheté",
       "des",
       "légumes",
@@ -18155,14 +17891,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
       "Noms",
-      "Adjectifs"
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -18255,7 +17991,7 @@
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "encore",
       "oublié",
       "de",
@@ -18265,43 +18001,43 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "vu",
       "quelque",
       "chose",
-      "d’étrange",
+      "d'étrange",
       "en",
       "ville",
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
-      "Adverbes",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Tu",
       "veux",
-      "qu’on",
+      "qu'on",
       "parle",
       "de",
       "ça",
@@ -18311,12 +18047,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
       "Pronoms",
       "Verbes",
       "Prépositions",
       "Pronoms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -18354,7 +18090,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adjectifs",
       "Prépositions",
       "Adverbes",
@@ -18365,7 +18101,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "mis",
       "mon",
       "réveil",
@@ -18375,14 +18111,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Other",
       "Adverbes",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -18424,15 +18160,15 @@
       "Verbes",
       "Verbes",
       "Articles",
-      "Other",
       "Noms",
-      "Noms"
+      "Adverbes",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Elle",
-      "n’a",
+      "n'a",
       "pas",
       "répondu",
       "à",
@@ -18442,13 +18178,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -18459,25 +18195,25 @@
       "en",
       "retard",
       "pour",
-      "l’apéro",
+      "l'apéro",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Prépositions",
       "Noms",
       "Prépositions",
       "Noms",
-      "Noms"
+      "Other"
     ]
   },
   {
     "phrase": [
       "Tu",
       "peux",
-      "m’aider",
+      "m'aider",
       "à",
       "choisir",
       "une",
@@ -18487,17 +18223,17 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Adjectifs",
       "Verbes",
       "Prépositions",
       "Verbes",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "pas",
       "eu",
       "le",
@@ -18507,36 +18243,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
-      "Verbes"
-    ]
-  },
-  {
-    "phrase": [
-      "Je",
-      "crois",
-      "que",
-      "j’ai",
-      "laissé",
-      "le",
-      "gaz",
-      "."
-    ],
-    "pos": [
-      "Pronoms",
       "Verbes",
-      "Other",
-      "Adjectifs",
-      "Other",
-      "Verbes",
-      "Articles",
-      "Noms"
+      "Other"
     ]
   },
   {
@@ -18567,7 +18281,7 @@
       "veut",
       "pas",
       "admettre",
-      "qu’il",
+      "qu'il",
       "a",
       "tort",
       "."
@@ -18577,15 +18291,15 @@
       "Verbes",
       "Adverbes",
       "Verbes",
-      "Other",
       "Pronoms",
-      "Other",
-      "Noms"
+      "Verbes",
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "fini",
       "ce",
       "que",
@@ -18595,14 +18309,14 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
+      "Verbes",
       "Verbes",
       "Pronoms",
       "Pronoms",
       "Adjectifs",
       "Noms",
-      "Verbes"
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -18629,7 +18343,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "pris",
       "un",
       "café",
@@ -18639,14 +18353,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Verbes",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -18678,18 +18392,18 @@
       "pas",
       "très",
       "motivé",
-      "aujourd’hui",
+      "aujourd'hui",
       "désolé",
       "."
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
+      "Adverbes",
+      "Verbes",
       "Adverbes",
       "Adjectifs",
-      "Adverbes",
-      "Noms",
       "Other"
     ]
   },
@@ -18717,7 +18431,7 @@
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "déjà",
       "vu",
       "cette",
@@ -18727,20 +18441,20 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
       "Noms",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "On",
-      "n’a",
+      "n'a",
       "pas",
       "prévu",
       "de",
@@ -18750,18 +18464,18 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Noms"
+      "Noms",
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "C’est",
+      "C'est",
       "quoi",
       "cette",
       "boîte",
@@ -18771,14 +18485,14 @@
       "?"
     ],
     "pos": [
-      "Adjectifs",
-      "Other",
-      "Pronoms",
+      "Verbes",
+      "Adverbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -18827,7 +18541,7 @@
   },
   {
     "phrase": [
-      "T’as",
+      "T'as",
       "pas",
       "entendu",
       "ce",
@@ -18837,19 +18551,19 @@
       "?"
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Articles",
       "Noms",
       "Adjectifs",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
     "phrase": [
-      "J’ai",
+      "J'ai",
       "fait",
       "une",
       "bêtise",
@@ -18859,14 +18573,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Adjectifs",
       "Pronoms",
       "Verbes",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -18874,7 +18588,7 @@
       "Je",
       "suis",
       "content",
-      "qu’on",
+      "qu'on",
       "soit",
       "enfin",
       "ensemble",
@@ -18882,20 +18596,20 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Other",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
     "phrase": [
       "Il",
       "faut",
-      "qu’on",
+      "qu'on",
       "range",
       "tout",
       "ça",
@@ -18905,12 +18619,12 @@
     "pos": [
       "Pronoms",
       "Verbes",
-      "Other",
       "Pronoms",
       "Verbes",
       "Adjectifs",
       "Pronoms",
-      "Adverbes"
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -18931,8 +18645,8 @@
       "Noms",
       "Prépositions",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -18948,13 +18662,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Pronoms",
       "Verbes",
       "Adverbes",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -18991,14 +18705,14 @@
       "!"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
       "Prépositions",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -19035,14 +18749,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -19058,7 +18772,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
@@ -19168,7 +18882,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
@@ -19212,13 +18926,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19256,7 +18970,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -19301,12 +19015,12 @@
     "pos": [
       "Articles",
       "Adjectifs",
-      "Other",
-      "Other",
       "Pronoms",
       "Verbes",
       "Adverbes",
-      "Adverbes"
+      "Adverbes",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -19322,13 +19036,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Pronoms",
       "Verbes",
       "Adverbes",
       "Verbes",
-      "Prépositions"
+      "Prépositions",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19343,14 +19057,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Adverbes",
       "Adjectifs",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19436,9 +19150,9 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Other",
-      "Adverbes"
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -19453,14 +19167,14 @@
       "!"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Noms",
-      "Pronoms"
+      "Pronoms",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -19476,7 +19190,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Noms",
       "Prépositions",
@@ -19497,14 +19211,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19520,13 +19234,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Adverbes",
-      "Other",
-      "Articles"
+      "Noms",
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19591,8 +19305,8 @@
       "Articles",
       "Noms",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19630,13 +19344,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Pronoms",
       "Verbes",
       "Adverbes",
       "Prépositions",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -19678,7 +19392,7 @@
       "Pronoms",
       "Verbes",
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Other"
     ]
@@ -19717,14 +19431,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
       "Verbes",
       "Articles",
       "Noms",
       "Pronoms",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -19762,7 +19476,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -19789,8 +19503,8 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
-      "Articles"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19828,7 +19542,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Articles",
       "Noms",
@@ -19896,33 +19610,11 @@
       "Pronoms",
       "Verbes",
       "Verbes",
-      "Other",
       "Noms",
       "Prépositions",
       "Articles",
-      "Noms"
-    ]
-  },
-  {
-    "phrase": [
-      "C'est",
-      "bon",
-      "j'ai",
-      "tout",
-      "ce",
-      "qu'il",
-      "faut",
-      "."
-    ],
-    "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
-      "Other",
-      "Adjectifs",
-      "Other",
-      "Other",
-      "Verbes"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19938,13 +19630,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Prépositions",
       "Verbes",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -19960,7 +19652,7 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Verbes",
       "Prépositions",
       "Verbes",
@@ -19984,7 +19676,7 @@
       "Pronoms",
       "Verbes",
       "Adverbes",
-      "Other",
+      "Noms",
       "Prépositions",
       "Articles",
       "Noms",
@@ -20003,14 +19695,14 @@
       "!"
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Noms",
       "Prépositions",
       "Noms",
-      "Prépositions"
+      "Prépositions",
+      "Pronoms",
+      "Other"
     ]
   },
   {
@@ -20029,10 +19721,10 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Other",
       "Pronoms",
-      "Pronoms"
+      "Verbes",
+      "Verbes",
+      "Other"
     ]
   },
   {
@@ -20048,13 +19740,13 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
-      "Adverbes",
       "Verbes",
       "Adverbes",
       "Articles",
       "Adjectifs",
-      "Prépositions"
+      "Prépositions",
+      "Adverbes",
+      "Other"
     ]
   },
   {
@@ -20092,7 +19784,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Noms",
       "Pronoms",
       "Verbes",
@@ -20119,7 +19811,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -20158,13 +19850,13 @@
     ],
     "pos": [
       "Articles",
-      "Other",
+      "Verbes",
       "Adverbes",
       "Verbes",
       "Prépositions",
-      "Other",
-      "Articles",
-      "Noms"
+      "Noms",
+      "Adjectifs",
+      "Other"
     ]
   },
   {
@@ -20185,7 +19877,7 @@
       "Articles",
       "Noms",
       "Prépositions",
-      "Other",
+      "Noms",
       "Other"
     ]
   },
@@ -20229,8 +19921,8 @@
       "Articles",
       "Noms",
       "Articles",
-      "Other",
-      "Noms"
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -20268,7 +19960,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Prépositions",
       "Other",
       "Noms",
@@ -20355,14 +20047,14 @@
       "."
     ],
     "pos": [
-      "Other",
-      "Pronoms",
-      "Other",
+      "Verbes",
       "Articles",
       "Adverbes",
       "Adjectifs",
       "Prépositions",
-      "Articles"
+      "Articles",
+      "Noms",
+      "Other"
     ]
   },
   {
@@ -20444,7 +20136,7 @@
     ],
     "pos": [
       "Pronoms",
-      "Other",
+      "Verbes",
       "Verbes",
       "Adjectifs",
       "Noms",
@@ -20492,17 +20184,9 @@
       "Verbes",
       "Articles",
       "Noms",
-      "Other",
-      "Prépositions",
-      "Noms"
-    ]
-  },
-  {
-    "phrase": [
-      ""
-    ],
-    "pos": [
-      null
+      "Noms",
+      "Adverbes",
+      "Other"
     ]
   }
 ]

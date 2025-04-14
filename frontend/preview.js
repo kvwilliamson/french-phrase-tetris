@@ -2,7 +2,6 @@
 let previewBlocks = [];
 let previewTexts = [];
 let currentWordGroups = [];
-let nextWordGroups = [];
 let currentPhraseLength = 0;
 
 function drawPreviewFrame(graphics, adjustedPreviewY) {
@@ -33,7 +32,7 @@ function setupPreviewBlocks(adjustedPreviewY) {
             const { pos, word } = { pos: 'Blank', word: '{Blank}' };
             const color = getColorForPos(pos);
             const block = sceneRef.add.rectangle(x, y, BLOCK_WIDTH - 4, BLOCK_HEIGHT - 4, color);
-            const text = sceneRef.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '15px', color: '#000000' }).setOrigin(0.5);
+            const text = sceneRef.add.text(x, y, word === '{Blank}' ? '' : word, { fontSize: '14px', color: '#000000' }).setOrigin(0.5);
             rowBlocks.push(block);
             rowTexts.push(text);
         }
@@ -43,67 +42,20 @@ function setupPreviewBlocks(adjustedPreviewY) {
 }
 
 function updatePreview() {
-    console.log(`Updating preview, dropIndex: ${dropIndex}, currentWordGroups: ${currentWordGroups.length}, nextWordGroups: ${nextWordGroups.length}`);
-    const upcomingGroups = [];
-    let remainingCurrent = currentWordGroups.slice(dropIndex + 1);
-
-    while (upcomingGroups.length < PREVIEW_ROWS && remainingCurrent.length > 0) {
-        upcomingGroups.push(remainingCurrent.shift());
-    }
-
-    while (upcomingGroups.length < PREVIEW_ROWS) {
-        upcomingGroups.push(Array(PREVIEW_COLS).fill({ pos: 'Blank', word: '{Blank}' }));
-    }
+    console.log(`Updating preview, dropIndex: ${dropIndex}, currentWordGroups: ${currentWordGroups.length}, currentPhrase: ${currentPhrase.join(' ')}`);
+    // Start with *next* block after current dropping one
+    const upcomingGroups = currentWordGroups.slice(dropIndex + 1);
+    const numBlocks = Math.min(upcomingGroups.length, PREVIEW_ROWS);
 
     for (let i = 0; i < PREVIEW_ROWS; i++) {
-        const group = upcomingGroups[i];
+        const previewRow = PREVIEW_ROWS - 1 - i; // Bottom-up: row 6 = next
+        const groupIndex = i < numBlocks ? i : -1;
+        const group = groupIndex >= 0 ? upcomingGroups[groupIndex] : null;
         for (let j = 0; j < PREVIEW_COLS; j++) {
-            const wordIndex = j % (group.length || 1);
-            const { pos, word } = group[wordIndex] || { pos: 'Blank', word: '{Blank}' };
+            const { pos, word } = group && group[0] ? group[0] : { pos: 'Blank', word: '{Blank}' };
             const color = getColorForPos(pos);
-            previewBlocks[i][j].setFillStyle(color);
-            previewTexts[i][j].setText(word === '{Blank}' ? '' : word);
+            previewBlocks[previewRow][j].setFillStyle(color);
+            previewTexts[previewRow][j].setText(word === '{Blank}' ? '' : word);
         }
     }
-}
-
-function generateInitialWordGroups(allPhrases) {
-    currentWordGroups = createLevelWordGroups(allPhrases);
-    nextWordGroups = [];
-    dropIndex = 0;
-    currentPhraseLength = currentWordGroups.reduce((sum, group) => sum + group.length, 0);
-    console.log(`Initial phrase length: ${currentPhraseLength}`);
-}
-
-function createLevelWordGroups(allPhrases) {
-    const numPhrases = 1;
-    const selected = [];
-    const indices = [];
-    while (indices.length < numPhrases) {
-        const index = Math.floor(Math.random() * allPhrases.length);
-        if (!indices.includes(index)) indices.push(index);
-    }
-    for (let i = 0; i < numPhrases; i++) {
-        const phraseData = allPhrases[indices[i]];
-        const phrase = phraseData.phrase;
-        const posTags = phraseData.pos;
-        const paired = phrase.map((word, idx) => ({ word, pos: posTags[idx] || 'Other' }));
-        selected.push(shuffle(paired));
-    }
-
-    const wordGroups = [];
-    const numGroups = selected[0].length;
-    for (let i = 0; i < numGroups; i++) {
-        const wordData = selected[0][i];
-        wordGroups.push([wordData]);
-    }
-    return wordGroups;
-}
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
 }

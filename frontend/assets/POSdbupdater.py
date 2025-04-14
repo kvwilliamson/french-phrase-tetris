@@ -1,78 +1,279 @@
-import os
 import spacy
 import json
+import logging
+from pathlib import Path
+import os
 
-# Load the French model
-nlp = spacy.load('fr_core_news_sm')
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("pos_tagging.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
-# Get the directory where the script is located
-script_dir = os.path.dirname(os.path.abspath(__file__))
-phrases_json_path = os.path.join(script_dir, 'phrases.json')
+# Log current working directory
+logger.info(f"Current working directory: {os.getcwd()}")
 
-# Load the existing phrases.json
-with open(phrases_json_path, 'r', encoding='utf-8') as f:
-    phrases = json.load(f)
+# Load spaCy model
+try:
+    nlp = spacy.load("fr_core_news_sm")
+    logger.info("Loaded fr_core_news_sm model")
+except OSError:
+    logger.warning("Falling back to fr_core_news_sm...")
+    nlp = spacy.load("fr_core_news_sm")
 
-# Define POS mapping to your categories
-pos_mapping = {
-    'DET': 'Articles',
-    'NOUN': 'Noms',
-    'VERB': 'Verbes',
-    'ADJ': 'Adjectifs',
-    'PRON': 'Pronoms',
-    'ADV': 'Adverbes',
-    'ADP': 'Prépositions',
+# Define POS mapping
+POS_MAPPING = {
+    "DET": "Articles",
+    "NOUN": "Noms",
+    "VERB": "Verbes",
+    "ADJ": "Adjectifs",
+    "ADV": "Adverbes",
+    "PRON": "Pronoms",
+    "ADP": "Prépositions",
+    "AUX": "Verbes",
+    "CCONJ": "Other",
+    "SCONJ": "Other",
+    "NUM": "Other",
+    "PART": "Other",
+    "INTJ": "Other",
+    "PROPN": "Noms",
+    "PUNCT": "Other",
+    "SYM": "Other",
+    "X": "Other"
 }
 
-# Function to check if a word is a word group (contains ' or -)
-def is_word_group(word):
-    return "'" in word or "-" in word
+def load_phrases(file_path):
+    """Load phrases from JSON file."""
+    try:
+        if not file_path.exists():
+            logger.error(f"File not found: {file_path}")
+            return []
+        with open(file_path, 'r', encoding='utf-8') as f:
+            phrases = json.load(f)
+        logger.info(f"Loaded {len(phrases)} entries from {file_path}")
+        return phrases
+    except Exception as e:
+        logger.error(f"Failed to load phrases from {file_path}: {str(e)}")
+        return []
 
-# Process each phrase and tag the words
-updated_phrases = []
-for phrase_entry in phrases:
-    # Handle both input structures
-    if isinstance(phrase_entry, dict) and "phrase" in phrase_entry:
-        phrase = phrase_entry["phrase"]
-    else:
-        phrase = phrase_entry
+def normalize_token(token):
+    """Normalize token to handle apostrophes."""
+    return token.replace("’", "'")
 
-    # Handle {Blank} entries and word groups first
-    pos_tags = []
-    for word in phrase:
-        if word == '{Blank}':
-            pos_tags.append('Blank')
-        elif is_word_group(word):
-            pos_tags.append('Other')  # Word groups like "J’ai", "Il-y-a" are tagged as "Other"
-        else:
-            pos_tags.append(None)  # Placeholder for words to be tagged by Spacy
+def recombine_tokens(tokens, pos_tags, input_words):
+    """
+    Recombine spaCy tokens to match input phrase, preserving POS tags.
+    Handles elisions, contractions, hyphens, clitics, and question markers.
+    """
+    recombined_tokens = []
+    recombined_pos = []
+    i = 0
+    input_words_normalized = [normalize_token(w) for w in input_words]
 
-    # Tag the remaining words using Spacy
-    # Join the phrase into a string, replacing {Blank} with a placeholder
-    phrase_text = ' '.join(word if word != '{Blank}' else '___' for word in phrase)
-    doc = nlp(phrase_text)
+    while i < len(tokens):
+        current = normalize_token(tokens[i])
+        current_pos = pos_tags[i]
 
-    # Map Spacy tokens back to the phrase
-    token_index = 0
-    for i, word in enumerate(phrase):
-        if pos_tags[i] is not None:  # Skip pre-tagged words ({Blank}, word groups)
+        # Handle elisions and contractions (e.g., "j'", "C'", "L'")
+        if i + 1 < len(tokens) and current in {"J'", "s'", "l'", "d'", "n'", "c'", "t'", "m'", "qu'", "C'", "T'", "L'", "Qu'"}:
+            next_token = normalize_token(tokens[i + 1])
+            # Try specific contractions
+            if current == "j'" and next_token in {"ai", "y", "entends", "appelle", "attendais", "suis"}:
+                combined = "j'" + next_token
+                recombined_tokens.append(combined)
+                recombined_pos.append(pos_tags[i + 1])  # Use verb's POS
+                i += 2
+                continue
+            if current == "L'" and next_token in {"habit", "eau"}:
+                combined = "L'" + next_token
+                recombined_tokens.append(combined)
+                recombined_pos.append(pos_tags[i + 1])  # Use noun's POS
+                i += 2
+                continue
+            if current == "C'" and next_token == "est":
+                combined = "C'est"
+                recombined_tokens.append(combined)
+                recombined_pos.append(pos_tags[i + 1])  # Use verb's POS
+                i += 2
+                continue
+            # General elision check
+            combined = current + next_token
+            if combined in input_words_normalized:
+                recombined_tokens.append(combined)
+                recombined_pos.append(pos_tags[i + 1])
+                i += 2
+                continue
+
+        # Handle hyphens (e.g., "cerf-volant", "allez-vous")
+        if i + 2 < len(tokens) and tokens[i + 1] == "-":
+            next_token = normalize_token(tokens[i + 2])
+            combined = current + "-" + next_token
+            if combined in input_words_normalized or combined == "allez-vous":
+                recombined_tokens.append(combined)
+                recombined_pos.append(current_pos)  # Keep first token's POS
+                i += 3
+                continue
+
+        # Handle clitics (e.g., "dit-on", "paraît-il")
+        if i + 1 < len(tokens) and current + "-on" == normalize_token(tokens[i] + tokens[i + 1]):
+            combined = current + "-on"
+            if combined in input_words_normalized:
+                recombined_tokens.append(combined)
+                recombined_pos.append(current_pos)
+                i += 2
+                continue
+        if i + 1 < len(tokens) and current + "-il" == normalize_token(tokens[i] + tokens[i + 1]):
+            combined = current + "-il"
+            if combined in input_words_normalized:
+                recombined_tokens.append(combined)
+                recombined_pos.append(current_pos)
+                i += 2
+                continue
+
+        # Handle complex phrases (e.g., "s'il-te-plaît")
+        if i + 5 < len(tokens) and current == "s'" and normalize_token(tokens[i + 1]) == "il" and tokens[i + 2] == "-" and \
+           normalize_token(tokens[i + 3]) == "te" and tokens[i + 4] == "-" and normalize_token(tokens[i + 5]) == "plaît":
+            combined = "s'il-te-plaît"
+            if combined in input_words_normalized:
+                recombined_tokens.append(combined)
+                recombined_pos.append(pos_tags[i + 5])
+                i += 6
+                continue
+
+        # Handle "quelqu'un"
+        if i + 1 < len(tokens) and current == "quelqu'" and normalize_token(tokens[i + 1]) == "un":
+            combined = "quelqu'un"
+            if combined in input_words_normalized:
+                recombined_tokens.append(combined)
+                recombined_pos.append(pos_tags[i + 1])
+                i += 2
+                continue
+
+        # Handle question markers (e.g., "Est-ce", "Qu'est-ce")
+        if i + 2 < len(tokens) and current == "Est" and tokens[i + 1] == "-ce":
+            combined = "Est-ce"
+            recombined_tokens.append(combined)
+            recombined_pos.append(pos_tags[i])  # Use "Est" POS
+            i += 2
             continue
-        while token_index < len(doc) and doc[token_index].text == '___':
-            token_index += 1  # Skip placeholder tokens
-        if token_index < len(doc):
-            token = doc[token_index]
-            pos = pos_mapping.get(token.pos_, 'Other')
-            pos_tags[i] = pos
-            token_index += 1
+        if i + 3 < len(tokens) and current == "Qu'" and normalize_token(tokens[i + 1]) == "est" and tokens[i + 2] == "-ce":
+            combined = "Qu'est-ce"
+            recombined_tokens.append(combined)
+            recombined_pos.append(pos_tags[i + 1])  # Use "est" POS
+            i += 3
+            continue
 
-    # Add the phrase and its POS tags to the updated list
-    updated_phrases.append({
-        "phrase": phrase,
-        "pos": pos_tags
-    })
+        recombined_tokens.append(current)
+        recombined_pos.append(current_pos)
+        i += 1
 
-# Save the updated phrases.json
-with open(phrases_json_path, 'w', encoding='utf-8') as f:
-    json.dump(updated_phrases, f, indent=2, ensure_ascii=False)
+    return recombined_tokens, recombined_pos
 
-print(f"Updated {phrases_json_path} with POS tags for each word.")
+def validate_and_tag_phrase(phrase):
+    """
+    Validate a phrase and assign POS tags, keeping final punctuation once.
+    Returns None if invalid, else a dict with phrase and POS tags.
+    """
+    try:
+        # Skip empty phrases
+        if not phrase or phrase == [""]:
+            logger.warning(f"Skipping empty phrase: {phrase}")
+            return None
+
+        # Store original phrase and normalize
+        original_phrase = [normalize_token(w) for w in phrase]
+        text = " ".join(original_phrase)
+        logger.debug(f"Processing phrase: {text}")
+
+        # Process with spaCy
+        doc = nlp(text)
+
+        # Collect tokens and POS tags, excluding punctuation
+        tokens = []
+        pos_tags = []
+        for token in doc:
+            if token.pos_ == "PUNCT":
+                continue
+            mapped_pos = POS_MAPPING.get(token.pos_, "Other")
+            tokens.append(token.text)
+            pos_tags.append(mapped_pos)
+
+        # Log raw spaCy tags
+        logger.debug(f"Raw spaCy tags: {[(token.text, token.pos_) for token in doc]}")
+
+        # Handle final punctuation
+        final_punct = None
+        if original_phrase and original_phrase[-1] in {".", "?", "!"}:
+            final_punct = original_phrase[-1]
+            input_words = original_phrase[:-1]
+        else:
+            input_words = original_phrase
+
+        # Recombine tokens to match input
+        recombined_tokens, recombined_pos = recombine_tokens(tokens, pos_tags, input_words)
+
+        # Add final punctuation if present
+        if final_punct:
+            recombined_tokens.append(final_punct)
+            recombined_pos.append("Other")
+
+        # Validate tokens
+        tokens_without_punct = [t for t in recombined_tokens if t not in {".", "?", "!"}]
+        input_words_normalized = [normalize_token(w) for w in input_words]
+        if tokens_without_punct != input_words_normalized:
+            logger.warning(f"Token mismatch in phrase {original_phrase}: got {recombined_tokens}")
+            logger.debug(f"Expected (w/o punct): {input_words_normalized}, Got (w/o punct): {tokens_without_punct}")
+            # Relax validation: accept if lengths match
+            if len(tokens_without_punct) == len(input_words_normalized):
+                logger.info(f"Accepting phrase with minor mismatch: {original_phrase}")
+            else:
+                return None
+
+        logger.debug(f"Phrase: {recombined_tokens}, POS: {recombined_pos}")
+
+        return {
+            "phrase": recombined_tokens,
+            "pos": recombined_pos
+        }
+    except Exception as e:
+        logger.error(f"Error processing phrase {original_phrase}: {str(e)}")
+        return None
+
+def main():
+    # File paths
+    input_path = Path("phrases.json")
+    output_path = Path("phrase.json")
+
+    # Log file path attempt
+    logger.info(f"Looking for phrases.json at: {input_path.absolute()}")
+
+    # Load phrases
+    phrases = load_phrases(input_path)
+    if not phrases:
+        logger.error("No phrases loaded. Exiting.")
+        return
+
+    # Process phrases
+    valid_phrases = []
+    for phrase in phrases:
+        result = validate_and_tag_phrase(phrase)
+        if result:
+            valid_phrases.append(result)
+        else:
+            logger.error(f"Invalid phrase skipped: {phrase}")
+
+    # Write output
+    try:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(valid_phrases, f, ensure_ascii=False, indent=2)
+        logger.info(f"Wrote {len(valid_phrases)} phrases to {output_path}")
+    except Exception as e:
+        logger.error(f"Failed to write output to {output_path}: {str(e)}")
+
+if __name__ == "__main__":
+    main()
