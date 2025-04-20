@@ -392,51 +392,172 @@ function checkForScoring(gridY, scene, allPhrases, onComplete) {
 
     let isCorrect = true;
     let scoreEarned = 100 * level;
-    for (let x = 0; x < GRID_WIDTH; x++) {
-        if (row[x].word !== currentPhrase[x]) {
-            isCorrect = false;
-            break;
+
+    try {
+        // First check for exact match
+        let exactMatch = true;
+        for (let x = 0; x < GRID_WIDTH; x++) {
+            if (row[x].word !== currentPhrase[x]) {
+                exactMatch = false;
+                break;
+            }
+        }
+
+        // If not exact match, check for valid duplicate word swap
+        if (!exactMatch) {
+            // Create maps of word positions (case sensitive)
+            let targetWordPositions = new Map();
+            let playerWordPositions = new Map();
+
+            // Record positions of words in both target and player phrases
+            for (let x = 0; x < GRID_WIDTH; x++) {
+                let targetWord = currentPhrase[x];
+                let playerWord = row[x].word;
+
+                // Use the words as-is (case sensitive)
+                if (!targetWordPositions.has(targetWord)) {
+                    targetWordPositions.set(targetWord, []);
+                }
+                targetWordPositions.get(targetWord).push(x);
+
+                if (!playerWordPositions.has(playerWord)) {
+                    playerWordPositions.set(playerWord, []);
+                }
+                playerWordPositions.get(playerWord).push(x);
+            }
+
+            // Check if all words appear the correct number of times
+            isCorrect = true;
+            for (let [word, targetPositions] of targetWordPositions) {
+                let playerPositions = playerWordPositions.get(word) || [];
+                
+                // If the word doesn't appear the same number of times, it's wrong
+                if (targetPositions.length !== playerPositions.length) {
+                    isCorrect = false;
+                    break;
+                }
+
+                // For words that appear exactly twice, allow position swapping
+                if (targetPositions.length === 2 && playerPositions.length === 2) {
+                    // Allow swapping only if it's not a capitalized word
+                    if (word[0] === word[0].toUpperCase()) {
+                        // Capitalized words must be in exact positions
+                        if (targetPositions[0] !== playerPositions[0] || 
+                            targetPositions[1] !== playerPositions[1]) {
+                            isCorrect = false;
+                            break;
+                        }
+                    }
+                    // Otherwise, allow swapping for lowercase duplicates
+                    continue;
+                } else if (targetPositions.length === 1) {
+                    // Single words must be in exact position
+                    if (targetPositions[0] !== playerPositions[0]) {
+                        isCorrect = false;
+                        break;
+                    }
+                }
+            }
+        } else {
+            isCorrect = true; // Keep exact match as correct
+        }
+
+        if (isCorrect) {
+            console.log('Correct phrase placement!');
+            totalScore += scoreEarned;
+            scoreTextObj.setText(`Score: ${totalScore}`);
+            correctPhrasesCompleted++;
+            
+            // Clear the row with animation
+            for (let x = 0; x < GRID_WIDTH; x++) {
+                if (row[x]) {
+                    scene.tweens.add({
+                        targets: [row[x].block, row[x].text],
+                        alpha: 0,
+                        duration: 500,
+                        onComplete: function() {
+                            row[x].block.destroy();
+                            row[x].text.destroy();
+                            row[x] = null;
+                        }
+                    });
+                }
+            }
+            
+            scene.sound.play('excellent');
+            scene.sound.play('completionSound');
+            
+            // Shift down remaining blocks
+            setTimeout(() => {
+                shiftBlocksDown(gridY);
+                onComplete();
+            }, 600);
+        } else {
+            console.log('Incorrect phrase placement - making permanent');
+            // Make the row permanent
+            for (let x = 0; x < GRID_WIDTH; x++) {
+                if (row[x]) {
+                    row[x].isPermanent = true;
+                }
+            }
+            scene.sound.play('wrongSound');
+            scene.sound.play('merde');
+
+            // Display the correct phrase below the grid
+            const style = { font: '28px Arial', fill: '#000000', backgroundColor: '#ffffff' };
+            const displayPhrase = currentPhrase.join(' ').trim();
+            const text = scene.add.text(
+                scene.cameras.main.width / 2, 
+                GRID_START_Y + GRID_HEIGHT_PX + 40, 
+                displayPhrase, 
+                style
+            ).setOrigin(0.5);
+            text.setShadow(2, 2, '#000000', 2);
+
+            // Fade out the text after 7 seconds
+            scene.tweens.add({
+                targets: text,
+                alpha: 0,
+                duration: 7000,
+                onComplete: () => text.destroy()
+            });
+
+            onComplete();
+        }
+    } catch (error) {
+        console.error('Error in checkForScoring:', error);
+        onComplete();
+    }
+}
+
+function shiftBlocksDown(clearedRow) {
+    // Start from the cleared row and move upwards
+    for (let y = clearedRow; y > 0; y--) {
+        for (let x = 0; x < GRID_WIDTH; x++) {
+            // Move each block from the row above down one position
+            if (grid[y - 1][x]) {
+                // Update the grid position
+                grid[y][x] = grid[y - 1][x];
+                grid[y - 1][x] = null;
+
+                // Move the visual elements
+                const blockY = GRID_START_Y + y * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
+                grid[y][x].block.y = blockY;
+                grid[y][x].text.y = blockY;
+            } else {
+                grid[y][x] = null;
+            }
         }
     }
 
-    if (isCorrect) {
-        scene.sound.play('excellent');
-        scene.sound.play('completionSound');
-        totalScore += scoreEarned;
-        scoreTextObj.setText(`Score: ${totalScore}`);
-        correctPhrasesCompleted++;
-        console.log(`Correct phrase completed, total: ${correctPhrasesCompleted}`);
-        window.flashRowGridLines(gridY, scene, () => {
-            for (let x = 0; x < GRID_WIDTH; x++) {
-                if (grid[gridY][x]) {
-                    grid[gridY][x].block.destroy();
-                    grid[gridY][x].text.destroy();
-                    grid[gridY][x] = null;
-                }
-            }
-            onComplete();
-        });
-    } else {
-        scene.sound.play('wrongSound');
-        scene.sound.play('merde');
-        console.log(`Incorrect phrase at row ${gridY}, marking as permanent`);
-        // Mark row as permanent
-        for (let x = 0; x < GRID_WIDTH; x++) {
-            if (grid[gridY][x]) {
-                grid[gridY][x].isPermanent = true;
-            }
-        }
-        const style = { font: '28px Arial', fill: '#000000', backgroundColor: '#ffffff' };
-        const displayPhrase = currentPhrase.map(word => word === '{Blank}' ? '' : word).join(' ').trim();
-        const text = scene.add.text(scene.cameras.main.width / 2, GRID_START_Y + GRID_HEIGHT_PX + 40, displayPhrase, style).setOrigin(0.5);
-        text.setShadow(2, 2, '#000000', 2);
-        scene.tweens.add({
-            targets: text,
-            alpha: 0,
-            duration: 7000,
-            onComplete: () => text.destroy()
-        });
-        onComplete();
+    // Clear the top row
+    for (let x = 0; x < GRID_WIDTH; x++) {
+        grid[0][x] = null;
+    }
+
+    // Redraw the grid lines if needed
+    if (window.drawGrid && gridGraphics) {
+        window.drawGrid(gridGraphics);
     }
 }
 
