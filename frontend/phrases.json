@@ -5265,7 +5265,7 @@
       "dans",
       "la",
       "trousse",
-      "bleue",
+      "bleue-foncee",
       "."
     ],
     "pos": [
@@ -10545,7 +10545,7 @@
       "dans",
       "le",
       "ciel",
-      "bleu",
+      "claire",
       "."
     ],
     "pos": [
@@ -10633,7 +10633,7 @@
       "sur",
       "le",
       "canapé",
-      "rouge",
+      "bordeaux",
       "."
     ],
     "pos": [
@@ -10963,7 +10963,7 @@
       "après",
       "une",
       "balle",
-      "rouge",
+      "écarlate",
       "."
     ],
     "pos": [
@@ -12129,7 +12129,7 @@
       "dans",
       "le",
       "ciel",
-      "bleu",
+      "agitée",
       "."
     ],
     "pos": [
@@ -13031,7 +13031,7 @@
       "au-dessus",
       "des",
       "vagues",
-      "bleues",
+      "violents",
       "."
     ],
     "pos": [
@@ -14989,7 +14989,7 @@
       "dans",
       "le",
       "ciel",
-      "bleu",
+      "azur",
       "."
     ],
     "pos": [
@@ -15472,7 +15472,7 @@
       "est",
       "calme",
       "et",
-      "bleue",
+      "azure",
       "aujourd'hui",
       "."
     ],
@@ -17849,7 +17849,7 @@
       "la",
       "cuisine",
       "en",
-      "bleu",
+      "bleu-clair",
       "."
     ],
     "pos": [
@@ -18484,7 +18484,7 @@
       "Le",
       "garçon",
       "dort",
-      "bleu",
+      "silencieusement",
       "avec",
       "ses",
       "amis",
@@ -18506,7 +18506,7 @@
       "Une",
       "femme",
       "mange",
-      "rouge",
+      "rapidement",
       "avec",
       "ses",
       "amis",
@@ -18549,7 +18549,7 @@
     "phrase": [
       "Un",
       "enfant",
-      "rouge",
+      "curieux",
       "mange",
       "par",
       "la",
@@ -18638,7 +18638,7 @@
       "Un",
       "oiseau",
       "bleu",
-      "joue",
+      "chant",
       "dans",
       "le",
       "parc",
@@ -18681,8 +18681,8 @@
     "phrase": [
       "Le",
       "chat",
-      "lit",
-      "rouge",
+      "miaule",
+      "affectueusement",
       "sur",
       "le",
       "lit",
@@ -18748,7 +18748,7 @@
       "Un",
       "oiseau",
       "regarde",
-      "rouge",
+      "courageusement",
       "par",
       "la",
       "fenêtre",
@@ -18770,7 +18770,7 @@
       "La",
       "fille",
       "saute",
-      "bleu",
+      "sauvagement",
       "dans",
       "le",
       "parc",
@@ -18967,7 +18967,7 @@
     "phrase": [
       "Un",
       "enfant",
-      "rouge",
+      "intelligent",
       "lit",
       "sur",
       "le",
@@ -18989,7 +18989,7 @@
     "phrase": [
       "Le",
       "garçon",
-      "bleu",
+      "grande",
       "mange",
       "dans",
       "le",
@@ -19054,9 +19054,9 @@
   {
     "phrase": [
       "Un",
-      "homme",
+      "chien",
       "mange",
-      "rouge",
+      "salement",
       "sous",
       "la",
       "table",
@@ -19253,7 +19253,7 @@
     "phrase": [
       "La",
       "fille",
-      "bleu",
+      "souvent",
       "mange",
       "par",
       "la",
@@ -19341,7 +19341,7 @@
     "phrase": [
       "Le",
       "garçon",
-      "bleu",
+      "gentil",
       "joue",
       "avec",
       "ses",
@@ -19363,8 +19363,8 @@
     "phrase": [
       "Le",
       "garçon",
-      "saute",
-      "bleu",
+      "dort",
+      "recroucvant",
       "sous",
       "la",
       "table",
@@ -19429,7 +19429,7 @@
     "phrase": [
       "Un",
       "oiseau",
-      "rouge",
+      "gris",
       "mange",
       "dans",
       "le",
@@ -19517,7 +19517,7 @@
     "phrase": [
       "Le",
       "chat",
-      "rouge",
+      "tigré",
       "regarde",
       "par",
       "la",
@@ -19539,7 +19539,7 @@
     "phrase": [
       "Le",
       "chat",
-      "bleu",
+      "gris",
       "lit",
       "avec",
       "ses",
@@ -19561,7 +19561,7 @@
     "phrase": [
       "Le",
       "garçon",
-      "bleu",
+      "sauvage",
       "saute",
       "dans",
       "le",
@@ -19892,7 +19892,7 @@
       "Un",
       "homme",
       "mange",
-      "bleu",
+      "curieusement",
       "sur",
       "le",
       "lit",
@@ -19936,7 +19936,7 @@
       "Le",
       "garçon",
       "joue",
-      "rouge",
+      "tranquillement",
       "par",
       "la",
       "fenêtre",
@@ -20134,7 +20134,7 @@
       "Un",
       "homme",
       "regarde",
-      "bleu",
+      "discrètement",
       "sous",
       "la",
       "table",
@@ -20155,7 +20155,7 @@
     "phrase": [
       "Le",
       "garçon",
-      "bleu",
+      "capricieux",
       "court",
       "sur",
       "le",
@@ -20287,7 +20287,7 @@
     "phrase": [
       "Un",
       "enfant",
-      "rouge",
+      "fatigué",
       "dort",
       "dans",
       "le",
@@ -20376,7 +20376,7 @@
       "Un",
       "oiseau",
       "joue",
-      "rouge",
+      "seul",
       "dans",
       "le",
       "parc",
