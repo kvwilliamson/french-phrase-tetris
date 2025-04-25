@@ -31,15 +31,15 @@ class GameScene extends Phaser.Scene {
         initializeGrid();
         this.load.json('phrases', 'phrases.json');
         for (let i = 1; i <= 8; i++) {
-            this.load.audio(`themeMusic${i}`, `ThemeMusic${i}.mp3`);
-            this.load.image(`background${i}`, `background${i}.png`);
+            this.load.audio(`themeMusic${i}`, `assets/audio/ThemeMusic${i}.mp3`);
+            this.load.image(`background${i}`, `assets/images/background${i}.png`);
         }
-        this.load.audio('completionSound', 'completion.wav');
-        this.load.audio('wrongSound', 'wrong.wav');
-        this.load.audio('excellent', 'excellent.m4a');
-        this.load.audio('merde', 'merde.m4a');
-        this.load.audio('placedSound', 'placed.wav');
-        this.load.audio('highScoreFanfare', 'highScoreFanfare.wav');
+        this.load.audio('completionSound', 'assets/audio/completion.wav');
+        this.load.audio('wrongSound', 'assets/audio/wrong.wav');
+        this.load.audio('excellent', 'assets/audio/excellent.m4a');
+        this.load.audio('merde', 'assets/audio/merde.m4a');
+        this.load.audio('placedSound', 'assets/audio/placed.wav');
+        this.load.audio('highScoreFanfare', 'assets/audio/highScoreFanfare.wav');
         // Optional: this.load.image('trophy', 'trophy.png');
         this.load.on('filecomplete', (key) => {
             console.log(`Loaded asset: ${key}`);
