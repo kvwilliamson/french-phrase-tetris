@@ -1,9 +1,8 @@
 # French Phrase Tetris 🎮 🇫🇷
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+A modern take on the classic Tetris game that helps players learn French while playing.
 
-A modern take on the classic Tetris game that helps players learn French while playing. Combine the addictive gameplay of Tetris with French language learning through interactive phrases.
+🎮 [Play Now](https://kvwilliamson.github.io/french-phrase-tetris/)
 
 ## 🌟 Features
 

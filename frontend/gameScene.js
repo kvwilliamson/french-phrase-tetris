@@ -40,6 +40,8 @@ class GameScene extends Phaser.Scene {
         this.load.audio('merde', 'merde.m4a');
         this.load.audio('placedSound', 'placed.wav');
         this.load.audio('highScoreFanfare', 'highScoreFanfare.wav');
+        this.load.image('spark', 'spark.jpg');  // Changed from .png to .jpg
+        this.load.audio('championMusic', 'champion.mp3');
         // Optional: this.load.image('trophy', 'trophy.png');
         this.load.on('filecomplete', (key) => {
             console.log(`Loaded asset: ${key}`);
@@ -532,43 +534,19 @@ function resize(gameSize, adjustedPreviewY) {
 
     GRID_START_X = (width - GRID_WIDTH_PX) / 2;
 
-    titleText.setPosition(width / 2, 80);
-    scoreTextObj.setPosition(width / 2, 120);
-    levelText.setPosition(width / 2, 160);
-    highScoreText.setPosition(width - 10, 40);
-    previewLabel.setPosition(PREVIEW_X, adjustedPreviewY - 20);
+    if (titleText) titleText.setPosition(width / 2, 80);
+    if (scoreTextObj) scoreTextObj.setPosition(width / 2, 120);
+    if (levelText) levelText.setPosition(width / 2, 160);
+    if (highScoreText) highScoreText.setPosition(width - 10, 40);
+    if (previewLabel) previewLabel.setPosition(PREVIEW_X, adjustedPreviewY - 20);
 
     drawGrid(gridGraphics);
     drawPreviewFrame(previewGraphics, adjustedPreviewY);
     drawPosGrid();
 
-    for (let i = 0; i < PREVIEW_ROWS; i++) {
-        for (let j = 0; j < PREVIEW_COLS; j++) {
-            const x = PREVIEW_X + j * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-            const y = adjustedPreviewY + i * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-            previewBlocks[i][j].setPosition(x, y);
-            previewTexts[i][j].setPosition(x, y);
-        }
-    }
-
-    if (currentBlock && currentText) {
-        const gridX = getGridPosition(currentBlock.x);
-        currentBlock.x = GRID_START_X + gridX * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-        currentText.x = currentBlock.x;
-    }
-
-    for (let y = 0; y < GRID_HEIGHT; y++) {
-        for (let x = 0; x < GRID_WIDTH; x++) {
-            if (grid[y][x]) {
-                const newX = GRID_START_X + x * BLOCK_WIDTH + BLOCK_WIDTH / 2;
-                const newY = GRID_START_Y + y * BLOCK_HEIGHT + BLOCK_HEIGHT / 2;
-                grid[y][x].block.setPosition(newX, newY);
-                grid[y][x].text.setPosition(newX, newY);
-            }
-        }
-    }
-
-    const background = sceneRef.children.list.find(child => child.texture && child.texture.key.startsWith('background'));
+    const background = sceneRef.children.list.find(child => 
+        child.texture && child.texture.key && child.texture.key.startsWith('background')
+    );
     if (background) {
         background.setDisplaySize(width, height);
     }

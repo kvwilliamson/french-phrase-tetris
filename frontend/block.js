@@ -320,6 +320,13 @@ function lockBlock() {
                         console.error(`Failed to load themeMusic${level}:`, err);
                     }
                 }
+
+                if (level === 8 && correctPhrasesCompleted >= 5) {
+                    if (themeMusic) themeMusic.stop();
+                    sceneRef.scene.start('ChampionScene', { score: totalScore });
+                    return;
+                }
+
                 clearCurrentPhrase();
                 loadNewPhrase();
                 // Find lowest non-permanent row for pre-population
@@ -463,35 +470,55 @@ function checkForScoring(gridY, scene, allPhrases, onComplete) {
         }
 
         if (isCorrect) {
-            console.log('Correct phrase placement!');
+            scene.sound.play('excellent');
+            scene.sound.play('completionSound');
             totalScore += scoreEarned;
             scoreTextObj.setText(`Score: ${totalScore}`);
             correctPhrasesCompleted++;
-            
-            // Clear the row with animation
-            for (let x = 0; x < GRID_WIDTH; x++) {
-                if (row[x]) {
-                    scene.tweens.add({
-                        targets: [row[x].block, row[x].text],
-                        alpha: 0,
-                        duration: 500,
-                        onComplete: function() {
-                            row[x].block.destroy();
-                            row[x].text.destroy();
-                            row[x] = null;
+            console.log(`Correct phrase completed, total: ${correctPhrasesCompleted}`);
+
+            if (level === 8 && correctPhrasesCompleted >= 5) {
+                window.flashRowGridLines(gridY, scene, () => {
+                    for (let x = 0; x < GRID_WIDTH; x++) {
+                        if (grid[gridY][x]) {
+                            grid[gridY][x].block.destroy();
+                            grid[gridY][x].text.destroy();
+                            grid[gridY][x] = null;
                         }
-                    });
-                }
+                    }
+                    // Stop current music
+                    if (themeMusic) themeMusic.stop();
+                    // Transition to champion scene
+                    scene.scene.start('ChampionScene', { score: totalScore });
+                });
+                return;
             }
-            
-            scene.sound.play('excellent');
-            scene.sound.play('completionSound');
-            
-            // Shift down remaining blocks
-            setTimeout(() => {
-                shiftBlocksDown(gridY);
-                onComplete();
-            }, 600);
+
+            window.flashRowGridLines(gridY, scene, () => {
+                for (let x = 0; x < GRID_WIDTH; x++) {
+                    if (row[x]) {
+                        scene.tweens.add({
+                            targets: [row[x].block, row[x].text],
+                            alpha: 0,
+                            duration: 500,
+                            onComplete: function() {
+                                row[x].block.destroy();
+                                row[x].text.destroy();
+                                row[x] = null;
+                            }
+                        });
+                    }
+                }
+                
+                // Remove these duplicate sound plays
+                // scene.sound.play('excellent');
+                // scene.sound.play('completionSound');
+                
+                setTimeout(() => {
+                    shiftBlocksDown(gridY);
+                    onComplete();
+                }, 600);
+            });
         } else {
             console.log('Incorrect phrase placement - making permanent');
             // Make the row permanent

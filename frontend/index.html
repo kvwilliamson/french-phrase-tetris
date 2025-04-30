@@ -5,28 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>French Phrase Tetris</title>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
         #game {
-            border: 2px solid #fff;
+            width: 100%;
+            height: 100%;
+            display: block;
         }
     </style>
 </head>
 <body>
     <div id="game"></div>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <script>
+        // Add audio unlock logic
+        document.addEventListener('click', function() {
+            if (game.sound && game.sound.context && game.sound.context.state === 'suspended') {
+                game.sound.context.resume();
+            }
+        });
+        
+        // Add touch support for mobile
+        document.addEventListener('touchstart', function() {
+            if (game.sound && game.sound.context && game.sound.context.state === 'suspended') {
+                game.sound.context.resume();
+            }
+        });
+    </script>
     <script src="constants.js"></script>
     <script src="utils.js"></script>
     <script src="grid.js"></script>
     <script src="block.js"></script>
     <script src="preview.js"></script>
+    <script src="championScene.js"></script>
     <script src="gameScene.js"></script>
     <script src="main.js"></script>
 </body>

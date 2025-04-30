@@ -20,7 +20,7 @@ logging.basicConfig(
 )
 
 # Constants
-GEMINI_API_KEY = 'REDACTED_API_KEY'
+GEMINI_API_KEY = 'gemini_api_key'
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY not found in environment variables")
 

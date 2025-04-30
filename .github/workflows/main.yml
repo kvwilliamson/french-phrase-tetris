@@ -1,4 +1,4 @@
-name: Deploy to Pages
+name: Deploy Frontend to Pages
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -24,11 +24,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Clean frontend directory
+      - name: Clean and prepare frontend
         run: |
-          cd frontend
-          rm -f .DS_Store
-          touch .nojekyll
+          # Remove virtual environment files if they exist
+          rm -rf frontend/assets/venv311
+          # Remove macOS files
+          find frontend -name ".DS_Store" -delete
+          # Ensure .nojekyll exists
+          touch frontend/.nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
