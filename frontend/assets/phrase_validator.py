@@ -6,8 +6,10 @@ import logging
 from typing import List, Dict, Tuple, Optional
 from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from .env file in project root
+# Look for .env in the project root (two levels up from this script)
+env_path = Path(__file__).resolve().parent.parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # Configure logging
 logging.basicConfig(
@@ -20,9 +22,13 @@ logging.basicConfig(
 )
 
 # Constants
-GEMINI_API_KEY = 'gemini_api_key'
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY not found in environment variables")
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+if not GEMINI_API_KEY or GEMINI_API_KEY == 'your_gemini_api_key_here':
+    raise ValueError(
+        "GEMINI_API_KEY not found or not set. "
+        "Please add your API key to the .env file in the project root. "
+        "Get your key at: https://aistudio.google.com/app/apikey"
+    )
 
 # Configure Gemini
 genai.configure(api_key=GEMINI_API_KEY)
